@@ -1,0 +1,799 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e0e10" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f5f4f1" media="(prefers-color-scheme: light)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Entreno">
+<title>Entreno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* ---------- tema ---------- */
+  :root, [data-theme="light"] {
+    color-scheme: light;
+    --bg: #f5f4f1;
+    --surface: #ffffff;
+    --surface-2: #efede9;
+    --line: #e1dfda;
+    --text: #17171a;
+    --muted: #6d6d75;
+    --red: #d3271f;
+    --red-soft: rgba(211, 39, 31, .38);
+    --red-line: rgba(211, 39, 31, .55);
+    --map-fill: #f0eeea;
+    --shadow: 0 1px 0 rgba(0,0,0,.03);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #0e0e10;
+      --surface: #161619;
+      --surface-2: #1f1f23;
+      --line: #27272c;
+      --text: #ededf0;
+      --muted: #8f8f99;
+      --red: #e8342c;
+      --red-soft: rgba(232, 52, 44, .38);
+      --red-line: rgba(232, 52, 44, .55);
+      --map-fill: #1c1c20;
+      --shadow: none;
+    }
+  }
+  [data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0e0e10;
+    --surface: #161619;
+    --surface-2: #1f1f23;
+    --line: #27272c;
+    --text: #ededf0;
+    --muted: #8f8f99;
+    --red: #e8342c;
+    --red-soft: rgba(232, 52, 44, .38);
+    --red-line: rgba(232, 52, 44, .55);
+    --map-fill: #1c1c20;
+    --shadow: none;
+  }
+
+  /* ---------- base ---------- */
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 15px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+  }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+
+  /* ---------- cabecera ---------- */
+  .top {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--bg);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+    padding-top: env(safe-area-inset-top);
+  }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; height: 52px; }
+  .brand { font-weight: 700; letter-spacing: .14em; text-transform: uppercase; font-size: 12px; }
+  .brand b { color: var(--red); }
+  .theme-btn {
+    width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--surface); display: grid; place-items: center; padding: 0;
+  }
+  .theme-btn svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .theme-btn .sun { display: none; }
+  [data-theme="dark"] .theme-btn .sun { display: block; }
+  [data-theme="dark"] .theme-btn .moon { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-btn .sun { display: block; }
+    :root:not([data-theme="light"]) .theme-btn .moon { display: none; }
+  }
+
+  /* ---------- días ---------- */
+  .days { display: flex; gap: 5px; padding: 10px 0 12px; }
+  .day {
+    flex: 1 1 0; min-width: 0; height: 46px; border-radius: 12px;
+    border: 1px solid var(--line); background: var(--surface);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    padding: 0 2px; transition: background .15s, border-color .15s; overflow: hidden;
+  }
+  .day .l { font-weight: 700; font-size: 14px; line-height: 1; }
+  .day .s { font-size: 8px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); line-height: 1; white-space: nowrap; }
+  @media (min-width: 400px) { .day .s { font-size: 9px; letter-spacing: .06em; } .days { gap: 6px; } }
+  .day.today:not(.on) { border-color: var(--red-line); }
+  .day.on { background: var(--red); border-color: var(--red); color: #fff; }
+  .day.on .s { color: rgba(255,255,255,.8); }
+
+  /* ---------- sesión ---------- */
+  .session-head { padding: 14px 0 10px; }
+  .session-head h1 { margin: 0; font-size: 32px; line-height: 1.05; letter-spacing: -.02em; font-weight: 700; }
+  .session-head .meta { margin-top: 6px; color: var(--muted); font-size: 13.5px; }
+  .session-head .meta b { color: var(--text); font-weight: 500; }
+
+  .list { display: flex; flex-direction: column; gap: 10px; }
+
+  /* ---------- tarjeta ejercicio ---------- */
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    padding: 14px 14px 12px; box-shadow: var(--shadow);
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 14px; align-items: start;
+  }
+  .card-text { min-width: 0; }
+  .cues, .prog, .card-foot { grid-column: 1 / -1; }
+  @media (min-width: 560px) {
+    .cues, .prog, .card-foot { grid-column: 1; }
+    .map { grid-column: 2; grid-row: 1 / span 4; }
+  }
+  .num { color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: .12em; }
+  .name { margin: 2px 0 0; font-size: 18.5px; font-weight: 700; line-height: 1.2; letter-spacing: -.01em; }
+  .scheme {
+    display: inline-block; margin-top: 8px; padding: 4px 9px; border-radius: 8px;
+    background: var(--surface-2); font-weight: 500; font-size: 14px; font-variant-numeric: tabular-nums;
+  }
+  .map { width: 118px; }
+  .map svg { display: block; width: 100%; height: auto; }
+  .map .b { fill: var(--map-fill); stroke: var(--red-line); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+  .map .r { fill: var(--map-fill); stroke: var(--red-line); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+  .map .r.p { fill: var(--red); stroke: var(--red); }
+  .map .r.s { fill: var(--red-soft); }
+  .map .lab { fill: var(--muted); font-size: 9px; letter-spacing: .1em; text-anchor: middle; font-weight: 500; }
+
+  .cues { margin: 12px 0 0; padding: 0; list-style: none; }
+  .cues li { position: relative; padding-left: 14px; margin: 5px 0; font-size: 14.5px; }
+  .cues li::before { content: ""; position: absolute; left: 0; top: .6em; width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
+  .cues li.alt { color: var(--muted); }
+  .cues li.alt::before { background: var(--muted); opacity: .5; }
+
+  .prog { margin-top: 10px; color: var(--muted); font-size: 13px; }
+  .prog b { color: var(--text); font-weight: 500; }
+
+  .card-foot { display: flex; gap: 8px; align-items: center; margin-top: 12px; flex-wrap: wrap; }
+  .video { flex: 1 1 100%; }
+  .video summary {
+    list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13.5px; font-weight: 500; color: var(--muted); user-select: none;
+  }
+  .video summary::-webkit-details-marker { display: none; }
+  .video summary svg { width: 14px; height: 14px; fill: var(--red); }
+  .video[open] summary { color: var(--text); }
+  .frame { margin-top: 10px; aspect-ratio: 16/9; border-radius: 10px; overflow: hidden; background: var(--surface-2); }
+  .frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .yt { display: inline-block; margin-top: 8px; font-size: 12.5px; color: var(--muted); text-decoration: none; }
+  .yt:hover { color: var(--text); }
+
+  .tope {
+    border: 1px solid var(--line); background: transparent; border-radius: 999px;
+    padding: 7px 12px; font-size: 13px; font-weight: 500; color: var(--muted);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .tope.on { background: var(--red); border-color: var(--red); color: #fff; }
+  .tope svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .pill {
+    display: inline-block; margin-top: 8px; font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--red); border: 1px solid var(--red-line); padding: 3px 8px; border-radius: 999px;
+  }
+
+  /* ---------- descanso ---------- */
+  .rest { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 16px; }
+  .rest p { margin: 8px 0 0; }
+  .rest p:first-child { margin-top: 0; }
+  .rest .muted { color: var(--muted); font-size: 14px; }
+
+  /* ---------- reglas ---------- */
+  .rules { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 12px; }
+  .rules summary { cursor: pointer; font-weight: 500; font-size: 13.5px; color: var(--muted); list-style: none; }
+  .rules summary::-webkit-details-marker { display: none; }
+  .rules ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 13.5px; }
+  .rules li { margin: 4px 0; }
+  .rules li b { color: var(--text); font-weight: 500; }
+
+  @media (min-width: 560px) {
+    body { font-size: 15.5px; }
+    .card { padding: 16px 18px 14px; }
+    .map { width: 134px; }
+    .name { font-size: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">Entreno <b>·</b> <span id="brand-day"></span></div>
+    <button class="theme-btn" id="theme" aria-label="Cambiar modo claro/oscuro">
+      <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="days" id="days" aria-label="Días"></nav>
+  <main id="main"></main>
+  <details class="rules">
+    <summary>Reglas del plan</summary>
+    <ul>
+      <li><b>Cada serie a 1-2 repeticiones del fallo.</b> Si acabas y podrías haber hecho 5 más, no cuenta.</li>
+      <li><b>Tope del rango en todas las series → sube dificultad</b>, no repeticiones. Cada tarjeta dice cómo.</li>
+      <li><b>Descansos:</b> 90-120 s en pierna y dominadas, 60-90 s en el resto.</li>
+      <li><b>Dos primeras semanas:</b> 3 series donde ponga 4.</li>
+      <li><b>Sábado opcional:</b> si llegas arrastrándote, cardio suave y a casa.</li>
+      <li><b>Domingo:</b> descanso o 30-40 min de carrera/bici a ritmo de poder hablar.</li>
+    </ul>
+  </details>
+</div>
+
+<script>
+/* =====================================================================
+   CONFIGURACIÓN
+   ===================================================================== */
+const REGISTRO = true;   // false → desaparece el botón "Tope alcanzado"
+
+/* =====================================================================
+   EJERCICIOS  (edita aquí cuando cambies el plan)
+   muscles: p = principales, s = secundarios.
+   Claves válidas: pecho, hombro_ant, hombro_lat, hombro_post, biceps,
+   triceps, antebrazo, abdomen, oblicuos, trapecio, dorsal, lumbar,
+   gluteo, cuadriceps, aductores, isquios, gemelos
+   video: id de YouTube (null → enlace a búsqueda)
+   ===================================================================== */
+const EX = {
+  bulgara: {
+    name: "Sentadilla búlgara", scheme: "4 × 8-12 / pierna",
+    muscles: { p: ["cuadriceps", "gluteo"], s: ["isquios", "aductores"] },
+    cues: [
+      "Pie trasero en el sofá; el delantero, un paso largo por delante.",
+      "Tronco ligeramente inclinado. Baja hasta que la rodilla de atrás casi toque el suelo.",
+      "Empuja con el talón delantero; la rodilla sigue la punta del pie.",
+      "Mancuernas colgando a los lados, brazos relajados."
+    ],
+    prog: "Tope → pausa de 2 s abajo, o bajada en 3 s.",
+    video: "l5c49YVRYjM"
+  },
+  rdl1: {
+    name: "Peso muerto rumano a una pierna", scheme: "3 × 10-12 / pierna",
+    muscles: { p: ["isquios", "gluteo"], s: ["lumbar", "gemelos"] },
+    cues: [
+      "Rodilla de apoyo un poco flexionada y quieta todo el ejercicio.",
+      "Bisagra de cadera: la pierna libre sube recta hacia atrás, espalda plana.",
+      "Baja hasta notar el estiramiento en el isquio, no más.",
+      "Mancuerna en la mano contraria a la pierna de apoyo (o en las dos)."
+    ],
+    prog: "Tope → dos mancuernas, o pausa de 2 s abajo.",
+    video: "-2h7UPouOqc"
+  },
+  stepup: {
+    name: "Step-up en la escalera", scheme: "3 × 10-12 / pierna",
+    muscles: { p: ["cuadriceps", "gluteo"], s: ["isquios", "gemelos"] },
+    cues: [
+      "Salta un escalón: pie completo apoyado en el peldaño alto.",
+      "Sube empujando solo con la pierna de arriba; la de abajo no impulsa.",
+      "Baja lento y toca el suelo sin descansar el peso.",
+      "Tronco erguido, mirada al frente."
+    ],
+    prog: "Tope → pausa de 1 s arriba a una pierna, o dos escalones.",
+    video: "6bT4tkDA2ZM"
+  },
+  nordico: {
+    name: "Curl nórdico (solo bajada)", scheme: "3 × 5-8",
+    muscles: { p: ["isquios"], s: ["gluteo", "gemelos", "lumbar"] },
+    cues: [
+      "De rodillas sobre un cojín, empeines bajo el sofá.",
+      "Cadera extendida: cuerpo en línea de rodillas a cabeza.",
+      "Baja lo más lento que puedas resistiendo con los isquios; cuando falles, amortigua con las manos.",
+      "Vuelve arriba empujando con las manos, sin tirar."
+    ],
+    prog: "Cuenta la bajada: con 5-6 s controlados, empieza a subir con una ligera ayuda de manos.",
+    video: "I9peAGAAgyo"
+  },
+  gemelo: {
+    name: "Gemelo a una pierna en escalón", scheme: "4 × 15-20 / pierna",
+    muscles: { p: ["gemelos"], s: [] },
+    cues: [
+      "Punta del pie en el borde del escalón, talón libre.",
+      "Baja hasta notar el estiramiento; pausa de 1 s abajo.",
+      "Sube al máximo y aprieta 1 s arriba. Sin rebotes.",
+      "Mano en la pared solo para equilibrio."
+    ],
+    prog: "Tope → mancuerna en la mano del lado que trabaja.",
+    video: "0guUs90hUiY"
+  },
+  pistol: {
+    name: "Pistol asistida", scheme: "4 × 6-10 / pierna",
+    muscles: { p: ["cuadriceps", "gluteo"], s: ["isquios", "gemelos", "abdomen"] },
+    cues: [
+      "Una mano en el marco de la puerta; la otra pierna estirada al frente.",
+      "Baja lento y profundo. La ayuda de la mano, la mínima.",
+      "Rodilla hacia delante sin miedo, talón pegado al suelo.",
+      "Si no llegas: búlgara con pausa de 2 s abajo."
+    ],
+    prog: "Tope → menos ayuda de la mano, o mancuerna sujeta al pecho.",
+    video: "0UX_HH5AzME"
+  },
+  hipthrust1: {
+    name: "Hip thrust a una pierna", scheme: "3 × 12-15 / pierna",
+    muscles: { p: ["gluteo"], s: ["isquios", "lumbar"] },
+    cues: [
+      "Omóplatos en el borde del sofá; pie de apoyo justo bajo la rodilla.",
+      "Mancuerna sobre la cadera; la otra pierna flexionada en el aire.",
+      "Sube hasta la línea hombro-rodilla y aprieta el glúteo 1-2 s.",
+      "Barbilla al pecho, sin arquear la lumbar."
+    ],
+    prog: "Tope → pausa de 3 s arriba, o bajada en 3 s.",
+    video: "GpJYbtAgtAk"
+  },
+  zancada: {
+    name: "Zancada atrás con mancuernas", scheme: "3 × 10-12 / pierna",
+    muscles: { p: ["cuadriceps", "gluteo"], s: ["isquios", "aductores"] },
+    cues: [
+      "Paso largo atrás; la rodilla trasera baja casi al suelo.",
+      "Espinilla delantera vertical, peso en el talón delantero.",
+      "Vuelve empujando con la pierna delantera; la trasera no impulsa.",
+      "Tronco erguido, mancuernas quietas."
+    ],
+    prog: "Tope → pie delantero sobre un escalón (déficit).",
+    video: "R0d2xsmKq2E"
+  },
+  sissy: {
+    name: "Sentadilla sissy", scheme: "3 × 8-12",
+    muscles: { p: ["cuadriceps"], s: ["abdomen"] },
+    cues: [
+      "Pies al ancho de cadera, una mano en el marco de la puerta.",
+      "Sube a puntillas: rodillas hacia delante y tronco hacia atrás, en línea recta.",
+      "Cadera extendida todo el rato: eres una tabla de rodillas a hombros.",
+      "Baja hasta donde controles; sube apretando el cuádriceps."
+    ],
+    alt: "Si molesta la rodilla: sentadilla con salto, 3 × 8-12.",
+    prog: "Tope → menos ayuda de la mano, o más profundidad.",
+    video: "6_qo7elaBhc"
+  },
+  legraise: {
+    name: "Elevación de piernas colgado", scheme: "3 × 10-15",
+    muscles: { p: ["abdomen"], s: ["oblicuos", "antebrazo"] },
+    cues: [
+      "Colgado de la barra, hombros activos (lejos de las orejas).",
+      "Sube las piernas rectas hasta la horizontal (rodillas flexionadas si no llegas).",
+      "Baja en 2-3 s y para el balanceo antes de la siguiente.",
+      "Sin impulso: si te balanceas, la serie ha terminado."
+    ],
+    prog: "Tope → pausa de 2 s arriba, o piernas hasta la barra.",
+    video: "dDbr6K35tTA"
+  },
+  flexelev: {
+    name: "Flexiones en agarraderas, pies elevados", scheme: "4 × 8-15",
+    muscles: { p: ["pecho", "hombro_ant"], s: ["triceps", "abdomen"] },
+    cues: [
+      "Pies en la cama o el sofá; manos en las agarraderas al ancho de hombros.",
+      "Cuerpo en línea recta, glúteo y abdomen apretados.",
+      "Baja el pecho por debajo de las agarraderas, codos a 45°.",
+      "Sube completo y bloquea. Bajada en 2 s."
+    ],
+    prog: "Tope (15) → flexiones arquero.",
+    video: "WPX_mT4o278"
+  },
+  pike: {
+    name: "Pike push-ups, pies elevados", scheme: "4 × 6-10",
+    muscles: { p: ["hombro_ant", "hombro_lat"], s: ["triceps", "trapecio"] },
+    cues: [
+      "Pies en la cama, cadera muy arriba: cuerpo en V invertida.",
+      "Manos algo más anchas que los hombros, dedos al frente.",
+      "Baja la cabeza hasta casi tocar el suelo por delante de las manos.",
+      "Empuja hasta bloquear codos; la cadera no cae."
+    ],
+    prog: "Tope → pies más altos; después, flexión en pino contra la pared.",
+    video: "xMvv9gFxCBM"
+  },
+  militar: {
+    name: "Press militar con mancuernas", scheme: "3 × 12-15",
+    muscles: { p: ["hombro_ant", "hombro_lat"], s: ["triceps", "trapecio"] },
+    cues: [
+      "De pie, mancuernas a la altura de los hombros; glúteo y abdomen apretados.",
+      "Empuja hasta bloquear, juntando las mancuernas sobre la cabeza.",
+      "Baja controlado hasta la altura de las orejas.",
+      "Si arqueas la lumbar, es fatiga: acaba la serie."
+    ],
+    prog: "Tope → pausa de 2 s abajo, o bajada en 3 s.",
+    video: "o5M9RZ-vWrc"
+  },
+  laterales: {
+    name: "Elevaciones laterales", scheme: "3 × 15-20",
+    muscles: { p: ["hombro_lat"], s: ["trapecio"] },
+    cues: [
+      "Codos un poco flexionados; sube hasta la altura de los hombros.",
+      "Guía con los codos, no con las manos. Meñique un poco más alto.",
+      "Sin impulso ni encoger los hombros.",
+      "Bajada en 2-3 s."
+    ],
+    prog: "Tope → pausa de 1 s arriba, o parciales al final de la serie.",
+    video: "aKl46TMtzGk"
+  },
+  diamante: {
+    name: "Flexiones diamante", scheme: "3 × 10-15",
+    muscles: { p: ["triceps"], s: ["pecho", "hombro_ant"] },
+    cues: [
+      "Manos juntas bajo el pecho formando un rombo.",
+      "Codos pegados a las costillas al bajar.",
+      "Pecho hasta las manos; sube y bloquea.",
+      "Si no llegas a 10: manos en la cama (inclinadas)."
+    ],
+    prog: "Tope → pies elevados.",
+    video: "eEi54s7TFvo"
+  },
+  arquero: {
+    name: "Flexiones arquero", scheme: "4 × 6-10 / lado",
+    muscles: { p: ["pecho"], s: ["triceps", "hombro_ant", "abdomen"] },
+    cues: [
+      "Manos muy anchas. Baja hacia una mano mientras el otro brazo se estira.",
+      "El pecho va a la mano que trabaja; tronco recto, sin girar.",
+      "Empuja arriba con el brazo doblado. Alterna lados.",
+      "Si es demasiado: flexiones normales con pausa de 2 s abajo."
+    ],
+    prog: "Tope → estira más el brazo de apoyo, o pies elevados.",
+    video: "rDhw9y8PIXc"
+  },
+  triceps: {
+    name: "Extensión de tríceps sobre la cabeza", scheme: "3 × 12-15",
+    muscles: { p: ["triceps"], s: [] },
+    cues: [
+      "Una mancuerna con las dos manos sobre la cabeza.",
+      "Codos apuntando al techo y pegados a la cabeza.",
+      "Baja tras la nuca hasta notar el estiramiento; extiende sin balancear.",
+      "Abdomen apretado, sin arquear la lumbar."
+    ],
+    prog: "Tope → bajada en 3 s, o a un brazo.",
+    video: "EmhtA32fmcU"
+  },
+  dominadas: {
+    name: "Dominadas pronas", scheme: "4 × máx",
+    muscles: { p: ["dorsal"], s: ["biceps", "antebrazo", "trapecio"] },
+    cues: [
+      "Agarre algo más ancho que los hombros, palmas al frente.",
+      "Desde colgado completo, saca pecho y lleva la barra al pecho.",
+      "Barbilla por encima de la barra; bajada en 2 s hasta estirar.",
+      "Sin balanceo: cuando pierdas la forma, serie terminada."
+    ],
+    prog: "Más de 12 → lastra: mochila con botellas, o mancuerna entre los pies.",
+    video: "myYYGyQKLz8"
+  },
+  supinas: {
+    name: "Dominadas supinas", scheme: "3 × máx",
+    muscles: { p: ["dorsal", "biceps"], s: ["antebrazo"] },
+    cues: [
+      "Palmas hacia ti, manos al ancho de hombros.",
+      "Codos hacia las costillas, pecho a la barra.",
+      "Bajada controlada de 2 s hasta brazos estirados.",
+      "Si no llegas a 5: negativas de 5 s (sube con salto, baja lento)."
+    ],
+    prog: "Más de 12 → lastre.",
+    video: "SG_gvhrRokw"
+  },
+  remoinv: {
+    name: "Remo invertido, pies elevados", scheme: "4 × 8-15",
+    muscles: { p: ["dorsal", "trapecio"], s: ["biceps", "hombro_post"] },
+    cues: [
+      "Barra a la altura de la cadera en el marco; cuerpo recto bajo ella.",
+      "Talones en el sofá para dificultar.",
+      "Tira hasta tocar la barra con el pecho; junta los omóplatos.",
+      "Bajada en 2 s, cuerpo rígido como una tabla."
+    ],
+    alt: "Si la barra no baja: remo a una mano con pausa (ver sábado).",
+    prog: "Tope → pies más altos, o pausa de 2 s arriba.",
+    video: "tE22yTUcRHA"
+  },
+  remo1: {
+    name: "Remo a una mano con pausa", scheme: "4 × 12-15 / lado",
+    muscles: { p: ["dorsal"], s: ["biceps", "trapecio", "hombro_post"] },
+    cues: [
+      "Tronco casi paralelo al suelo, mano libre apoyada en la rodilla.",
+      "Tira con el codo hacia la cadera, no hacia el hombro.",
+      "Pausa de 2 s arriba apretando el dorsal.",
+      "Bajada en 3 s hasta estirar el brazo."
+    ],
+    prog: "Tope → pausa de 3 s arriba.",
+    video: "29b7mBUdpts"
+  },
+  pajaros: {
+    name: "Pájaros", scheme: "3 × 15-20",
+    muscles: { p: ["hombro_post"], s: ["trapecio"] },
+    cues: [
+      "Tronco inclinado casi paralelo al suelo, rodillas flexionadas.",
+      "Brazos casi rectos; sube en cruz hasta la altura de los hombros.",
+      "Meñiques hacia arriba; junta los omóplatos al final.",
+      "Sin impulso. Bajada lenta."
+    ],
+    prog: "Tope → pausa de 1 s arriba.",
+    video: "Jhzr4SYgXVM"
+  },
+  curl: {
+    name: "Curl de bíceps", scheme: "3 × 10-12",
+    muscles: { p: ["biceps"], s: ["antebrazo"] },
+    cues: [
+      "Codos pegados al cuerpo; no se adelantan.",
+      "Sube sin balancear; aprieta 1 s arriba.",
+      "Baja en 3 s hasta estirar el brazo.",
+      "Palmas arriba todo el recorrido."
+    ],
+    prog: "Tope → bajada en 4 s, o pausa a media altura.",
+    video: "oHO6dV7aQbE"
+  },
+  martillo: {
+    name: "Curl martillo", scheme: "3 × 12",
+    muscles: { p: ["biceps", "antebrazo"], s: [] },
+    cues: [
+      "Palmas enfrentadas (agarre martillo).",
+      "Codos fijos; sube hasta el hombro.",
+      "Baja en 3 s, sin balanceo."
+    ],
+    prog: "Tope → bajada más lenta.",
+    video: "RHdacbwKbTo"
+  },
+  colgado: {
+    name: "Colgado activo", scheme: "2 × 20-30 s",
+    muscles: { p: ["trapecio"], s: ["dorsal", "antebrazo"] },
+    cues: [
+      "Cuelga de la barra, brazos rectos.",
+      "Aleja los hombros de las orejas y mantén.",
+      "Cuerpo quieto, respira."
+    ],
+    prog: "Tope (30 s) → dominadas escapulares 2 × 8-10.",
+    video: "x3BezeAKD_A"
+  },
+  escapulares: {
+    name: "Dominadas escapulares", scheme: "2 × 8-10",
+    muscles: { p: ["trapecio"], s: ["dorsal", "antebrazo"] },
+    cues: [
+      "Colgado con brazos rectos; los codos no se doblan en ningún momento.",
+      "Sube unos centímetros solo bajando los hombros (omóplatos abajo y atrás).",
+      "Pausa de 1 s arriba; vuelve al colgado relajado."
+    ],
+    prog: "Tope → pausa de 2 s arriba.",
+    video: "x3BezeAKD_A"
+  }
+};
+
+/* =====================================================================
+   SEMANA  (dow: 0 = domingo … 6 = sábado)
+   ===================================================================== */
+const WEEK = [
+  { dow: 1, tab: "L", tag: "Pierna", title: "Pierna A", rest: "90-120 s",
+    ex: ["bulgara", "rdl1", "stepup", "nordico", "gemelo"] },
+  { dow: 2, tab: "M", tag: "Empuje", title: "Empuje A", rest: "60-90 s",
+    ex: ["flexelev", "pike", "militar", "laterales", "diamante"] },
+  { dow: 3, tab: "X", tag: "Tirón", title: "Tracción A", rest: "90-120 s dominadas · 60-90 s resto",
+    ex: ["dominadas", "supinas", "remoinv", "pajaros", "curl", "colgado"] },
+  { dow: 4, tab: "J", tag: "Pierna", title: "Pierna B", rest: "90-120 s",
+    ex: ["pistol", "hipthrust1", "zancada", "sissy", "legraise"] },
+  { dow: 5, tab: "V", tag: "Empuje", title: "Empuje B", rest: "60-90 s",
+    ex: ["pike", "arquero", "militar", "laterales", "triceps"] },
+  { dow: 6, tab: "S", tag: "Tirón", title: "Tracción B", rest: "90-120 s dominadas · 60-90 s resto",
+    ex: [{ id: "supinas", scheme: "4 × máx" }, { id: "dominadas", scheme: "3 × máx" }, "remo1", "pajaros", "martillo", "escapulares"] },
+  { dow: 0, tab: "D", tag: "Libre", title: "Descanso", rest: "", ex: [] }
+];
+const DAYNAMES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+
+/* =====================================================================
+   MAPA MUSCULAR (SVG esquemático, frente + espalda)
+   ===================================================================== */
+const FRONT = {
+  body: [
+    "M50 6 C57 6 61 12 61 19 C61 27 56 32 50 32 C44 32 39 27 39 19 C39 12 43 6 50 6 Z",
+    "M45 31 L55 31 L55 37 L45 37 Z",
+    "M40 105 L60 105 L61 119 L39 119 Z",
+    "M12 116 C16 114 22 115 24 118 L22 128 C18 131 14 130 12 127 Z",
+    "M88 116 C84 114 78 115 76 118 L78 128 C82 131 86 130 88 127 Z",
+    "M38 178 L47 178 L46 212 L40 212 Z",
+    "M53 178 L62 178 L60 212 L54 212 Z",
+    "M39 212 L47 212 L49 220 L36 220 Z",
+    "M53 212 L61 212 L64 220 L51 220 Z"
+  ],
+  regions: {
+    trapecio:   ["M44 33 L56 33 L74 41 L72 44 L50 40 L28 44 L26 41 Z"],
+    hombro_ant: ["M26 41 C32 39 36 43 35 50 C34 55 28 57 23 55 C18 53 18 45 26 41 Z",
+                 "M74 41 C68 39 64 43 65 50 C66 55 72 57 77 55 C82 53 82 45 74 41 Z"],
+    pecho:      ["M32 43 L49 42 L49 66 C42 70 33 66 31 57 Z",
+                 "M68 43 L51 42 L51 66 C58 70 67 66 69 57 Z"],
+    abdomen:    ["M42 68 L58 68 L57 105 L43 105 Z"],
+    oblicuos:   ["M33 60 L41 68 L42 105 L36 96 Z",
+                 "M67 60 L59 68 L58 105 L64 96 Z"],
+    biceps:     ["M22 56 L34 57 L30 84 L18 82 Z",
+                 "M78 56 L66 57 L70 84 L82 82 Z"],
+    antebrazo:  ["M18 84 L30 86 L25 114 L13 112 Z",
+                 "M82 84 L70 86 L75 114 L87 112 Z"],
+    cuadriceps: ["M36 119 L48 119 L48 175 L39 175 C36 160 35 135 36 119 Z",
+                 "M64 119 L52 119 L52 175 L61 175 C64 160 65 135 64 119 Z"],
+    aductores:  ["M44 120 L48 120 L47 146 L43 138 Z",
+                 "M56 120 L52 120 L53 146 L57 138 Z"]
+  }
+};
+const BACK = {
+  body: [
+    "M50 6 C57 6 61 12 61 19 C61 27 56 32 50 32 C44 32 39 27 39 19 C39 12 43 6 50 6 Z",
+    "M45 31 L55 31 L55 37 L45 37 Z",
+    "M12 116 C16 114 22 115 24 118 L22 128 C18 131 14 130 12 127 Z",
+    "M88 116 C84 114 78 115 76 118 L78 128 C82 131 86 130 88 127 Z",
+    "M40 212 L46 212 L47 220 L38 220 Z",
+    "M54 212 L60 212 L62 220 L53 220 Z"
+  ],
+  regions: {
+    trapecio:    ["M44 33 L56 33 L74 41 L72 44 L56 50 L53 75 L47 75 L44 50 L28 44 L26 41 Z"],
+    hombro_post: ["M26 41 C32 39 36 43 35 50 C34 55 28 57 23 55 C18 53 18 45 26 41 Z",
+                  "M74 41 C68 39 64 43 65 50 C66 55 72 57 77 55 C82 53 82 45 74 41 Z"],
+    dorsal:      ["M30 52 L45 56 L47 100 L40 102 L32 80 Z",
+                  "M70 52 L55 56 L53 100 L60 102 L68 80 Z"],
+    lumbar:      ["M46 76 L54 76 L55 106 L45 106 Z"],
+    triceps:     ["M22 56 L34 57 L30 84 L18 82 Z",
+                  "M78 56 L66 57 L70 84 L82 82 Z"],
+    antebrazo:   ["M18 84 L30 86 L25 114 L13 112 Z",
+                  "M82 84 L70 86 L75 114 L87 112 Z"],
+    gluteo:      ["M36 106 L50 106 L50 128 C44 134 37 130 35 120 Z",
+                  "M64 106 L50 106 L50 128 C56 134 63 130 65 120 Z"],
+    isquios:     ["M37 131 L49 131 L48 175 L39 175 Z",
+                  "M51 131 L63 131 L61 175 L52 175 Z"],
+    gemelos:     ["M38 177 L48 177 C50 190 48 205 46 212 L40 212 C36 200 36 188 38 177 Z",
+                  "M62 177 L52 177 C50 190 52 205 54 212 L60 212 C64 200 64 188 62 177 Z"]
+  }
+};
+const LAT_EXPAND = { hombro_lat: ["hombro_ant", "hombro_post"] };
+
+function muscleSVG(m) {
+  const P = new Set(), S = new Set();
+  const expand = (arr, set) => arr.forEach(k => (LAT_EXPAND[k] || [k]).forEach(x => set.add(x)));
+  expand(m.p || [], P); expand(m.s || [], S);
+  const cls = k => P.has(k) ? "r p" : (S.has(k) ? "r s" : "r");
+  const fig = (F, dx) => {
+    let out = `<g transform="translate(${dx} 0)">`;
+    F.body.forEach(d => out += `<path class="b" d="${d}"/>`);
+    for (const k in F.regions) F.regions[k].forEach(d => out += `<path class="${cls(k)}" d="${d}"/>`);
+    return out + "</g>";
+  };
+  return `<svg viewBox="0 0 212 234" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    ${fig(FRONT, 0)}${fig(BACK, 112)}
+    <text class="lab" x="50" y="232">FRENTE</text><text class="lab" x="162" y="232">ESPALDA</text>
+  </svg>`;
+}
+
+/* =====================================================================
+   RENDER
+   ===================================================================== */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+  del(k) { try { localStorage.removeItem(k); } catch (e) {} }
+};
+const todayDow = new Date().getDay();
+const fmtDate = iso => { const d = new Date(iso); return isNaN(d) ? "" : d.getDate() + "/" + (d.getMonth() + 1); };
+
+function renderDays(active) {
+  $("#days").innerHTML = WEEK.map((d, i) =>
+    `<button class="day${i === active ? " on" : ""}${d.dow === todayDow ? " today" : ""}" data-i="${i}" aria-label="${DAYNAMES[d.dow]}: ${d.title}">
+       <span class="l">${d.tab}</span><span class="s">${d.tag}</span></button>`).join("");
+}
+
+function exerciseCard(entry, n) {
+  const id = typeof entry === "string" ? entry : entry.id;
+  const ex = EX[id];
+  const scheme = (typeof entry === "object" && entry.scheme) || ex.scheme;
+  const yt = ex.video ? `https://www.youtube.com/watch?v=${ex.video}`
+                      : `https://www.youtube.com/results?search_query=${encodeURIComponent(ex.name + " técnica")}`;
+  const marked = REGISTRO ? store.get("tope:" + id) : null;
+  return `
+  <article class="card" data-id="${id}">
+    <div class="card-text">
+      <div class="num">${String(n).padStart(2, "0")}</div>
+      <h2 class="name">${esc(ex.name)}</h2>
+      <span class="scheme">${esc(scheme)}</span>
+      ${marked ? `<br><span class="pill">↑ Sube dificultad</span>` : ""}
+    </div>
+    <div class="map">${muscleSVG(ex.muscles)}</div>
+    <ul class="cues">
+      ${ex.cues.map(c => `<li>${esc(c)}</li>`).join("")}
+      ${ex.alt ? `<li class="alt">${esc(ex.alt)}</li>` : ""}
+    </ul>
+    <div class="prog"><b>Progresión.</b> ${esc(ex.prog)}</div>
+    <div class="card-foot">
+      ${REGISTRO ? `<button class="tope${marked ? " on" : ""}" data-id="${id}">
+          <svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>
+          ${marked ? "Tope " + fmtDate(marked) + " · toca para quitar" : "Tope alcanzado"}
+        </button>` : ""}
+      <details class="video">
+        <summary><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Vídeo de técnica</summary>
+        ${ex.video ? `<div class="frame" data-yt="${ex.video}"></div>` : ""}
+        <a class="yt" href="${yt}" target="_blank" rel="noopener">Abrir en YouTube ↗</a>
+      </details>
+    </div>
+  </article>`;
+}
+
+function renderDay(i) {
+  const d = WEEK[i];
+  renderDays(i);
+  $("#brand-day").textContent = DAYNAMES[d.dow];
+  document.title = `Entreno · ${d.title}`;
+  if (!d.ex.length) {
+    $("#main").innerHTML = `
+      <div class="session-head"><h1>${d.title}</h1>
+        <div class="meta">${DAYNAMES[d.dow]}</div></div>
+      <div class="rest">
+        <p>Hoy no hay fuerza. Paseo largo, o 30-40 min de carrera o bici a un ritmo en el que puedas hablar.</p>
+        <p class="muted">Si el sábado te lo saltaste por cansancio, no lo recuperes hoy: el descanso también es parte del plan.</p>
+        <p class="muted">Mañana: <b>Pierna A</b>.</p>
+      </div>`;
+    return;
+  }
+  $("#main").innerHTML = `
+    <div class="session-head">
+      <h1>${d.title}</h1>
+      <div class="meta">${DAYNAMES[d.dow]} · ${d.ex.length} ejercicios · descanso <b>${d.rest}</b></div>
+    </div>
+    <div class="list">${d.ex.map((e, k) => exerciseCard(e, k + 1)).join("")}</div>`;
+  window.scrollTo({ top: 0 });
+}
+
+/* ---------- eventos ---------- */
+$("#days").addEventListener("click", e => {
+  const b = e.target.closest(".day"); if (!b) return;
+  current = +b.dataset.i; renderDay(current);
+});
+$("#main").addEventListener("toggle", e => {
+  const det = e.target;
+  if (!det.classList.contains("video") || !det.open) return;
+  const f = det.querySelector(".frame");
+  if (f && !f.firstChild) {
+    f.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${f.dataset.yt}?rel=0&modestbranding=1" title="Vídeo de técnica" loading="lazy"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  }
+}, true);
+$("#main").addEventListener("click", e => {
+  const b = e.target.closest(".tope"); if (!b) return;
+  const k = "tope:" + b.dataset.id;
+  if (store.get(k)) store.del(k); else store.set(k, new Date().toISOString());
+  renderDay(current);
+});
+
+/* ---------- tema ---------- */
+const root = document.documentElement;
+const savedTheme = store.get("theme");
+if (savedTheme) root.dataset.theme = savedTheme;
+$("#theme").addEventListener("click", () => {
+  const sysDark = matchMedia("(prefers-color-scheme: dark)").matches;
+  const isDark = root.dataset.theme ? root.dataset.theme === "dark" : sysDark;
+  root.dataset.theme = isDark ? "light" : "dark";
+  store.set("theme", root.dataset.theme);
+});
+
+/* ---------- pantalla encendida (https) ---------- */
+let wakeLock = null;
+async function keepAwake() {
+  try {
+    if ("wakeLock" in navigator && document.visibilityState === "visible")
+      wakeLock = await navigator.wakeLock.request("screen");
+  } catch (e) {}
+}
+keepAwake();
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") keepAwake(); });
+document.addEventListener("click", keepAwake, { once: true });
+
+/* ---------- arranque: día de hoy ---------- */
+let current = WEEK.findIndex(d => d.dow === todayDow);
+if (current < 0) current = 0;
+renderDay(current);
+</script>
+</body>
+</html>
