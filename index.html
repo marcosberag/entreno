@@ -179,6 +179,7 @@
   .cues li::before { content: ""; position: absolute; left: 0; top: .6em; width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
   .cues li.alt { color: var(--muted); }
   .cues li.alt::before { background: var(--muted); opacity: .5; }
+  .cues li.alt b { color: var(--text); font-weight: 500; }
 
   .prog { margin-top: 10px; color: var(--muted); font-size: 13px; }
   .prog b { color: var(--text); font-weight: 500; }
@@ -302,6 +303,25 @@
           basis of this program: your 10 kg dumbbells are plenty, provided you take the hard sets seriously.</li>
       <li><b>Two sessions per muscle group per week.</b> Training a muscle twice weekly beats once weekly when
           total volume is equal, which is why legs land on Monday and Friday rather than in one long session.</li>
+      <li><b>Every exercise scales down.</b> Where a card says <i>Scale it down</i>, that version is not a lesser
+          exercise — it is the right one until it isn't. Doing the easier variation properly beats grinding
+          through the hard one badly.</li>
+      <li><b>Your first pull-up is a project, not a set.</b> You can't do one yet, so Wednesday doesn't ask you to.
+          The negatives are what build it: getting to the top by any means and fighting the way down trains the
+          same muscles at loads you can't reach any other way. Rows add the volume, scapular pull-ups teach the
+          starting position, and losing bodyweight quietly makes every rep easier — that last one is doing more
+          work than people expect. Expect months, not weeks.</li>
+      <li><b>Core is trained like everything else:</b> close to failure, with progression. Three days a week,
+          covering the three jobs it actually has — resisting extension (dead bug, plank), resisting side-bend
+          and rotation (side plank, bicycle), and flexing the spine under load (knee raises, reverse crunch).
+          Endless easy crunches are not training.</li>
+      <li><b>Slept badly? Don't cancel — shrink.</b> One rough night doesn't erase your strength, but it does cut
+          the volume you can handle and makes everything feel heavier. Do the first two exercises of the session
+          at full effort and stop there. That protects most of the stimulus at a fraction of the fatigue, and
+          keeps the habit. Cancel only if you're ill or genuinely wrecked.</li>
+      <li><b>Never shift the whole week to catch up.</b> A missed session is gone. Pick the week back up on the
+          day it actually is — sliding everything forward just eats your rest days and pushes the problem into
+          next week.</li>
       <li><b>First two weeks:</b> do 3 sets where it says 4. Start below your capacity so you have somewhere to go.</li>
       <li><b>Every 6-8 weeks, take a lighter week:</b> half the sets, same effort per set. Fatigue masks fitness;
           you often look stronger the week after backing off.</li>
@@ -359,6 +379,7 @@ const EX = {
       "Drive through the front heel; the knee tracks over the toes.",
       "Dumbbells hanging at your sides, arms relaxed."
     ],
+    alt: "Split squat with the back foot flat on the floor, no couch.",
     prog: "At the cap → 2 s pause at the bottom, then a 3 s descent, then elevate the front foot.",
     gear: ["couch", "dumbbells:2"],
     clip: [1, 15],
@@ -427,8 +448,9 @@ const EX = {
       "One hand on the doorframe, the other leg straight out in front.",
       "Descend slowly and deep. Use the minimum assistance from the hand.",
       "Let the knee travel forward, heel glued to the floor.",
-      "If you can't reach depth: Bulgarian split squat with a 2 s pause at the bottom."
+      "Depth comes with practice — don't force it."
     ],
+    alt: "Bulgarian split squat with a 2 s pause at the bottom until the depth is there.",
     prog: "At the cap → less hand assistance, then a dumbbell held at the chest.",
     gear: ["doorframe"],
     clip: [0, 7],
@@ -471,25 +493,98 @@ const EX = {
       "Hips stay extended — you are a plank from knees to shoulders.",
       "Descend as far as you control; rise by squeezing the quads."
     ],
-    alt: "If your knees complain: jump squats, 3 × 8-12.",
+    alt: "Knees complaining? Swap in jump squats, 3 × 8-12.",
     prog: "At the cap → less hand assistance, then more depth.",
     gear: ["doorframe"],
     clip: [3, 23],
     video: "FTmbNjUu7CI"
   },
-  legraise: {
-    name: "Hanging leg raise", scheme: "3 × 10-15", rir: "1-2 RIR",
+  knee_raise: {
+    name: "Hanging knee raise", scheme: "3 × 8-15", rir: "1-2 RIR",
     muscles: { p: ["abs"], s: ["obliques", "forearms"] },
     cues: [
       "Hang from the bar, shoulders active (away from your ears).",
-      "Raise straight legs to horizontal (bend the knees if you can't).",
+      "Raise the knees to at least hip height, curling the pelvis up at the top.",
       "Lower over 2-3 s and kill the swing before the next rep.",
       "No momentum: if you start swinging, the set is over."
     ],
-    prog: "At the cap → 2 s pause at the top, then legs all the way to the bar.",
+    alt: "Grip giving out first? Lying knee tuck on the floor, 3 × 12-20.",
+    prog: "At the cap → 2 s pause at the top, then straight legs to horizontal.",
     gear: ["bar"],
+    clip: [0, 9],
+    video: "RD_A-Z15ER4"
+  },
+  reverse_crunch: {
+    name: "Reverse crunch", scheme: "3 × 12-20", rir: "0-1 RIR",
+    muscles: { p: ["abs"], s: ["obliques"] },
+    cues: [
+      "On your back, hands by your sides, knees bent over the hips.",
+      "Curl the pelvis toward the ribs — lift the hips, don't just swing the legs.",
+      "The lower back presses into the floor the whole time.",
+      "Lower slowly over 2-3 s. Small range, done properly, beats big range with momentum."
+    ],
+    prog: "At the cap → slower descent, then legs straighter.",
+    gear: ["none"],
     clip: [0, 15],
-    video: "3xzdFxBaByk"
+    video: "N5CHqtgiylc"
+  },
+  dead_bug: {
+    name: "Dead bug", scheme: "3 × 8-12 / side", rir: "—",
+    muscles: { p: ["abs"], s: ["obliques", "lower_back"] },
+    cues: [
+      "On your back, arms straight up, knees bent over the hips.",
+      "Press the lower back flat into the floor and keep it there — that is the exercise.",
+      "Extend the opposite arm and leg away, slowly, without letting the back arch.",
+      "Return and switch. Breathe out as you extend."
+    ],
+    alt: "Back keeps arching? Move only the legs, keeping both arms up.",
+    prog: "At the cap → slow it down to 4 s per rep, then hover the heel closer to the floor.",
+    gear: ["none"],
+    clip: [2, 15],
+    video: "jbWmbhElf3Q"
+  },
+  side_plank: {
+    name: "Side plank", scheme: "3 × 20-45 s / side", rir: "—",
+    muscles: { p: ["obliques"], s: ["abs", "glutes"] },
+    cues: [
+      "Elbow under the shoulder, body in a straight line from ankle to head.",
+      "Lift the hips and hold them up — no sagging, no rolling forward.",
+      "Squeeze the glutes; look straight ahead.",
+      "Stop the set when the hips start dropping, not when the timer says so."
+    ],
+    alt: "Knees bent, resting on the bottom knee instead of the feet.",
+    prog: "At the cap (45 s) → top leg raised, or a dumbbell on the hip.",
+    gear: ["none"],
+    clip: [20, 39],
+    video: "kiVFaQAyZAE"
+  },
+  plank: {
+    name: "Front plank", scheme: "3 × 30-60 s", rir: "—",
+    muscles: { p: ["abs"], s: ["obliques", "front_delt"] },
+    cues: [
+      "Elbows under the shoulders, forearms flat.",
+      "Straight line from heels to head: squeeze glutes, tuck the pelvis slightly.",
+      "Brace as if bracing for a punch. This is a hard 30 s, not a comfortable 3 minutes.",
+      "End the set when the lower back starts to sag."
+    ],
+    prog: "At the cap (60 s) → hollow body hold, or lift one foot a few centimetres.",
+    gear: ["none"],
+    clip: [0, 9],
+    video: "Qn0pD5VBrQQ"
+  },
+  bicycle: {
+    name: "Bicycle crunch", scheme: "3 × 15-20 / side", rir: "0-1 RIR",
+    muscles: { p: ["obliques"], s: ["abs"] },
+    cues: [
+      "Hands beside your ears — don't pull on your neck.",
+      "Bring the shoulder toward the opposite knee, rotating through the ribs.",
+      "Extend the other leg long and low, without arching the back.",
+      "Slow and deliberate. Speed here just means momentum."
+    ],
+    prog: "At the cap → pause 1 s in each rotation.",
+    gear: ["none"],
+    clip: [0, 10],
+    video: "cbKIDZ_XyjY"
   },
   pushup_elev: {
     name: "Feet-elevated push-up on handles", scheme: "4 × 8-15", rir: "1-2 RIR",
@@ -500,6 +595,7 @@ const EX = {
       "Lower your chest below the handles, elbows at about 45°.",
       "Lock out at the top. 2 s down."
     ],
+    alt: "Feet on the floor, or hands on the couch (incline push-up).",
     prog: "At the cap (15) → archer push-ups.",
     gear: ["handles", "bed"],
     clip: [0, 11],
@@ -514,6 +610,7 @@ const EX = {
       "Lower your head until it nearly touches the floor in front of your hands.",
       "Press to a lockout; the hips don't drop."
     ],
+    alt: "Pike push-up with both feet on the floor.",
     prog: "At the cap → higher feet, then wall-supported handstand push-ups.",
     gear: ["bed"],
     clip: [2, 20],
@@ -554,8 +651,9 @@ const EX = {
       "Hands together under the chest forming a diamond.",
       "Elbows tucked to the ribs on the way down.",
       "Chest to the hands; press up and lock out.",
-      "If you can't reach 10: hands on the bed (incline)."
+      "Elbows stay tucked all the way up."
     ],
+    alt: "Hands on the bed or couch (incline diamond push-up).",
     prog: "At the cap → feet elevated.",
     gear: ["none"],
     clip: [0, 9],
@@ -568,8 +666,9 @@ const EX = {
       "Hands very wide. Lower toward one hand while the other arm straightens.",
       "Chest goes to the working hand; torso straight, no twisting.",
       "Press up with the bent arm. Alternate sides.",
-      "Too hard? Regular push-ups with a 2 s pause at the bottom."
+      "Alternate sides."
     ],
+    alt: "Regular push-ups with a 2 s pause at the bottom, or hands on the couch.",
     prog: "At the cap → straighten the support arm further, then elevate the feet.",
     gear: ["none"],
     clip: [0, 15],
@@ -589,33 +688,49 @@ const EX = {
     clip: [4, 24],
     video: "YM8iX9BJWjA"
   },
-  pullup: {
-    name: "Pull-up", scheme: "4 × as many as possible", rir: "0 RIR",
+  neg_pullup: {
+    name: "Negative pull-up", scheme: "4 × 3-5", rir: "to technical failure",
     muscles: { p: ["lats"], s: ["biceps", "forearms", "traps"] },
     cues: [
-      "Grip slightly wider than the shoulders, palms facing away.",
-      "From a full hang, lead with the chest and pull the bar toward it.",
-      "Chin over the bar; 2 s down to full extension.",
-      "No kipping: when the form breaks, the set is over."
+      "Get your chin over the bar first: step up from a chair, or jump.",
+      "Then let go of the chair and lower yourself as slowly as you can — aim for 3-5 s.",
+      "Fight it the whole way down to straight arms. Don't just drop at the end.",
+      "Step back up. The lowering is the entire exercise; you never pull."
     ],
-    prog: "Past 12 reps → add load: a backpack with water bottles, or a dumbbell between your feet.",
-    gear: ["bar"],
-    clip: [0, 13],
-    video: "OX4Iln6xdgc"
+    alt: "Can't control 3 s yet? Keep a toe on the chair to bleed off some bodyweight.",
+    prog: "Once every rep takes 5 controlled seconds, start trying to pull up out of the bottom.",
+    gear: ["bar", "step"],
+    clip: [0, 14],
+    video: "EkpJkHpJXmM"
   },
-  chinup: {
-    name: "Chin-up", scheme: "3 × as many as possible", rir: "0 RIR",
-    muscles: { p: ["lats", "biceps"], s: ["forearms"] },
+  assisted_pullup: {
+    name: "Assisted pull-up", scheme: "3 × 5-8", rir: "1-2 RIR",
+    muscles: { p: ["lats", "biceps"], s: ["forearms", "traps"] },
     cues: [
-      "Palms facing you, hands at shoulder width.",
-      "Elbows drive down to the ribs, chest to the bar.",
-      "Controlled 2 s descent to straight arms.",
-      "Under 5 reps? Do 5 s negatives: jump up, lower slowly."
+      "Chair or step under the bar; one or both feet resting on it.",
+      "Palms facing you (chin-up grip) — it's the easiest way in.",
+      "Push through the foot only as much as you need. The back does the work.",
+      "Chest to the bar, 2 s down to straight arms."
     ],
-    prog: "Past 12 reps → add load.",
+    prog: "At the cap → one foot instead of two, then just a toe, then nothing.",
+    gear: ["bar", "step"],
+    clip: [0, 24],
+    video: "LdUDEtaufvY"
+  },
+  scap_pullup: {
+    name: "Scapular pull-up", scheme: "2 × 8-10", rir: "—",
+    muscles: { p: ["traps"], s: ["lats", "forearms"] },
+    cues: [
+      "Hang with straight arms; the elbows never bend.",
+      "Rise a few centimetres by depressing the shoulders only (blades down and back).",
+      "1 s pause at the top; return to a relaxed hang.",
+      "This teaches the position every pull-up starts from."
+    ],
+    alt: "Can't hold on long enough? Start with dead hangs, 2 × 20-30 s.",
+    prog: "At the cap → 2 s pause at the top.",
     gear: ["bar"],
-    clip: [0, 15],
-    video: "1BL-__EgGOI"
+    clip: [0, 10],
+    video: "vQ9SSWKInv8"
   },
   inv_row: {
     name: "Inverted row, feet elevated", scheme: "4 × 8-15", rir: "1-2 RIR",
@@ -687,32 +802,6 @@ const EX = {
     clip: [3, 23],
     video: "0EK90kDkNLU"
   },
-  dead_hang: {
-    name: "Dead hang", scheme: "2 × 20-30 s", rir: "—",
-    muscles: { p: ["traps"], s: ["lats", "forearms"] },
-    cues: [
-      "Hang from the bar, arms straight.",
-      "Pull your shoulders away from your ears and hold.",
-      "Body still, keep breathing."
-    ],
-    prog: "At the cap (30 s) → scapular pull-ups, 2 × 8-10.",
-    gear: ["bar"],
-    clip: [2, 16],
-    video: "Nc-JGSZZMAQ"
-  },
-  scap_pullup: {
-    name: "Scapular pull-up", scheme: "2 × 8-10", rir: "—",
-    muscles: { p: ["traps"], s: ["lats", "forearms"] },
-    cues: [
-      "Hang with straight arms; the elbows never bend.",
-      "Rise a few centimetres by depressing the shoulders only (blades down and back).",
-      "1 s pause at the top; return to a relaxed hang."
-    ],
-    prog: "At the cap → 2 s pause at the top.",
-    gear: ["bar"],
-    clip: [0, 10],
-    video: "vQ9SSWKInv8"
-  }
 };
 
 /* =====================================================================
@@ -723,20 +812,25 @@ const WEEK = [
   { dow: 1, tab: "Mo", tag: "Legs", title: "Lower A", rest: "2-3 min compounds · 90 s calves",
     focus: "Quad-dominant. The heaviest session of the week — put it first, when you're fresh.",
     ex: ["bulgarian", "stepup", "sl_rdl", "nordic", "calf"] },
-  { dow: 2, tab: "Tu", tag: "Push", title: "Push", rest: "2-3 min compounds · 60-90 s isolation",
-    focus: "Chest, shoulders and triceps. Push-up variations carry the load; the dumbbells finish the job.",
-    ex: ["pushup_elev", "pike", "ohp", "lateral", "diamond"] },
-  { dow: 3, tab: "We", tag: "Pull", title: "Pull", rest: "2-3 min pull-ups · 60-90 s isolation",
-    focus: "Back and biceps. Pull-ups first, while you still have them.",
-    ex: ["pullup", "chinup", "inv_row", "rear_fly", "curl", "dead_hang"] },
+  { dow: 2, tab: "Tu", tag: "Push", title: "Push", rest: "2-3 min compounds · 45-60 s core",
+    focus: "Chest, shoulders and triceps, then anti-extension core work while you're already on the floor.",
+    ex: ["pushup_elev", "pike", "ohp", "lateral", "diamond", "dead_bug", "side_plank"] },
+  { dow: 3, tab: "We", tag: "Pull", title: "Pull", rest: "2-3 min on the bar · 60-90 s isolation",
+    focus: "Back and biceps — and the road to your first pull-up. The negatives are the point of this day; "
+         + "everything after them is supporting work.",
+    ex: ["scap_pullup", "neg_pullup", "assisted_pullup", "inv_row", "one_arm_row", "rear_fly", "curl"] },
   { dow: 4, tab: "Th", tag: "Rest", title: "Rest", rest: "",
     focus: "", ex: [] },
-  { dow: 5, tab: "Fr", tag: "Legs", title: "Lower B", rest: "2-3 min compounds · 90 s calves",
-    focus: "Hip-dominant and single-leg. Less spinal load than Monday, more glute and hamstring.",
-    ex: ["pistol", "hipthrust", "lunge", "sissy", { id: "calf", scheme: "3 × 15-20 / leg" }, "legraise"] },
-  { dow: 6, tab: "Sa", tag: "Upper", title: "Upper", rest: "90-120 s · 60-90 s isolation",
-    focus: "Second dose for the whole torso. The session to cut if the week has beaten you.",
-    ex: ["archer", "one_arm_row", { id: "pike", scheme: "3 × 6-10" }, "hammer", "triceps", "scap_pullup"] },
+  { dow: 5, tab: "Fr", tag: "Legs", title: "Lower B", rest: "2-3 min compounds · 45-60 s core",
+    focus: "Hip-dominant and single-leg. Less spinal load than Monday, more glute and hamstring, "
+         + "and the core work that also builds your hang time on the bar.",
+    ex: ["pistol", "hipthrust", "lunge", "sissy", { id: "calf", scheme: "3 × 15-20 / leg" },
+         "knee_raise", "reverse_crunch"] },
+  { dow: 6, tab: "Sa", tag: "Upper", title: "Upper", rest: "90-120 s · 45-60 s core",
+    focus: "Second dose for the whole torso, finishing with rotational and bracing core. "
+         + "The session to cut if the week has beaten you.",
+    ex: ["archer", "one_arm_row", { id: "pike", scheme: "3 × 6-10" }, "hammer", "triceps",
+         "plank", "bicycle"] },
   { dow: 0, tab: "Su", tag: "Rest", title: "Rest", rest: "",
     focus: "", ex: [] }
 ];
@@ -894,7 +988,7 @@ function exerciseCard(entry, n) {
     </div>
     <ul class="cues">
       ${ex.cues.map(c => `<li>${esc(c)}</li>`).join("")}
-      ${ex.alt ? `<li class="alt">${esc(ex.alt)}</li>` : ""}
+      ${ex.alt ? `<li class="alt"><b>Scale it down.</b> ${esc(ex.alt)}</li>` : ""}
     </ul>
     <div class="prog"><b>Progression.</b> ${esc(ex.prog)}</div>
     <div class="card-foot">
