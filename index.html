@@ -1015,8 +1015,9 @@ function renderDay(i) {
   view = "train"; current = i;
   $("#nutri-btn").classList.remove("on");
   renderDays(i);
+  /* the header shows the day; the tab title stays fixed so the tab, the
+     bookmark and the installed app all read the same name */
   $("#brand-day").textContent = DAYNAMES[d.dow];
-  document.title = `Training · ${d.title}`;
   if (!d.ex.length) {
     const next = WEEK[(i + 1) % WEEK.length];
     $("#main").innerHTML = `
@@ -1103,7 +1104,6 @@ function renderNutrition() {
   $("#nutri-btn").classList.add("on");
   document.querySelectorAll(".day").forEach(b => b.classList.remove("on"));
   $("#brand-day").textContent = "Nutrition";
-  document.title = "Training · Nutrition";
   const d = nutData(), r = nutCalc(d);
   const sel = (v, x) => v === x ? " selected" : "";
   $("#main").innerHTML = `
