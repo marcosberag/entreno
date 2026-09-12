@@ -1,0 +1,19 @@
+{
+  "name": "Training",
+  "short_name": "Training",
+  "description": "Five-day home training program with form videos, equipment lists and nutrition targets.",
+  "start_url": "./",
+  "scope": "./",
+  "id": "/entreno/",
+  "display": "standalone",
+  "background_color": "#0e0e10",
+  "theme_color": "#0e0e10",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["health", "fitness", "lifestyle"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
