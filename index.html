@@ -279,6 +279,24 @@
     margin-top: 12px; padding: 11px 12px; border-radius: 10px;
     border: 1px dashed var(--line); color: var(--muted); font-size: 13px;
   }
+  /* food guide */
+  .shop { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; }
+  @media (min-width: 520px) { .shop { grid-template-columns: repeat(3, 1fr); } }
+  .shop h3 { margin: 0 0 3px; font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
+  .shop p { margin: 0; font-size: 13.5px; }
+  .menu { margin: 0; padding: 0; list-style: none; }
+  .menu li { padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px; }
+  .menu li:first-child { border-top: 0; padding-top: 2px; }
+  .menu li b { display: block; margin-bottom: 2px; }
+  .menu .tag { display: block; margin-top: 4px; font-size: 12px; color: var(--red); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .qa { padding: 11px 0; border-top: 1px solid var(--line); font-size: 14px; }
+  .qa:first-of-type { border-top: 0; padding-top: 2px; }
+  .qa b { display: block; margin-bottom: 3px; }
+  .qa .verdict { color: var(--red); font-weight: 700; }
+  .srcs { font-size: 12px; color: var(--muted); line-height: 1.55; }
+  .srcs p { margin: 0 0 8px; }
+  .srcs b { color: var(--text); font-weight: 500; }
+  .srcs a { color: var(--text); }
 
   /* ---------- rules ---------- */
   .rules { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 12px; }
@@ -383,7 +401,7 @@
       [15] Schoenfeld &amp; Aragon — protein per meal, <i>JISSN</i> 2018.
       [A] Helms, Morgan &amp; Valdez — <i>The Muscle &amp; Strength Pyramid: Training</i>, 2nd ed., 2019.
       [B] r/bodyweightfitness Recommended Routine — push-up, row and pull-up progressions.
-      The nutrition page rests on [8] [9] [10] [13] [14] [15].
+      The nutrition page carries its own source list.
     </div>
   </details>
 </div>
@@ -1459,16 +1477,183 @@ function renderNutrition() {
   $("#brand-day").textContent = "Nutrition";
   const d = nutData(), r = nutCalc(d);
   const sel = (v, x) => v === x ? " selected" : "";
+  const tag = (kcal, p) => `<span class="tag">≈ ${kcal} kcal · ${p} g protein</span>`;
   $("#main").innerHTML = `
     <div class="session-head">
       <h1>Nutrition</h1>
-      <div class="meta">Muscle gain and fat loss at the same time — a <b>recomposition</b>.
-        It works, but it is slower than doing either one alone. Patience is the price.</div>
+      <div class="meta">The short version: <b>eat from the list, hit your protein, keep two exceptions a week</b>,
+        and let the numbers at the bottom size the portions. Every claim on this page points at a source in the list at the end.</div>
+    </div>
+
+    <div class="panel">
+      <h2>The whole plan in six lines</h2>
+      <ul class="food-list">
+        <li><b>Protein at every meal.</b> A palm-sized portion: chicken, fish, eggs, Greek yogurt, legumes. Your daily
+          target is below; in a deficit it is the one number that decides whether you lose fat or muscle [N1, N2].</li>
+        <li><b>Half the plate is vegetables or fruit</b>, the rest potatoes, rice, bread, pasta or legumes. Bulky,
+          water-rich food is what keeps you full on fewer calories — people told to eat more of it lost more weight and
+          reported less hunger than people only told to eat less fat [N17].</li>
+        <li><b>Fat is a portion, not a fear.</b> Olive oil, nuts, eggs, fish, avocado — about a thumb per meal. The
+          Mediterranean pattern with real olive oil and nuts cut cardiovascular events by about 30% in a Spanish trial [N20].</li>
+        <li><b>Two to four pieces of fruit a day, whole.</b> Not juice. Details below [N12, N18].</li>
+        <li><b>Don't drink calories.</b> Water, coffee, tea, sparkling water. Beer, soft drinks and juice are the least
+          filling calories there are [N18].</li>
+        <li><b>Two exceptions a week, planned and enjoyed.</b> The pizza, the nachos, the beers. That is roughly 10-20%
+          of the week's calories, and flexible dieters lost the same fat as rigid ones and came out of the diet in
+          better shape [N7].</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h2>Eat these, week in, week out</h2>
+      <p class="sub">The shopping list. Nothing exotic; all of it is in any Spanish supermarket.</p>
+      <div class="shop">
+        <div><h3>Protein</h3><p>Chicken (thighs and breast), turkey, pork loin (lomo fresco), 5% beef mince, eggs,
+          canned tuna, sardines and mackerel, frozen white fish, salmon, Greek yogurt 0-2% or skyr, queso fresco batido 0%,
+          cottage cheese or queso fresco, lentils, chickpeas and beans (jars are fine), tofu. Whey protein is optional —
+          it is just milk protein, and the cheapest 24 g you will find.</p></div>
+        <div><h3>Carbs</h3><p>Potatoes, rice, oats, wholegrain bread, pasta, legumes again, corn tortillas, couscous.
+          Boiled potatoes are the most filling food ever measured [N11].</p></div>
+        <div><h3>Fats</h3><p>Olive oil (measure it: a tablespoon is 90 kcal), nuts (a handful, 30 g, is 180 kcal),
+          avocado, peanut butter, olives, a little cheese.</p></div>
+        <div><h3>Vegetables</h3><p>Whatever is cheap that week: frozen mixes, tomatoes, peppers, onion, spinach, lettuce,
+          courgette, broccoli, carrots, mushrooms, cucumber. Gazpacho counts.</p></div>
+        <div><h3>Fruit</h3><p>Bananas, apples, oranges, pears, grapes, melon, watermelon, kiwi, frozen berries.</p></div>
+        <div><h3>Pantry helpers</h3><p>Tomate frito, jars of sofrito, salsa, tinned tomato, stock cubes, garlic, lemon,
+          vinegar, mustard, hot sauce, paprika, cumin, curry. Near-zero calories, all the flavour.</p></div>
+      </div>
+      <p class="note"><b>Portions without a scale:</b> protein = your palm, carbs = a cupped hand, vegetables = two fists,
+        fat = a thumb. Per meal. Two palms of protein at the two main meals if you are tall or heavy [A].</p>
+    </div>
+
+    <div class="panel">
+      <h2>Breakfast — pick one, aim for about 30 g of protein</h2>
+      <p class="sub">Breakfast itself is optional: in trials, eating it versus skipping it made no difference to weight
+        [N14]. What matters is that when you eat it, protein leads — a high-protein breakfast cut evening snacking and
+        hunger hormones where a cereal breakfast did not [N15]. So: no cereal-and-milk mornings, no pastries.</p>
+      <ul class="menu">
+        <li><b>Greek yogurt bowl</b> 250 g 0-2% Greek yogurt or skyr, 40 g oats, a banana or a handful of berries, 10 g nuts.
+          Five minutes, no cooking. ${tag(450, 33)}</li>
+        <li><b>Eggs and toast</b> 3 eggs scrambled or fried in a teaspoon of oil, 2 slices of wholegrain bread, tomato.
+          Eggs daily are fine: one a day showed no link to heart disease across 1.7 million people [N16]. ${tag(430, 25)}</li>
+        <li><b>Overnight oats with whey</b> 50 g oats, 200 ml semi-skimmed milk, one scoop (30 g) of whey, fruit on top.
+          Mix it the night before, eat it from the fridge. ${tag(460, 38)}</li>
+        <li><b>Tostada con tomate, upgraded</b> The usual tostada with tomato and olive oil, plus 2 boiled eggs (boil six on
+          Sunday, they keep all week) and a café con leche. Add 150 g of skyr on the side to reach 35 g. ${tag(460, 23)}</li>
+        <li><b>Cottage cheese plate</b> 200 g cottage cheese or queso fresco 0%, diced tomato, olive oil, black pepper,
+          a slice of bread. The savoury swap that keeps coming up on r/loseit [R1]. ${tag(380, 25)}</li>
+        <li><b>Tuna toast</b> 2 slices of wholegrain bread, a 100 g can of tuna drained, tomato, a teaspoon of mayo or
+          olive oil. No cooking, 30 g of protein. ${tag(380, 31)}</li>
+        <li><b>Bocadillo de tortilla</b> A 2-egg omelette in a 60 g wholegrain roll with tomato. Add a glass of milk or
+          30 g of cheese to get near 30 g. ${tag(350, 18)}</li>
+        <li><b>Smoothie</b> 300 ml milk, a banana, 30 g oats, one scoop of whey, ice. For the mornings you leave the house
+          in ten minutes. ${tag(460, 39)}</li>
+        <li><b>Yesterday's dinner</b> Chicken and rice, lentils, whatever is in the fridge. The most-upvoted answer in
+          r/loseit's breakfast thread: breakfast does not have to be breakfast food [R1].</li>
+      </ul>
+      <p class="note">Numbers are rounded from standard food tables; ±15% is normal and does not matter.</p>
+    </div>
+
+    <div class="panel">
+      <h2>Mid-morning and afternoon (almuerzo, merienda)</h2>
+      <p class="sub">If you eat between meals, make it protein or fruit, not pastry. Each of these is 150-300 kcal.</p>
+      <ul class="food-list">
+        <li><b>A piece of fruit and 20-30 g of nuts.</b> The default.</li>
+        <li><b>A pot of skyr or 0% Greek yogurt</b> (150-200 g, 15-20 g protein) with fruit.</li>
+        <li><b>Bocadillo de atún:</b> small roll, a can of tuna, tomato. ≈ 300 kcal · 22 g protein.</li>
+        <li><b>2 boiled eggs and a piece of fruit.</b></li>
+        <li><b>100 g queso fresco</b> with cherry tomatoes.</li>
+        <li><b>300 ml of milk with cocoa</b>, no sugar. ≈ 160 kcal · 10 g protein.</li>
+        <li><b>Carrots or cucumber with hummus.</b></li>
+        <li><b>Air-popped popcorn</b>, 30 g ≈ 110 kcal — the volume-eating classic.</li>
+        <li><b>Campus fallback:</b> a cafeteria bocadillo is fine. Pick tuna, tortilla or lomo over embutidos, and skip
+          the crisps and the soft drink.</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h2>Lunch and dinner — ten dishes you can actually cook</h2>
+      <p class="sub">Every one of these is protein + carb + vegetables + a measured spoon of olive oil. Cook double, eat
+        it twice. Per plate:</p>
+      <ul class="menu">
+        <li><b>1. Chicken, rice and frozen veg</b> The base of the week. An oven tray of 1 kg chicken thighs (salt, paprika,
+          garlic, lemon) at 200 °C for 35 min, a pot of rice, a bag of frozen vegetable mix. Four meals. ${tag(560, 43)}</li>
+        <li><b>2. Lentejas de bote</b> A jar of cooked lentils, rinsed, into a pan with a jar of sofrito, a handful of
+          spinach and paprika. Ten minutes. Add a boiled egg, or 100 g of diced chicken for 50 g of protein. ${tag(400, 26)}</li>
+        <li><b>3. Tuna and chickpea salad</b> A jar of chickpeas, a can of tuna, tomato, cucumber, onion, two teaspoons of
+          olive oil, vinegar, salt. No cooking. ${tag(580, 43)}</li>
+        <li><b>4. Tortilla de patatas, light</b> 300 g potato cubed and microwaved 6 min (or air-fried), an onion, 6 eggs,
+          one tablespoon of oil in a non-stick pan. Half now with a salad, half tomorrow. ${tag(400, 22)}</li>
+        <li><b>5. Pasta with tuna and tomato</b> 80 g dry pasta, a can of tuna, half a jar of tomate frito, spinach or
+          courgette stirred in. ${tag(550, 37)}</li>
+        <li><b>6. One-tray salmon or chicken</b> Fish or chicken, potatoes and peppers on the same tray, olive oil, 200 °C,
+          30-35 min. Zero washing up. ${tag(600, 38)}</li>
+        <li><b>7. Salsa chicken</b> Chicken breast, a jar of salsa and a can of black beans simmered 25 min, then shredded.
+          r/EatCheapAndHealthy's most-upvoted lazy one-pot meal [R4]. Over rice, in wraps or on a salad. ${tag(500, 55)}</li>
+        <li><b>8. Beef and vegetable bowl</b> 150 g of 5% beef mince browned with onion, mushrooms and courgette, cumin
+          and paprika, over rice. ${tag(500, 36)}</li>
+        <li><b>9. Revuelto with potatoes</b> Boiled or air-fried potato, 3 eggs, peppers — and a little jamón if it is
+          one of your embutido days. ${tag(450, 23)}</li>
+        <li><b>10. Gazpacho and something</b> A carton of gazpacho (no bread, 40 kcal per 100 ml) with a tuna bocadillo,
+          a slice of tortilla or grilled chicken. The summer default. Ensalada campera — potato, tuna, egg, tomato,
+          onion, olives — is the other one.</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h2>Exceptions: what is allowed, how often, and why</h2>
+      <p class="sub">The plan assumes 10-20% of your week's calories will not come from the list. The practical version
+        is two planned exceptions a week: pick them, have the best version of them, and don't graze on mediocre ones.
+        Rigid rules are what break diets, not pizza [N7].</p>
+      <div class="qa"><b>Cured meats — jamón, lomo, chorizo, fuet, salchichón, sliced turkey?</b>
+        <span class="verdict">Yes, not daily.</span> All of them are processed meat, which the WHO classes as a Group 1
+        carcinogen: each 50 g eaten every day is linked to an 18% higher relative risk of colorectal cancer [N8]. The
+        absolute numbers are small — a 2019 review estimated that dropping three servings a week would prevent about 9
+        deaths per 1,000 people over 11 years, and rated the evidence low-certainty [N9] — but small is not zero, and
+        salt is the other cost: 30 g of jamón is nearly a third of a day's salt. Rule: two or three times a week, 30-50 g,
+        and choose the lean ones. Jamón serrano or ibérico and lomo embuchado are about 30% protein; chorizo, salchichón
+        and fuet are a third fat. Sliced turkey is processed meat too, just leaner. For the everyday bocadillo use tuna,
+        yesterday's chicken, tortilla, queso fresco or hummus.</div>
+      <div class="qa"><b>French fries?</b>
+        <span class="verdict">As one of the two weekly exceptions.</span> Two things count against them as a habit. A
+        cohort of 4,400 people found fried potatoes twice a week or more associated with roughly double the mortality,
+        while boiled or baked potatoes were not — observational, so a flag rather than a verdict [N10]. And energy:
+        150 g of fries is about 450 kcal; the same weight boiled is 130 kcal and is the most filling food ever tested
+        [N11]. At home, potato wedges in the oven or air fryer with one tablespoon of oil: 200 g ≈ 250 kcal. That
+        version is not an exception, it is dinner.</div>
+      <div class="qa"><b>Nachos with sauces?</b>
+        <span class="verdict">An exception, and a big one.</span> A 150 g bag of tortilla chips is about 750 kcal before
+        the cheese sauce and guacamole — a full meal's calories with almost no protein. Have them on a planned night
+        and enjoy them. The everyday version that is actually a meal: 40 g of chips, tomato salsa (30 kcal a serving),
+        a can of black beans, shredded chicken, Greek yogurt instead of sour cream — about 500 kcal with 35 g of protein.</div>
+      <div class="qa"><b>Beer, wine, spirits?</b>
+        <span class="verdict">An exception, and it costs muscle.</span> Alcohol after training cut muscle protein
+        synthesis by a quarter even when protein was eaten with it, and by over a third without [N19]. A caña is about
+        85 kcal, a pint 215, a glass of wine 120. Two or three drinks on a night out, not on the evening of a lifting day
+        if you can help it, and it counts as one of the two exceptions.</div>
+      <div class="qa"><b>Sweets, chocolate, ice cream?</b>
+        <span class="verdict">Inside the budget, fine.</span> 20 g of dark chocolate is 110 kcal; a scoop of ice cream
+        130. The people on r/loseit who have lost 30 kg say the same thing: no food is banned, but be picky and spend
+        the calories only on the version you actually love [R3, R5].</div>
+      <div class="qa"><b>Sugary drinks and juice?</b>
+        <span class="verdict">The one thing worth cutting outright.</span> Liquid sugar does not register as food:
+        people given 450 kcal a day as soda for a month gained weight, while the same calories as jelly beans did not,
+        because they ate less elsewhere [N18]. This includes "zumo natural".</div>
+    </div>
+
+    <div class="panel">
+      <h2>Fruit: how much?</h2>
+      <p class="note" style="margin-top:0"><b>Two to four pieces a day, whole.</b> Trials that add fruit to people's diets find weight
+        stable or slightly down, not up [N12]. In cohorts the benefit keeps rising up to about 800 g of fruit and
+        vegetables a day [N13]. A metabolic-ward study fed ten people around twenty servings of fruit a day for two weeks:
+        LDL cholesterol fell by a third and weight did not move [N21]. Fruit sugar is not the problem; juice is [N18] —
+        a glass is three oranges with the fibre thrown away. A banana is 90-100 kcal, an apple 80, an orange 60, a big
+        slice of watermelon 90: fruit is one of the cheapest ways to feel full [N11, N17].</p>
     </div>
 
     <div class="panel">
       <h2>Your numbers</h2>
-      <p class="sub">Everything below is computed from these. They are saved on this device only.</p>
+      <p class="sub">Everything below is computed from these. Saved on this device only.</p>
       <div class="grid2">
         <div class="field"><label for="n-sex">Sex</label>
           <select id="n-sex"><option value="m"${sel(d.sex,"m")}>Male</option><option value="f"${sel(d.sex,"f")}>Female</option></select></div>
@@ -1494,43 +1679,78 @@ function renderNutrition() {
             <option value="gain"${sel(d.goal,"gain")}>Muscle first — small surplus</option>
           </select></div>
       </div>
-    </div>
-
-    <div class="panel">
-      <h2>Daily targets</h2>
-      <p class="sub">${tdeeNote(r)}</p>
+      <p class="sub" id="tdee-note" style="margin-top:14px">${tdeeNote(r)}</p>
       <div class="macros">
         <div class="macro cal"><div class="k">Calories</div><div class="v">${r ? r.kcal : "—"}<small> kcal</small></div></div>
         <div class="macro"><div class="k">Protein</div><div class="v">${r ? r.protein : "—"}<small> g</small></div></div>
         <div class="macro"><div class="k">Fat</div><div class="v">${r ? r.fat : "—"}<small> g</small></div></div>
         <div class="macro"><div class="k">Carbs</div><div class="v">${r ? r.carbs : "—"}<small> g</small></div></div>
       </div>
-      <p class="note">${rateNote(r)}</p>
-      <p class="note">${splitNote(r)}</p>
+      <p class="note" id="rate-note">${rateNote(r)}</p>
+      <p class="note" id="split-note">${splitNote(r)}</p>
+      <p class="note">Protein: 1.6 g/kg a day is where muscle gain stops improving in people who eat enough [N1]; in a
+        deficit, lean lifters kept more muscle at higher intakes, hence the 2 g/kg here [N2]. Rate of loss: 0.5-1% of
+        bodyweight a week kept lean mass that faster loss did not [N5]. Recomposition — muscle up, fat down at once — is
+        documented in beginners and in people returning to training when protein is high and sleep is decent [N4].</p>
     </div>
 
     <div class="panel">
       <h2>How to actually run it</h2>
       <ul class="food-list">
-        <li><b>Weigh yourself daily, judge weekly.</b> Same time, after the toilet, before eating.
-          Compare the 7-day average against last week's — day-to-day swings are water and gut content, not fat.</li>
-        <li><b>If the weekly average hasn't moved in 2-3 weeks</b>, cut 150-200 kcal from carbs or fat.
-          Don't touch protein. Don't cut 500 at once.</li>
-        <li><b>Protein is the non-negotiable.</b> In a deficit it is what keeps the muscle you're training for.
-          Hit it before you worry about anything else on this page.</li>
-        <li><b>Anchor each meal on a protein source</b>: eggs, dairy, chicken, fish, lean beef, legumes, tofu.
-          Build the rest of the plate around it.</li>
-        <li><b>Eat most of your carbs around training.</b> Not magic — it just means the hard sessions feel better,
-          and better sessions are the actual driver.</li>
-        <li><b>Fibre and volume kill hunger:</b> vegetables, fruit, legumes, whole grains. A deficit you can't
-          sustain is a deficit that doesn't count.</li>
-        <li><b>Sleep 7-9 hours.</b> Short sleep in a deficit shifts the weight you lose away from fat and toward
-          muscle — it undoes exactly what you're training for.</li>
+        <li><b>Weigh yourself daily, judge weekly.</b> Same time, after the toilet, before eating. Compare the 7-day
+          average against last week's — day-to-day swings are water and gut content, not fat.</li>
+        <li><b>If the weekly average hasn't moved in 2-3 weeks</b>, cut 150-200 kcal from carbs or fat. Don't touch
+          protein. Don't cut 500 at once.</li>
+        <li><b>Hit the protein before you worry about anything else</b> on this page. Spread it: about ${r ? r.perMeal : "30-40"} g
+          per meal across 3-5 meals, which is where the muscle-building response per meal saturates [N3].</li>
+        <li><b>Eat most of your carbs around training.</b> Not magic — the hard sessions just feel better, and better
+          sessions are the actual driver.</li>
+        <li><b>Sleep 7-9 hours.</b> In a diet trial, people sleeping 5.5 hours instead of 8.5 lost the same weight but
+          55% less of it as fat and 60% more as lean mass [N6]. Short sleep undoes exactly what you are training for.</li>
+        <li><b>Keep it boring.</b> The same four breakfasts and six dinners on rotation is not a failure of imagination;
+          it is what every long-term success story on r/loseit describes [R3].</li>
       </ul>
       <div class="warn">
-        These are general training and nutrition guidelines, not medical advice. If you have a health condition,
-        take medication, or the numbers here would put you under roughly 1500 kcal a day, talk to a doctor or a
-        registered dietitian before following them.
+        These are general training and nutrition guidelines, not medical advice. If you have a health condition, take
+        medication, or the numbers here would put you under roughly 1500 kcal a day, talk to a doctor or a registered
+        dietitian before following them.
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Sources</h2>
+      <div class="srcs">
+        <p><b>Studies.</b>
+        [N1] Morton et al. — protein and muscle gain, meta-analysis of 49 trials, <i>Br J Sports Med</i> 2018.
+        [N2] Helms et al. — protein during caloric restriction in lean athletes, <i>IJSNEM</i> 2014.
+        [N3] Schoenfeld &amp; Aragon — protein per meal, <i>JISSN</i> 2018.
+        [N4] Barakat et al. — body recomposition, <i>Strength Cond J</i> 2020.
+        [N5] Garthe et al. — slow vs fast weight loss in athletes, <i>IJSNEM</i> 2011.
+        [N6] Nedeltcheva et al. — sleep restriction during a diet, <i>Ann Intern Med</i> 2010.
+        [N7] Conlin et al. — flexible vs rigid dieting, randomised trial, <i>JISSN</i> 2021.
+        [N8] Bouvard et al., IARC Monographs vol. 114 — carcinogenicity of processed meat, <i>Lancet Oncol</i> 2015.
+        [N9] Johnston et al. (NutriRECS) — red and processed meat guideline, <i>Ann Intern Med</i> 2019.
+        [N10] Veronese et al. — fried potato consumption and mortality, 8-year cohort, <i>Am J Clin Nutr</i> 2017.
+        [N11] Holt et al. — a satiety index of common foods, <i>Eur J Clin Nutr</i> 1995.
+        [N12] Guyenet — whole fresh fruit, energy intake and adiposity, systematic review, <i>Front Nutr</i> 2019.
+        [N13] Aune et al. — fruit and vegetable intake and mortality, dose-response meta-analysis, <i>Int J Epidemiol</i> 2017.
+        [N14] Sievert et al. — effect of breakfast on weight, meta-analysis of trials, <i>BMJ</i> 2019.
+        [N15] Leidy et al. — higher-protein breakfast, appetite and evening snacking, <i>Am J Clin Nutr</i> 2013.
+        [N16] Drouin-Chartier et al. — egg consumption and cardiovascular disease, <i>BMJ</i> 2020.
+        [N17] Ello-Martin et al. — dietary energy density, year-long weight-loss trial, <i>Am J Clin Nutr</i> 2007.
+        [N18] DiMeglio &amp; Mattes — liquid vs solid carbohydrate and body weight, <i>Int J Obes</i> 2000.
+        [N19] Parr et al. — alcohol and post-exercise muscle protein synthesis, <i>PLoS ONE</i> 2014.
+        [N20] Estruch et al. (PREDIMED) — Mediterranean diet with olive oil or nuts, <i>N Engl J Med</i> 2018.
+        [N21] Jenkins et al. — very-high-fibre fruit, vegetable and nut diet, <i>Metabolism</i> 2001.
+        [A] Precision Nutrition hand-portion method; Helms, Morgan &amp; Valdez — <i>The Muscle &amp; Strength Pyramid: Nutrition</i>, 2019.</p>
+        <p><b>What people say (Reddit, read September 2026).</b>
+        [R1] <a href="https://www.reddit.com/r/loseit/comments/1hxjhnj/" target="_blank" rel="noopener">r/loseit — quick, cheap savoury breakfasts that aren't eggs</a>.
+        [R2] <a href="https://www.reddit.com/r/loseit/comments/1ny79vc/" target="_blank" rel="noopener">r/loseit — high-protein breakfast</a>.
+        [R3] <a href="https://www.reddit.com/r/loseit/comments/1thvuj3/" target="_blank" rel="noopener">r/loseit — habits I do now vs. when I was 70 pounds heavier</a>.
+        [R4] <a href="https://www.reddit.com/r/EatCheapAndHealthy/comments/1uj0hds/" target="_blank" rel="noopener">r/EatCheapAndHealthy — extremely simple, lazy one-pot protein meals</a>.
+        [R5] <a href="https://www.reddit.com/r/loseit/comments/uyqj23/" target="_blank" rel="noopener">r/loseit — sick of pretending junk food doesn't taste good</a>.
+        [R6] <a href="https://www.reddit.com/r/nutrition/comments/1atlp2f/" target="_blank" rel="noopener">r/nutrition — is there a recommended amount of fruit sugar per day?</a>
+        [R7] <a href="https://www.reddit.com/r/nutrition/comments/1elrqov/" target="_blank" rel="noopener">r/nutrition — how bad are deli meats?</a></p>
       </div>
     </div>`;
   ["n-sex", "n-age", "n-height", "n-weight", "n-act", "n-goal"].forEach(id => {
@@ -1553,11 +1773,9 @@ function saveNutrition() {
     const [v, u] = vals[i].split("|");
     el.innerHTML = `${v}<small> ${u}</small>`;
   });
-  const notes = document.querySelectorAll(".panel .note");
-  if (notes[0]) notes[0].innerHTML = rateNote(r);
-  if (notes[1]) notes[1].innerHTML = splitNote(r);
-  const sub = document.querySelectorAll(".panel .sub")[1];
-  if (sub) sub.innerHTML = tdeeNote(r);
+  $("#rate-note").innerHTML = rateNote(r);
+  $("#split-note").innerHTML = splitNote(r);
+  $("#tdee-note").innerHTML = tdeeNote(r);
 }
 
 /* =====================================================================
