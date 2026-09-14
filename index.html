@@ -141,10 +141,11 @@
     display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 14px; align-items: start;
   }
   .card-text { min-width: 0; }
-  .gear, .cues, .prog, .card-foot { grid-column: 1 / -1; }
+  .cues, .prog, .card-foot { grid-column: 1 / -1; }
+  .visual { grid-column: 2; grid-row: 1; }
   @media (min-width: 560px) {
-    .gear, .cues, .prog, .card-foot { grid-column: 1; }
-    .map { grid-column: 2; grid-row: 1 / span 5; }
+    .cues, .prog, .card-foot { grid-column: 1; }
+    .visual { grid-row: 1 / span 4; }
   }
   .num { color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: .12em; }
   .name { margin: 2px 0 0; font-size: 18.5px; font-weight: 700; line-height: 1.2; letter-spacing: -.01em; }
@@ -153,8 +154,31 @@
     background: var(--surface-2); font-weight: 500; font-size: 14px; font-variant-numeric: tabular-nums;
   }
   .rir { margin-left: 6px; font-size: 12.5px; color: var(--muted); }
-  .map { width: 118px; }
+  .visual { width: 112px; display: flex; flex-direction: column; gap: 8px; }
   .map svg { display: block; width: 100%; height: auto; }
+  /* on phones the muscle map sits inside the cue list, text wrapping around it;
+     on wider screens it stacks under the figure in the right-hand column */
+  .visual .map { display: none; }
+  .cues .map-m { float: right; width: 96px; margin: 2px 0 6px 12px; padding: 0; }
+  .cues .map-m::before { display: none; }
+  @media (min-width: 560px) {
+    .visual .map { display: block; }
+    .cues .map-m { display: none; }
+  }
+
+  /* animated figure */
+  .anim { border-radius: 12px; background: var(--surface-2); overflow: hidden; aspect-ratio: 1; }
+  .anim svg { display: block; width: 100%; height: auto; }
+  .anim .fl { stroke: var(--line); stroke-width: 1.2; }
+  .anim .prop { fill: var(--surface); stroke: var(--line); stroke-width: 1; }
+  .anim .post { fill: var(--muted); }
+  .anim .post-l { stroke: var(--muted); stroke-width: 1.6; stroke-linecap: round; }
+  .anim .lm, .anim .am, .anim .tor { fill: none; stroke: var(--text); stroke-width: 4.2; stroke-linecap: round; stroke-linejoin: round; }
+  .anim .far { opacity: .32; }
+  .anim .hd, .anim .back { fill: var(--text); }
+  .anim .db line { stroke: var(--red); stroke-width: 1.8; stroke-linecap: round; }
+  .anim .db rect, .anim .db circle { fill: var(--red); }
+  .anim .db .bore { fill: var(--surface-2); }
   .map .b { fill: var(--map-fill); stroke: var(--red-line); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
   .map .r { fill: var(--map-fill); stroke: var(--red-line); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
   .map .r.p { fill: var(--red); stroke: var(--red); }
@@ -267,7 +291,7 @@
   @media (min-width: 560px) {
     body { font-size: 15.5px; }
     .card { padding: 16px 18px 14px; }
-    .map { width: 134px; }
+    .visual { width: 134px; }
     .name { font-size: 20px; }
   }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
@@ -292,51 +316,73 @@
   <nav class="days" id="days" aria-label="Days"></nav>
   <main id="main"></main>
   <details class="rules">
-    <summary>Plan rules &amp; the reasoning behind them</summary>
+    <summary>Plan rules &amp; the evidence behind them</summary>
     <ul>
-      <li><b>Leave 1-2 reps in reserve on every working set.</b> Stopping 1-2 reps short of failure drives
-          essentially the same hypertrophy as going to failure, with far less fatigue — which matters when you
-          train 5 days a week.</li>
+      <li><b>Simple lifts, done hard, beat clever ones done badly.</b> Every exercise here is a basic pattern —
+          squat, hinge, lunge, push, pull and a few isolation moves — the same ones beginners have built muscle
+          with for decades. Push-ups and dumbbell presses grow the same muscle as their gym versions when the set
+          ends close to failure [3, 4]. Pistol squats, Nordic curls, sissy squats and archer push-ups came out
+          of this plan: they are skills with a long learning curve, not better exercises, and they were the
+          wrong tools for where you are now.</li>
+      <li><b>Legs twice a week, but short.</b> Ten or more hard sets per muscle per week grows more than fewer
+          [2]; once that weekly volume is fixed, splitting it over two days rather than one makes little
+          difference by itself [1, 7] — what two days buy you is set quality, because sets 9-12 of a single
+          leg session are junk. So the lower body gets about 24 sets a week in two four-lift sessions of
+          35-40 minutes. One long leg day would be the same work with worse sets.</li>
+      <li><b>Leave 1-2 reps in reserve on every working set.</b> Sets stopped 1-2 reps short of failure build
+          essentially the same muscle as sets taken to failure, with far less fatigue to carry into the next
+          day [5]. The exception is the negatives, which are meant to be ground out.</li>
       <li><b>Hit the top of the rep range on every set → make the exercise harder</b>, don't add reps. Each card
-          tells you how. With 10 kg dumbbells you will run out of load long before you run out of stimulus, so
-          progression here is mechanical: leverage, tempo, range and pauses.</li>
-      <li><b>Rest longer than feels necessary.</b> 2-3 min on legs, pull-ups and presses; 60-90 s on isolation
-          work. Short rests cost you reps, and lost reps cost you growth — longer rests produce more hypertrophy
-          and strength, not less.</li>
-      <li><b>Light loads still build muscle</b> — as long as the set ends close to failure. That is the whole
-          basis of this program: your 10 kg dumbbells are plenty, provided you take the hard sets seriously.</li>
-      <li><b>Two sessions per muscle group per week.</b> Training a muscle twice weekly beats once weekly when
-          total volume is equal, which is why legs land on Monday and Friday rather than in one long session.</li>
-      <li><b>Every exercise scales down.</b> Where a card says <i>Scale it down</i>, that version is not a lesser
-          exercise — it is the right one until it isn't. Doing the easier variation properly beats grinding
-          through the hard one badly.</li>
-      <li><b>Your first pull-up is a project, not a set.</b> You can't do one yet, so Wednesday doesn't ask you to.
-          The negatives are what build it: getting to the top by any means and fighting the way down trains the
-          same muscles at loads you can't reach any other way. Rows add the volume, scapular pull-ups teach the
-          starting position, and losing bodyweight quietly makes every rep easier — that last one is doing more
-          work than people expect. Expect months, not weeks.</li>
-      <li><b>Core is trained like everything else:</b> close to failure, with progression. Three days a week,
-          covering the three jobs it actually has — resisting extension (dead bug, plank), resisting side-bend
-          and rotation (side plank, bicycle), and flexing the spine under load (knee raises, reverse crunch).
-          Endless easy crunches are not training.</li>
-      <li><b>Slept badly? Don't cancel — shrink.</b> One rough night doesn't erase your strength, but it does cut
-          the volume you can handle and makes everything feel heavier. Do the first two exercises of the session
-          at full effort and stop there. That protects most of the stimulus at a fraction of the fatigue, and
-          keeps the habit. Cancel only if you're ill or genuinely wrecked.</li>
+          says how. Light loads build muscle as long as the set ends near failure [3], so with 10 kg dumbbells
+          progression is mechanical: leverage, tempo, range and pauses.</li>
+      <li><b>Rest longer than feels necessary.</b> 2-3 min on lifts, 60-90 s on isolation work. Three-minute
+          rests produced more muscle and strength than one-minute rests [6]. Short rests cost reps, and lost
+          reps cost growth.</li>
+      <li><b>Every exercise scales down.</b> Where a card says <i>Scale it down</i>, that version is the right
+          one until it isn't. Doing the easier variation properly beats grinding through the hard one badly.</li>
+      <li><b>Your first pull-up is a project, not a set.</b> Rows supply the volume; negatives load the exact
+          muscles at intensities you can't reach any other way; losing bodyweight makes every rep easier. That
+          rows-then-negatives ladder is how the best-known bodyweight programmes teach the pull-up [B]. Expect
+          months, not weeks.</li>
+      <li><b>Core is trained like everything else:</b> close to failure, with progression, three days a week,
+          covering its three real jobs — resisting extension (dead bug, plank), resisting side-bend and rotation
+          (side plank, bicycle) and flexing the spine under load (knee raise, reverse crunch) [12].</li>
+      <li><b>Slept badly? Don't cancel — shrink.</b> Do the first two exercises at full effort and stop. That
+          part is coaching judgement rather than a trial result, but the direction is well supported: short
+          sleep while dieting shifts what you lose away from fat and toward muscle [13], so protecting sleep
+          matters more than finishing a session.</li>
       <li><b>Never shift the whole week to catch up.</b> A missed session is gone. Pick the week back up on the
-          day it actually is — sliding everything forward just eats your rest days and pushes the problem into
-          next week.</li>
-      <li><b>First two weeks:</b> do 3 sets where it says 4. Start below your capacity so you have somewhere to go.</li>
-      <li><b>Every 6-8 weeks, take a lighter week:</b> half the sets, same effort per set. Fatigue masks fitness;
-          you often look stronger the week after backing off.</li>
-      <li><b>Thursday and Sunday are training too.</b> Growth happens between sessions, not during them. Walk,
-          sleep, eat. If you feel wrecked on Saturday, that session is the one to cut.</li>
+          day it actually is — sliding everything forward eats your rest days and pushes the problem into next
+          week.</li>
+      <li><b>Football, running or cycling on rest days is fine.</b> Moderate cardio alongside lifting does not
+          blunt muscle growth [11], and it helps the deficit. Just don't let it replace a lifting session.</li>
+      <li><b>First two weeks: do 2 sets where it says 3.</b> Start below your capacity so you have somewhere
+          to go.</li>
+      <li><b>Every 6-8 weeks, take a lighter week:</b> half the sets, same effort per set. Practitioner
+          consensus more than trial evidence [A] — but fatigue masks fitness, and people routinely look
+          stronger the week after backing off.</li>
     </ul>
     <div class="refs">
-      Evidence base: Schoenfeld, Ogborn &amp; Krieger, <i>Sports Med</i> 2016 (frequency) and <i>J Sports Sci</i> 2017
-      (volume dose-response); Schoenfeld et al., <i>J Strength Cond Res</i> 2017 (low vs high load) and 2016 (rest
-      intervals); Morton et al., <i>Br J Sports Med</i> 2018 (protein); Helms et al., <i>IJSNEM</i> 2014 (protein in
-      a deficit).
+      <b>Evidence.</b> Where a rule rests on coaching consensus rather than trials, it says so above.<br>
+      [1] Schoenfeld, Grgic &amp; Krieger — training frequency with volume equated, <i>J Sports Sci</i> 2019.
+      [2] Schoenfeld, Ogborn &amp; Krieger — weekly volume dose-response, <i>J Sports Sci</i> 2017.
+      [3] Schoenfeld, Grgic, Ogborn &amp; Krieger — low- vs high-load training, <i>J Strength Cond Res</i> 2017.
+      [4] Kotarsky et al. — progressive push-ups vs bench press, <i>J Strength Cond Res</i> 2018;
+          Kikuchi &amp; Nakazato — push-ups vs low-load bench press, <i>J Exerc Sci Fit</i> 2017.
+      [5] Refalo et al. — proximity to failure and hypertrophy, <i>Sports Med</i> 2023.
+      [6] Schoenfeld et al. — 1- vs 3-minute rest intervals, <i>J Strength Cond Res</i> 2016.
+      [7] Schoenfeld, Ogborn &amp; Krieger — training frequency, <i>Sports Med</i> 2016.
+      [8] Morton et al. — protein and muscle gain, <i>Br J Sports Med</i> 2018.
+      [9] Helms et al. — protein in a deficit, <i>IJSNEM</i> 2014.
+      [10] Barakat et al. — body recomposition, <i>Strength Cond J</i> 2020.
+      [11] Schumann et al. — concurrent aerobic and strength training, <i>Sports Med</i> 2022.
+      [12] McGill — core training, <i>Strength Cond J</i> 2010.
+      [13] Nedeltcheva et al. — sleep restriction while dieting, <i>Ann Intern Med</i> 2010.
+      [14] Garthe et al. — rate of weight loss and lean mass, <i>IJSNEM</i> 2011.
+      [15] Schoenfeld &amp; Aragon — protein per meal, <i>JISSN</i> 2018.
+      [A] Helms, Morgan &amp; Valdez — <i>The Muscle &amp; Strength Pyramid: Training</i>, 2nd ed., 2019.
+      [B] r/bodyweightfitness Recommended Routine — push-up, row and pull-up progressions.
+      The nutrition page rests on [8] [9] [10] [13] [14] [15].
     </div>
   </details>
 </div>
@@ -374,8 +420,39 @@ const GEAR = {
    clip: [start, end] in seconds — the demo segment of the video
    ===================================================================== */
 const EX = {
+  /* ---------- lower body ---------- */
+  goblet: {
+    name: "Goblet squat", scheme: "3 × 10-15", rir: "1-2 RIR",
+    muscles: { p: ["quads", "glutes"], s: ["adductors", "abs"] },
+    cues: [
+      "One dumbbell held upright against the chest, elbows pointing down.",
+      "Feet shoulder-width, toes a little out. Sit down between the heels with the chest tall.",
+      "As deep as the heels stay down and the back stays flat — elbows brush the inside of the knees.",
+      "3 s down, then drive up through the whole foot."
+    ],
+    alt: "Squat to the couch: sit back until you touch it, stand up. Same depth every rep.",
+    prog: "At the cap → both dumbbells at the shoulders, then a 2 s pause at the bottom, then 1½ reps (bottom, halfway up, back down, up).",
+    gear: ["dumbbells:1"],
+    clip: [0, 11],
+    video: "pEGfGwp6IEA"
+  },
+  rdl: {
+    name: "Dumbbell Romanian deadlift", scheme: "3 × 10-12", rir: "1-2 RIR",
+    muscles: { p: ["hamstrings", "glutes"], s: ["lower_back", "forearms"] },
+    cues: [
+      "Dumbbells in front of the thighs, knees slightly bent and locked there.",
+      "Push the hips back; the dumbbells slide down the legs, back flat, eyes on the floor a few metres ahead.",
+      "Stop when the hamstrings pull hard — usually just below the knee. No rounding.",
+      "Stand up by driving the hips forward and squeezing the glutes."
+    ],
+    alt: "Stop at the kneecap until the back stays flat through the whole set.",
+    prog: "At the cap → 3 s descent, then a 2 s pause at the bottom. Friday's single-leg version is the next step.",
+    gear: ["dumbbells:2"],
+    clip: [18, 33],
+    video: "wZCcnXWZ9kw"
+  },
   bulgarian: {
-    name: "Bulgarian split squat", scheme: "4 × 8-12 / leg", rir: "1-2 RIR",
+    name: "Bulgarian split squat", scheme: "3 × 8-12 / leg", rir: "1-2 RIR",
     muscles: { p: ["quads", "glutes"], s: ["hamstrings", "adductors"] },
     cues: [
       "Rear foot on the couch, front foot a long stride forward.",
@@ -389,19 +466,35 @@ const EX = {
     clip: [1, 15],
     video: "G-C3lD_QeGc"
   },
-  stepup: {
-    name: "Step-up", scheme: "3 × 10-12 / leg", rir: "1-2 RIR",
-    muscles: { p: ["quads", "glutes"], s: ["hamstrings", "calves"] },
+  lunge: {
+    name: "Reverse lunge", scheme: "3 × 10-12 / leg", rir: "1-2 RIR",
+    muscles: { p: ["quads", "glutes"], s: ["hamstrings", "adductors"] },
     cues: [
-      "Use a high stair — skip one step. Whole foot on the top step.",
-      "Push only with the top leg; the bottom leg does not help.",
-      "Lower slowly and touch the floor without unloading.",
-      "Torso upright, eyes forward."
+      "Long step back; the rear knee drops close to the floor.",
+      "Front shin vertical, weight through the front heel.",
+      "Come back by pushing with the front leg; the rear leg doesn't drive.",
+      "Torso upright, dumbbells still."
     ],
-    prog: "At the cap → 1 s pause at the top, then a higher step, then a slower descent.",
-    gear: ["stairs", "dumbbells:2"],
-    clip: [0, 15],
-    video: "F8ovfzFrHvo"
+    alt: "Bodyweight only, hand on the wall for balance.",
+    prog: "At the cap → front foot on a step (deficit lunge), then a 2 s pause at the bottom.",
+    gear: ["dumbbells:2"],
+    clip: [0, 9],
+    video: "c1OSIZu_2AI"
+  },
+  hipthrust: {
+    name: "Single-leg hip thrust", scheme: "3 × 12-15 / leg", rir: "1-2 RIR",
+    muscles: { p: ["glutes"], s: ["hamstrings", "lower_back"] },
+    cues: [
+      "Shoulder blades on the edge of the couch, planted foot under your knee.",
+      "Dumbbell across the hips; the other leg bent in the air.",
+      "Drive up to a shoulder-to-knee line and squeeze the glute for 1-2 s.",
+      "Chin tucked, no arching through the lower back."
+    ],
+    alt: "Both feet down, dumbbell on the hips — the two-leg hip thrust.",
+    prog: "At the cap → 3 s pause at the top, then a 3 s descent.",
+    gear: ["couch", "dumbbells:1"],
+    clip: [0, 12],
+    video: "PnRVOsxAeXI"
   },
   sl_rdl: {
     name: "Single-leg Romanian deadlift", scheme: "3 × 10-12 / leg", rir: "1-2 RIR",
@@ -412,27 +505,14 @@ const EX = {
       "Stop when you feel the hamstring stretch — no further.",
       "Dumbbell in the hand opposite the standing leg."
     ],
+    alt: "Keep the toes of the free leg on the floor behind you (kickstand) until the balance is there.",
     prog: "At the cap → both dumbbells, then a 2 s pause at the bottom.",
     gear: ["dumbbells:1"],
     clip: [0, 12],
     video: "lKawW9xK3xU"
   },
-  nordic: {
-    name: "Nordic curl (lowering only)", scheme: "3 × 5-8", rir: "to technical failure",
-    muscles: { p: ["hamstrings"], s: ["glutes", "calves", "lower_back"] },
-    cues: [
-      "Kneel on a cushion with your feet wedged under the couch.",
-      "Hips extended: straight line from knees to head.",
-      "Lower as slowly as you can resist, then catch yourself with your hands.",
-      "Push back up with your arms — don't pull with the hamstrings."
-    ],
-    prog: "Count the descent. Once you control 5-6 s, start assisting the way up less.",
-    gear: ["cushion", "couch"],
-    clip: [0, 10],
-    video: "8yRzzuQzoRo"
-  },
   calf: {
-    name: "Single-leg calf raise", scheme: "4 × 15-20 / leg", rir: "0-1 RIR",
+    name: "Single-leg calf raise", scheme: "3 × 15-20 / leg", rir: "0-1 RIR",
     muscles: { p: ["calves"], s: [] },
     cues: [
       "Ball of the foot on the edge of the step, heel free.",
@@ -440,188 +520,46 @@ const EX = {
       "Rise as high as you can and squeeze 1 s at the top. No bouncing.",
       "Hand on the wall for balance only."
     ],
+    alt: "Both feet at once, same rules.",
     prog: "At the cap → dumbbell in the hand on the working side.",
     gear: ["step", "wall"],
     clip: [0, 8],
     video: "4sfhF84K4Sc"
   },
-  pistol: {
-    name: "Assisted pistol squat", scheme: "4 × 6-10 / leg", rir: "1-2 RIR",
-    muscles: { p: ["quads", "glutes"], s: ["hamstrings", "calves", "abs"] },
-    cues: [
-      "One hand on the doorframe, the other leg straight out in front.",
-      "Descend slowly and deep. Use the minimum assistance from the hand.",
-      "Let the knee travel forward, heel glued to the floor.",
-      "Depth comes with practice — don't force it."
-    ],
-    alt: "Bulgarian split squat with a 2 s pause at the bottom until the depth is there.",
-    prog: "At the cap → less hand assistance, then a dumbbell held at the chest.",
-    gear: ["doorframe"],
-    clip: [0, 7],
-    video: "xWl2rJ2cOvk"
-  },
-  hipthrust: {
-    name: "Single-leg hip thrust", scheme: "4 × 12-15 / leg", rir: "1-2 RIR",
-    muscles: { p: ["glutes"], s: ["hamstrings", "lower_back"] },
-    cues: [
-      "Shoulder blades on the edge of the couch, planted foot under your knee.",
-      "Dumbbell across the hips; the other leg bent in the air.",
-      "Drive up to a shoulder-to-knee line and squeeze the glute for 1-2 s.",
-      "Chin tucked, no arching through the lower back."
-    ],
-    prog: "At the cap → 3 s pause at the top, then a 3 s descent.",
-    gear: ["couch", "dumbbells:1"],
-    clip: [0, 12],
-    video: "PnRVOsxAeXI"
-  },
-  lunge: {
-    name: "Reverse lunge", scheme: "3 × 10-12 / leg", rir: "1-2 RIR",
-    muscles: { p: ["quads", "glutes"], s: ["hamstrings", "adductors"] },
-    cues: [
-      "Long step back; the rear knee drops close to the floor.",
-      "Front shin vertical, weight through the front heel.",
-      "Come back by pushing with the front leg; the rear leg doesn't drive.",
-      "Torso upright, dumbbells still."
-    ],
-    prog: "At the cap → front foot on a step (deficit lunge).",
-    gear: ["dumbbells:2"],
-    clip: [0, 9],
-    video: "c1OSIZu_2AI"
-  },
-  sissy: {
-    name: "Sissy squat", scheme: "3 × 8-12", rir: "1-2 RIR",
-    muscles: { p: ["quads"], s: ["abs"] },
-    cues: [
-      "Feet hip-width, one hand on the doorframe.",
-      "Rise onto your toes: knees travel forward, torso leans back, in one straight line.",
-      "Hips stay extended — you are a plank from knees to shoulders.",
-      "Descend as far as you control; rise by squeezing the quads."
-    ],
-    alt: "Knees complaining? Swap in jump squats, 3 × 8-12.",
-    prog: "At the cap → less hand assistance, then more depth.",
-    gear: ["doorframe"],
-    clip: [3, 23],
-    video: "FTmbNjUu7CI"
-  },
-  knee_raise: {
-    name: "Hanging knee raise", scheme: "3 × 8-15", rir: "1-2 RIR",
-    muscles: { p: ["abs"], s: ["obliques", "forearms"] },
-    cues: [
-      "Hang from the bar, shoulders active (away from your ears).",
-      "Raise the knees to at least hip height, curling the pelvis up at the top.",
-      "Lower over 2-3 s and kill the swing before the next rep.",
-      "No momentum: if you start swinging, the set is over."
-    ],
-    alt: "Grip giving out first? Lying knee tuck on the floor, 3 × 12-20.",
-    prog: "At the cap → 2 s pause at the top, then straight legs to horizontal.",
-    gear: ["bar"],
-    clip: [0, 9],
-    video: "RD_A-Z15ER4"
-  },
-  reverse_crunch: {
-    name: "Reverse crunch", scheme: "3 × 12-20", rir: "0-1 RIR",
-    muscles: { p: ["abs"], s: ["obliques"] },
-    cues: [
-      "On your back, hands by your sides, knees bent over the hips.",
-      "Curl the pelvis toward the ribs — lift the hips, don't just swing the legs.",
-      "The lower back presses into the floor the whole time.",
-      "Lower slowly over 2-3 s. Small range, done properly, beats big range with momentum."
-    ],
-    prog: "At the cap → slower descent, then legs straighter.",
-    gear: ["none"],
-    clip: [0, 15],
-    video: "N5CHqtgiylc"
-  },
-  dead_bug: {
-    name: "Dead bug", scheme: "3 × 8-12 / side", rir: "—",
-    muscles: { p: ["abs"], s: ["obliques", "lower_back"] },
-    cues: [
-      "On your back, arms straight up, knees bent over the hips.",
-      "Press the lower back flat into the floor and keep it there — that is the exercise.",
-      "Extend the opposite arm and leg away, slowly, without letting the back arch.",
-      "Return and switch. Breathe out as you extend."
-    ],
-    alt: "Back keeps arching? Move only the legs, keeping both arms up.",
-    prog: "At the cap → slow it down to 4 s per rep, then hover the heel closer to the floor.",
-    gear: ["none"],
-    clip: [2, 15],
-    video: "jbWmbhElf3Q"
-  },
-  side_plank: {
-    name: "Side plank", scheme: "3 × 20-45 s / side", rir: "—",
-    muscles: { p: ["obliques"], s: ["abs", "glutes"] },
-    cues: [
-      "Elbow under the shoulder, body in a straight line from ankle to head.",
-      "Lift the hips and hold them up — no sagging, no rolling forward.",
-      "Squeeze the glutes; look straight ahead.",
-      "Stop the set when the hips start dropping, not when the timer says so."
-    ],
-    alt: "Knees bent, resting on the bottom knee instead of the feet.",
-    prog: "At the cap (45 s) → top leg raised, or a dumbbell on the hip.",
-    gear: ["none"],
-    clip: [20, 39],
-    video: "kiVFaQAyZAE"
-  },
-  plank: {
-    name: "Front plank", scheme: "3 × 30-60 s", rir: "—",
-    muscles: { p: ["abs"], s: ["obliques", "front_delt"] },
-    cues: [
-      "Elbows under the shoulders, forearms flat.",
-      "Straight line from heels to head: squeeze glutes, tuck the pelvis slightly.",
-      "Brace as if bracing for a punch. This is a hard 30 s, not a comfortable 3 minutes.",
-      "End the set when the lower back starts to sag."
-    ],
-    prog: "At the cap (60 s) → hollow body hold, or lift one foot a few centimetres.",
-    gear: ["none"],
-    clip: [0, 9],
-    video: "Qn0pD5VBrQQ"
-  },
-  bicycle: {
-    name: "Bicycle crunch", scheme: "3 × 15-20 / side", rir: "0-1 RIR",
-    muscles: { p: ["obliques"], s: ["abs"] },
-    cues: [
-      "Hands beside your ears — don't pull on your neck.",
-      "Bring the shoulder toward the opposite knee, rotating through the ribs.",
-      "Extend the other leg long and low, without arching the back.",
-      "Slow and deliberate. Speed here just means momentum."
-    ],
-    prog: "At the cap → pause 1 s in each rotation.",
-    gear: ["none"],
-    clip: [0, 10],
-    video: "cbKIDZ_XyjY"
-  },
-  pushup_elev: {
-    name: "Feet-elevated push-up on handles", scheme: "4 × 8-15", rir: "1-2 RIR",
+
+  /* ---------- push ---------- */
+  pushup: {
+    name: "Push-up", scheme: "4 × 8-15", rir: "1-2 RIR",
     muscles: { p: ["chest", "front_delt"], s: ["triceps", "abs"] },
     cues: [
-      "Feet on the bed or couch, hands on the handles at shoulder width.",
+      "Hands just wider than the shoulders, fingers forward, body one straight line.",
+      "Elbows at about 45° to the torso — not flared out to 90°.",
+      "Chest to a fist's height from the floor. 2 s down.",
+      "Lock out at the top without letting the hips sag or pike."
+    ],
+    alt: "Hands on the couch or a table (incline push-up). Lower the surface as you get stronger.",
+    prog: "At the cap (15) → feet on the couch (Saturday's version), then a backpack with a few books in it.",
+    gear: ["none"],
+    clip: [0, 14],
+    video: "WDIpL0pjun0"
+  },
+  pushup_elev: {
+    name: "Feet-elevated push-up", scheme: "3 × 8-15", rir: "1-2 RIR",
+    muscles: { p: ["chest", "front_delt"], s: ["triceps", "abs"] },
+    cues: [
+      "Feet on the bed or couch, hands on the handles (or the floor) at shoulder width.",
       "Body in a straight line, glutes and abs braced.",
       "Lower your chest below the handles, elbows at about 45°.",
       "Lock out at the top. 2 s down."
     ],
-    alt: "Feet on the floor, or hands on the couch (incline push-up).",
-    prog: "At the cap (15) → archer push-ups.",
+    alt: "Feet on the floor — the plain push-up.",
+    prog: "At the cap (15) → a backpack with books, or a 2 s pause at the bottom.",
     gear: ["handles", "bed"],
     clip: [0, 11],
     video: "yvBlNJCvTOI"
   },
-  pike: {
-    name: "Pike push-up, feet elevated", scheme: "4 × 6-10", rir: "1-2 RIR",
-    muscles: { p: ["front_delt", "side_delt"], s: ["triceps", "traps"] },
-    cues: [
-      "Feet on the bed, hips high: an upside-down V.",
-      "Hands slightly wider than the shoulders, fingers forward.",
-      "Lower your head until it nearly touches the floor in front of your hands.",
-      "Press to a lockout; the hips don't drop."
-    ],
-    alt: "Pike push-up with both feet on the floor.",
-    prog: "At the cap → higher feet, then wall-supported handstand push-ups.",
-    gear: ["bed"],
-    clip: [2, 20],
-    video: "OQAZoUPoPUw"
-  },
   ohp: {
-    name: "Dumbbell overhead press", scheme: "3 × 10-15", rir: "1-2 RIR",
+    name: "Dumbbell overhead press", scheme: "3 × 8-12", rir: "1-2 RIR",
     muscles: { p: ["front_delt", "side_delt"], s: ["triceps", "traps"] },
     cues: [
       "Standing, dumbbells at shoulder height, glutes and abs braced.",
@@ -629,13 +567,28 @@ const EX = {
       "Lower under control to ear height.",
       "If your lower back arches, that's fatigue: end the set."
     ],
+    alt: "Seated on the couch with the back supported.",
     prog: "At the cap → 2 s pause at the bottom, then a 3 s descent.",
     gear: ["dumbbells:2"],
     clip: [0, 13],
     video: "S4l5qt_-iwU"
   },
+  floor_press: {
+    name: "Dumbbell floor press", scheme: "3 × 10-15", rir: "1-2 RIR",
+    muscles: { p: ["chest", "triceps"], s: ["front_delt"] },
+    cues: [
+      "On your back, knees bent, dumbbells over the chest.",
+      "Lower until the upper arms rest on the floor — that is the built-in stop.",
+      "Pause 1 s dead on the floor, then press. Elbows at about 45°.",
+      "Shoulder blades pulled together and down for the whole set."
+    ],
+    prog: "At the cap → 3 s descent and a 2 s dead pause on the floor, then one arm at a time.",
+    gear: ["dumbbells:2"],
+    clip: [0, 12],
+    video: "T0Y3OBF1bNI"
+  },
   lateral: {
-    name: "Lateral raise", scheme: "3 × 15-20", rir: "0-1 RIR",
+    name: "Lateral raise", scheme: "3 × 12-20", rir: "0-1 RIR",
     muscles: { p: ["side_delt"], s: ["traps"] },
     cues: [
       "Elbows slightly bent; raise to shoulder height.",
@@ -647,36 +600,6 @@ const EX = {
     gear: ["dumbbells:2"],
     clip: [1, 18],
     video: "XPPfnSEATJA"
-  },
-  diamond: {
-    name: "Diamond push-up", scheme: "3 × 10-15", rir: "1-2 RIR",
-    muscles: { p: ["triceps"], s: ["chest", "front_delt"] },
-    cues: [
-      "Hands together under the chest forming a diamond.",
-      "Elbows tucked to the ribs on the way down.",
-      "Chest to the hands; press up and lock out.",
-      "Elbows stay tucked all the way up."
-    ],
-    alt: "Hands on the bed or couch (incline diamond push-up).",
-    prog: "At the cap → feet elevated.",
-    gear: ["none"],
-    clip: [0, 9],
-    video: "XtU2VQVuLYs"
-  },
-  archer: {
-    name: "Archer push-up", scheme: "4 × 6-10 / side", rir: "1-2 RIR",
-    muscles: { p: ["chest"], s: ["triceps", "front_delt", "abs"] },
-    cues: [
-      "Hands very wide. Lower toward one hand while the other arm straightens.",
-      "Chest goes to the working hand; torso straight, no twisting.",
-      "Press up with the bent arm. Alternate sides.",
-      "Alternate sides."
-    ],
-    alt: "Regular push-ups with a 2 s pause at the bottom, or hands on the couch.",
-    prog: "At the cap → straighten the support arm further, then elevate the feet.",
-    gear: ["none"],
-    clip: [0, 15],
-    video: "_Qbz_54_9Sw"
   },
   triceps: {
     name: "Overhead triceps extension", scheme: "3 × 12-15", rir: "0-1 RIR",
@@ -692,8 +615,25 @@ const EX = {
     clip: [4, 24],
     video: "YM8iX9BJWjA"
   },
+
+  /* ---------- pull ---------- */
+  inv_row: {
+    name: "Inverted row", scheme: "3 × 8-12", rir: "1-2 RIR",
+    muscles: { p: ["lats", "traps"], s: ["biceps", "rear_delt"] },
+    cues: [
+      "Bar at hip height in the doorframe; hang underneath it with the heels on the floor, body straight.",
+      "Pull until the bar touches your chest; squeeze the shoulder blades together.",
+      "2 s down to straight arms, body rigid as a plank.",
+      "The more horizontal you are, the harder it is — walk the feet forward to progress."
+    ],
+    alt: "Bend the knees and put the feet flat: it takes weight off. No low bar? A sturdy table edge works.",
+    prog: "At the cap → heels on the couch, then a 2 s pause at the top.",
+    gear: ["bar"],
+    clip: [0, 13],
+    video: "XrH-Kq_Oek0"
+  },
   neg_pullup: {
-    name: "Negative pull-up", scheme: "4 × 3-5", rir: "to technical failure",
+    name: "Negative pull-up", scheme: "3 × 3-5", rir: "to technical failure",
     muscles: { p: ["lats"], s: ["biceps", "forearms", "traps"] },
     cues: [
       "Get your chin over the bar first: step up from a chair, or jump.",
@@ -702,57 +642,13 @@ const EX = {
       "Step back up. The lowering is the entire exercise; you never pull."
     ],
     alt: "Can't control 3 s yet? Keep a toe on the chair to bleed off some bodyweight.",
-    prog: "Once every rep takes 5 controlled seconds, start trying to pull up out of the bottom.",
+    prog: "Once every rep takes 5 controlled seconds, start trying to pull up out of the bottom with a foot on the chair.",
     gear: ["bar", "step"],
     clip: [0, 14],
     video: "EkpJkHpJXmM"
   },
-  assisted_pullup: {
-    name: "Assisted pull-up", scheme: "3 × 5-8", rir: "1-2 RIR",
-    muscles: { p: ["lats", "biceps"], s: ["forearms", "traps"] },
-    cues: [
-      "Chair or step under the bar; one or both feet resting on it.",
-      "Palms facing you (chin-up grip) — it's the easiest way in.",
-      "Push through the foot only as much as you need. The back does the work.",
-      "Chest to the bar, 2 s down to straight arms."
-    ],
-    prog: "At the cap → one foot instead of two, then just a toe, then nothing.",
-    gear: ["bar", "step"],
-    clip: [0, 24],
-    video: "LdUDEtaufvY"
-  },
-  scap_pullup: {
-    name: "Scapular pull-up", scheme: "2 × 8-10", rir: "—",
-    muscles: { p: ["traps"], s: ["lats", "forearms"] },
-    cues: [
-      "Hang with straight arms; the elbows never bend.",
-      "Rise a few centimetres by depressing the shoulders only (blades down and back).",
-      "1 s pause at the top; return to a relaxed hang.",
-      "This teaches the position every pull-up starts from."
-    ],
-    alt: "Can't hold on long enough? Start with dead hangs, 2 × 20-30 s.",
-    prog: "At the cap → 2 s pause at the top.",
-    gear: ["bar"],
-    clip: [0, 10],
-    video: "vQ9SSWKInv8"
-  },
-  inv_row: {
-    name: "Inverted row, feet elevated", scheme: "4 × 8-15", rir: "1-2 RIR",
-    muscles: { p: ["lats", "traps"], s: ["biceps", "rear_delt"] },
-    cues: [
-      "Bar at hip height in the doorframe; body straight underneath it.",
-      "Heels on the couch to make it harder.",
-      "Pull until the bar touches your chest; squeeze the shoulder blades together.",
-      "2 s down, body rigid as a plank."
-    ],
-    alt: "No low bar? Use a sturdy table edge, or the one-arm row instead.",
-    prog: "At the cap → higher feet, then a 2 s pause at the top.",
-    gear: ["bar", "couch"],
-    clip: [0, 13],
-    video: "XrH-Kq_Oek0"
-  },
   one_arm_row: {
-    name: "One-arm dumbbell row", scheme: "4 × 12-15 / side", rir: "1-2 RIR",
+    name: "One-arm dumbbell row", scheme: "3 × 10-15 / side", rir: "1-2 RIR",
     muscles: { p: ["lats"], s: ["biceps", "traps", "rear_delt"] },
     cues: [
       "Torso almost parallel to the floor, free hand braced on the couch or your knee.",
@@ -760,7 +656,7 @@ const EX = {
       "2 s pause at the top, squeezing the lat.",
       "3 s down to a straight arm."
     ],
-    prog: "At the cap → 3 s pause at the top.",
+    prog: "At the cap → 3 s pause at the top, then a 4 s descent.",
     gear: ["dumbbells:1", "couch"],
     clip: [0, 14],
     video: "Ss8-uaJFzgk"
@@ -806,35 +702,124 @@ const EX = {
     clip: [3, 23],
     video: "0EK90kDkNLU"
   },
+
+  /* ---------- core ---------- */
+  dead_bug: {
+    name: "Dead bug", scheme: "3 × 8-12 / side", rir: "—",
+    muscles: { p: ["abs"], s: ["obliques", "lower_back"] },
+    cues: [
+      "On your back, arms straight up, knees bent over the hips.",
+      "Press the lower back flat into the floor and keep it there — that is the exercise.",
+      "Extend the opposite arm and leg away, slowly, without letting the back arch.",
+      "Return and switch. Breathe out as you extend."
+    ],
+    alt: "Back keeps arching? Move only the legs, keeping both arms up.",
+    prog: "At the cap → slow it down to 4 s per rep, then hover the heel closer to the floor.",
+    gear: ["none"],
+    clip: [2, 15],
+    video: "jbWmbhElf3Q"
+  },
+  side_plank: {
+    name: "Side plank", scheme: "3 × 20-45 s / side", rir: "—",
+    muscles: { p: ["obliques"], s: ["abs", "glutes"] },
+    cues: [
+      "Elbow under the shoulder, body in a straight line from ankle to head.",
+      "Lift the hips and hold them up — no sagging, no rolling forward.",
+      "Squeeze the glutes; look straight ahead.",
+      "Stop the set when the hips start dropping, not when the timer says so."
+    ],
+    alt: "Knees bent, resting on the bottom knee instead of the feet.",
+    prog: "At the cap (45 s) → top leg raised, or a dumbbell on the hip.",
+    gear: ["none"],
+    clip: [20, 39],
+    video: "kiVFaQAyZAE"
+  },
+  plank: {
+    name: "Front plank", scheme: "3 × 30-60 s", rir: "—",
+    muscles: { p: ["abs"], s: ["obliques", "front_delt"] },
+    cues: [
+      "Elbows under the shoulders, forearms flat.",
+      "Straight line from heels to head: squeeze glutes, tuck the pelvis slightly.",
+      "Brace as if bracing for a punch. This is a hard 30 s, not a comfortable 3 minutes.",
+      "End the set when the lower back starts to sag."
+    ],
+    alt: "Knees on the floor, same straight line from knees to head.",
+    prog: "At the cap (60 s) → hollow body hold, or lift one foot a few centimetres.",
+    gear: ["none"],
+    clip: [0, 9],
+    video: "Qn0pD5VBrQQ"
+  },
+  bicycle: {
+    name: "Bicycle crunch", scheme: "3 × 15-20 / side", rir: "0-1 RIR",
+    muscles: { p: ["obliques"], s: ["abs"] },
+    cues: [
+      "Hands beside your ears — don't pull on your neck.",
+      "Bring the shoulder toward the opposite knee, rotating through the ribs.",
+      "Extend the other leg long and low, without arching the back.",
+      "Slow and deliberate. Speed here just means momentum."
+    ],
+    prog: "At the cap → pause 1 s in each rotation.",
+    gear: ["none"],
+    clip: [0, 10],
+    video: "cbKIDZ_XyjY"
+  },
+  knee_raise: {
+    name: "Hanging knee raise", scheme: "3 × 8-15", rir: "1-2 RIR",
+    muscles: { p: ["abs"], s: ["obliques", "forearms"] },
+    cues: [
+      "Hang from the bar, shoulders active (away from your ears).",
+      "Raise the knees to at least hip height, curling the pelvis up at the top.",
+      "Lower over 2-3 s and kill the swing before the next rep.",
+      "No momentum: if you start swinging, the set is over."
+    ],
+    alt: "Grip giving out first? Lying knee tuck on the floor, 3 × 12-20.",
+    prog: "At the cap → 2 s pause at the top, then straight legs to horizontal.",
+    gear: ["bar"],
+    clip: [0, 9],
+    video: "RD_A-Z15ER4"
+  },
+  reverse_crunch: {
+    name: "Reverse crunch", scheme: "3 × 12-20", rir: "0-1 RIR",
+    muscles: { p: ["abs"], s: ["obliques"] },
+    cues: [
+      "On your back, hands by your sides, knees bent over the hips.",
+      "Curl the pelvis toward the ribs — lift the hips, don't just swing the legs.",
+      "The lower back presses into the floor the whole time.",
+      "Lower slowly over 2-3 s. Small range, done properly, beats big range with momentum."
+    ],
+    prog: "At the cap → slower descent, then legs straighter.",
+    gear: ["none"],
+    clip: [0, 15],
+    video: "N5CHqtgiylc"
+  },
 };
 
 /* =====================================================================
    WEEK  (dow: 0 = Sunday … 6 = Saturday)
-   5 training days. Every muscle group is trained twice a week.
+   5 training days. Every muscle group is trained twice a week; the two
+   leg days are deliberately short (four lifts each).
    ===================================================================== */
 const WEEK = [
-  { dow: 1, tab: "Mo", tag: "Legs", title: "Lower A", rest: "2-3 min compounds · 90 s calves",
-    focus: "Quad-dominant. The heaviest session of the week — put it first, when you're fresh.",
-    ex: ["bulgarian", "stepup", "sl_rdl", "nordic", "calf"] },
-  { dow: 2, tab: "Tu", tag: "Push", title: "Push", rest: "2-3 min compounds · 45-60 s core",
-    focus: "Chest, shoulders and triceps, then anti-extension core work while you're already on the floor.",
-    ex: ["pushup_elev", "pike", "ohp", "lateral", "diamond", "dead_bug", "side_plank"] },
-  { dow: 3, tab: "We", tag: "Pull", title: "Pull", rest: "2-3 min on the bar · 60-90 s isolation",
-    focus: "Back and biceps — and the road to your first pull-up. The negatives are the point of this day; "
-         + "everything after them is supporting work.",
-    ex: ["scap_pullup", "neg_pullup", "assisted_pullup", "inv_row", "one_arm_row", "rear_fly", "curl"] },
+  { dow: 1, tab: "Mo", tag: "Legs", title: "Lower A", rest: "2-3 min lifts · 90 s calves",
+    focus: "Squat, hinge, one single-leg lift, calves. Four movements, twelve hard sets — short on purpose. "
+         + "Put it first in the week, when you're fresh.",
+    ex: ["goblet", "rdl", "bulgarian", "calf"] },
+  { dow: 2, tab: "Tu", tag: "Push", title: "Push", rest: "2-3 min presses · 60 s raises · 45 s core",
+    focus: "Push-ups and two dumbbell presses for chest and shoulders, then anti-extension core work while you're already on the floor.",
+    ex: ["pushup", "ohp", "floor_press", "lateral", "dead_bug", "side_plank"] },
+  { dow: 3, tab: "We", tag: "Pull", title: "Pull", rest: "2-3 min rows and bar · 60-90 s isolation",
+    focus: "Back and biceps — and the road to your first pull-up. Rows are the volume; the negatives are the point.",
+    ex: ["inv_row", "neg_pullup", "one_arm_row", "rear_fly", "curl"] },
   { dow: 4, tab: "Th", tag: "Rest", title: "Rest", rest: "",
     focus: "", ex: [] },
-  { dow: 5, tab: "Fr", tag: "Legs", title: "Lower B", rest: "2-3 min compounds · 45-60 s core",
-    focus: "Hip-dominant and single-leg. Less spinal load than Monday, more glute and hamstring, "
-         + "and the core work that also builds your hang time on the bar.",
-    ex: ["pistol", "hipthrust", "lunge", "sissy", { id: "calf", scheme: "3 × 15-20 / leg" },
-         "knee_raise", "reverse_crunch"] },
+  { dow: 5, tab: "Fr", tag: "Legs", title: "Lower B", rest: "2-3 min lifts · 45-60 s core",
+    focus: "Single-leg and hip-dominant: less spinal load than Monday, more glute and hamstring, "
+         + "then the core work that also builds your hang time on the bar.",
+    ex: ["lunge", "hipthrust", "sl_rdl", "calf", "knee_raise", "reverse_crunch"] },
   { dow: 6, tab: "Sa", tag: "Upper", title: "Upper", rest: "90-120 s · 45-60 s core",
-    focus: "Second dose for the whole torso, finishing with rotational and bracing core. "
+    focus: "Second dose for the whole torso, finishing with bracing and rotational core. "
          + "The session to cut if the week has beaten you.",
-    ex: ["archer", "one_arm_row", { id: "pike", scheme: "3 × 6-10" }, "hammer", "triceps",
-         "plank", "bicycle"] },
+    ex: ["pushup_elev", "one_arm_row", "lateral", "hammer", "triceps", "plank", "bicycle"] },
   { dow: 0, tab: "Su", tag: "Rest", title: "Rest", rest: "",
     focus: "", ex: [] }
 ];
@@ -922,6 +907,368 @@ function muscleSVG(m) {
 }
 
 /* =====================================================================
+   FIGURE ANIMATION
+   A small mannequin, seen from the side (or the front for exercises whose
+   movement happens in that plane). Every exercise is a short list of key
+   poses given as joint angles; the page tweens between them, so limbs move
+   in natural arcs. A pose may give a hand or foot target instead of angles
+   — that is solved once, at load, into the same angles.
+   ===================================================================== */
+const RIG = { LT: 22, LN: 3.5, RH: 5, LU: 12, LF: 11, L1: 17, L2: 16, LFT: 6, SW: 7 };
+const D2R = Math.PI / 180, R2D = 180 / Math.PI;
+const FLOOR = 93;
+
+/* two-bone inverse kinematics.  Angles follow the pose convention:
+   measured from "straight down", positive toward the front (+x).
+   Of the two mirror solutions, the anatomical one is the one whose joint
+   flexes forward (arm) / backward (leg): flex >= 0. */
+function ik2(S, T, L1, L2) {
+  let dx = T[0] - S[0], dy = T[1] - S[1], d = Math.hypot(dx, dy);
+  const max = L1 + L2 - 0.05, min = Math.abs(L1 - L2) + 0.05;
+  if (d > max) { dx *= max / d; dy *= max / d; d = max; }
+  if (d < min) { dx *= min / d; dy *= min / d; d = min; }
+  const phi = Math.atan2(dx, dy);
+  const A = Math.acos(Math.max(-1, Math.min(1, (L1 * L1 + d * d - L2 * L2) / (2 * L1 * d))));
+  const sol = sign => {
+    const a1 = phi + sign * A;
+    const j = [S[0] + Math.sin(a1) * L1, S[1] + Math.cos(a1) * L1];
+    const a2 = Math.atan2(S[0] + dx - j[0], S[1] + dy - j[1]);
+    let f = (a2 - a1) * R2D; f = ((f + 540) % 360) - 180;
+    return { a: a1 * R2D, f };
+  };
+  return [sol(1), sol(-1)];
+}
+
+/* resolve one pose spec into the flat numeric vector the tweener uses:
+   [hx, hy, tor, head, aN.a, aN.e, aF.a, aF.e, lN.h, lN.k, lN.f, lF.h, lF.k, lF.f] */
+function solvePose(p, view) {
+  const hx = p.hip[0], hy = p.hip[1], tor = p.tor || 0, head = p.head || 0;
+  const sh = view === "side"
+    ? [hx + Math.sin(tor * D2R) * RIG.LT, hy - Math.cos(tor * D2R) * RIG.LT]
+    : (view === "bent" ? [hx, hy + 4] : [hx, hy - RIG.LT]);
+  const arm = s => {
+    if (!s) return [0, 0];
+    if (s.to) {
+      const t = s.rel === "sh" ? [sh[0] + s.to[0], sh[1] + s.to[1]]
+              : s.rel === "hip" ? [hx + s.to[0], hy + s.to[1]] : s.to;
+      const [p1, p2] = ik2(sh, t, RIG.LU, RIG.LF);
+      const pick = p1.f >= -1 ? p1 : (p2.f >= -1 ? p2 : (Math.abs(p1.f) < Math.abs(p2.f) ? p1 : p2));
+      return [pick.a, pick.f];
+    }
+    return [s.a || 0, s.e || 0];
+  };
+  const leg = s => {
+    if (!s) return [0, 0, 0];
+    if (s.to) {
+      const [p1, p2] = ik2([hx, hy], s.to, RIG.L1, RIG.L2);
+      /* leg: shin angle = h - k, so the anatomical solution has f <= 0 */
+      const pick = p1.f <= 1 ? p1 : (p2.f <= 1 ? p2 : (Math.abs(p1.f) < Math.abs(p2.f) ? p1 : p2));
+      return [pick.a, -pick.f, s.f || 0];
+    }
+    return [s.h || 0, s.k || 0, s.f || 0];
+  };
+  const aN = arm(p.aN), aF = p.aF ? arm(p.aF) : aN;
+  const lN = leg(p.lN), lF = p.lF ? leg(p.lF) : lN;
+  return [hx, hy, tor, head, ...aN, ...aF, ...lN, ...lF];
+}
+
+/* forward kinematics → screen points */
+function fk(v, view) {
+  const [hx, hy, tor, head, aNa, aNe, aFa, aFe, lNh, lNk, lNf, lFh, lFk, lFf] = v;
+  const { LT, LN, RH, LU, LF, L1, L2, LFT, SW } = RIG;
+  if (view === "side") {
+    const sh = [hx + Math.sin(tor * D2R) * LT, hy - Math.cos(tor * D2R) * LT];
+    const ha = (tor + head) * D2R;
+    const neck = [sh[0] + Math.sin(ha) * LN, sh[1] - Math.cos(ha) * LN];
+    const hc = [sh[0] + Math.sin(ha) * (LN + RH), sh[1] - Math.cos(ha) * (LN + RH)];
+    const arm = (a, e) => {
+      const el = [sh[0] + Math.sin(a * D2R) * LU, sh[1] + Math.cos(a * D2R) * LU];
+      const b = (a + e) * D2R, fv = [Math.sin(b), Math.cos(b)];
+      return { pts: [sh, el, [el[0] + fv[0] * LF, el[1] + fv[1] * LF]], fv };
+    };
+    const leg = (h, k, f) => {
+      const kn = [hx + Math.sin(h * D2R) * L1, hy + Math.cos(h * D2R) * L1];
+      const s = (h - k) * D2R;
+      const an = [kn[0] + Math.sin(s) * L2, kn[1] + Math.cos(s) * L2];
+      const fd = f * D2R;
+      return { pts: [[hx, hy], kn, an, [an[0] + Math.cos(fd) * LFT, an[1] + Math.sin(fd) * LFT]] };
+    };
+    return { hip: [hx, hy], sh, neck, hc, aN: arm(aNa, aNe), aF: arm(aFa, aFe), lN: leg(lNh, lNk, lNf), lF: leg(lFh, lFk, lFf) };
+  }
+  /* front / bent: the frontal plane. Near = the viewer's right. */
+  const bent = view === "bent";
+  const shc = bent ? [hx, hy + 4] : [hx, hy - LT];
+  const neck = bent ? [hx, hy + 6] : [hx, shc[1] - LN];
+  const hc = bent ? [hx, hy + 13] : [hx, shc[1] - LN - RH];
+  const arm = (a, e, s) => {
+    const S = [shc[0] + s * (bent ? SW + 2 : SW), shc[1]];
+    const el = [S[0] + s * Math.sin(a * D2R) * LU, S[1] + Math.cos(a * D2R) * LU];
+    const b = (a + e) * D2R, fv = [s * Math.sin(b), Math.cos(b)];
+    return { pts: [S, el, [el[0] + fv[0] * LF, el[1] + fv[1] * LF]], fv };
+  };
+  const leg = (h, k, s) => {
+    const H = [hx + s * 3, hy];
+    const kn = [H[0] + s * Math.sin(h * D2R) * L1 * 0.15, H[1] + Math.cos(h * D2R) * L1];
+    const an = [kn[0] + s * 1.5, kn[1] + Math.cos(k * D2R) * L2];
+    return { pts: [H, kn, an, [an[0] + s * 4.5, an[1]]] };
+  };
+  return { hip: [hx, hy], sh: shc, neck, hc, aN: arm(aNa, aNe, 1), aF: arm(aFa, aFe, -1), lN: leg(lNh, lNk, 1), lF: leg(lFh, lFk, -1) };
+}
+
+/* ---- pose library ------------------------------------------------- */
+const ST = { hip: [50, 60], tor: 0, aN: { a: 0, e: 0 }, lN: { to: [50, 93] } };   /* standing */
+const SUP = { hip: [52, 89], tor: -90 };                                            /* lying on the back, head left */
+const P = (base, o) => Object.assign({}, base, o);
+
+const ANIM = {
+  goblet: { view: "side", db: "goblet", hands: "near", frames: [
+    P(ST, { hip: [50, 60], tor: 4, aN: { to: [7, 6], rel: "sh" }, lN: { to: [50, 93] } }),
+    P(ST, { hip: [43, 77], tor: 30, aN: { to: [7, 6], rel: "sh" }, lN: { to: [50, 93] } })
+  ] },
+  rdl: { view: "side", db: "bar", frames: [
+    P(ST, { tor: 3, aN: { a: 8, e: 0 } }),
+    P(ST, { hip: [42, 63], tor: 78, head: -25, aN: { a: 0, e: 0 }, lN: { to: [50, 93] }, t: 1000 })
+  ] },
+  bulgarian: { view: "side", db: "bar", props: [{ t: "box", x: 8, y: 75, w: 26, h: 18 }], frames: [
+    { hip: [48, 62], tor: 8, aN: { a: 0, e: 0 }, lN: { to: [62, 93] }, lF: { to: [30, 74], f: 150 } },
+    { hip: [45, 75], tor: 15, aN: { a: 0, e: 0 }, lN: { to: [62, 93] }, lF: { to: [30, 74], f: 150 } }
+  ] },
+  calf: { view: "side", props: [{ t: "box", x: 44, y: 87, w: 26, h: 6 }, { t: "wall", x: 75 }], frames: [
+    { hip: [42, 58.5], tor: 0, aN: { to: [74, 48] }, aF: { a: 4, e: 0 }, lN: { to: [42, 91.5], f: -23 }, lF: { h: -15, k: 70, f: 60 }, hold: 400 },
+    { hip: [42, 49.5], tor: 0, aN: { to: [74, 48] }, aF: { a: 4, e: 0 }, lN: { to: [42, 82.5], f: 47 }, lF: { h: -15, k: 70, f: 60 }, hold: 500 }
+  ] },
+  lunge: { view: "side", db: "bar", frames: [
+    P(ST, {}),
+    { hip: [46, 75], tor: 8, aN: { a: 0, e: 0 }, lN: { to: [52, 93] }, lF: { to: [24, 90], f: 40 } }
+  ] },
+  hipthrust: { view: "side", db: "hip", props: [{ t: "box", x: 4, y: 68, w: 26, h: 25 }], frames: [
+    { hip: [44, 86], tor: -45, head: 20, aN: { to: [3, -6], rel: "hip" }, lN: { to: [66, 92] }, lF: { h: 135, k: 150, f: 60 } },
+    { hip: [50, 72], tor: -78, head: 20, aN: { to: [3, -6], rel: "hip" }, lN: { to: [66, 92] }, lF: { h: 105, k: 110, f: 60 }, hold: 600 }
+  ] },
+  sl_rdl: { view: "side", db: "bar", hands: "far", frames: [
+    { hip: [50, 60], tor: 3, aN: { a: 0, e: 0 }, aF: { a: 5, e: 0 }, lN: { to: [50, 93] }, lF: { h: -8, k: 15, f: 40 } },
+    { hip: [46, 62], tor: 82, head: -25, aN: { a: 0, e: 0 }, aF: { a: 0, e: 0 }, lN: { to: [50, 93] }, lF: { h: -100, k: 0, f: 90 }, t: 1000 }
+  ] },
+  knee_raise: { view: "side", floor: false, props: [{ t: "bar", x: 50, y: 10 }], frames: [
+    { hip: [50, 58], tor: 0, aN: { to: [50, 11] }, lN: { h: 4, k: 20, f: 60 } },
+    { hip: [52, 57], tor: -6, aN: { to: [50, 11] }, lN: { h: 95, k: 105, f: 60 }, hold: 450 }
+  ] },
+  reverse_crunch: { view: "side", frames: [
+    P(SUP, { aN: { a: 95, e: 0 }, lN: { h: 180, k: 90, f: 90 } }),
+    P(SUP, { hip: [51.3, 83.3], tor: -105, head: 15, aN: { a: 95, e: 0 }, lN: { h: 205, k: 110, f: 90 }, hold: 400 })
+  ] },
+  dead_bug: { view: "side", frames: [
+    P(SUP, { aN: { a: 180, e: 0 }, lN: { h: 180, k: 90, f: 90 }, hold: 200 }),
+    P(SUP, { aN: { a: 262, e: 0 }, aF: { a: 180, e: 0 }, lN: { h: 180, k: 90, f: 90 }, lF: { h: 88, k: 0, f: -20 }, t: 1000, hold: 400 }),
+    P(SUP, { aN: { a: 180, e: 0 }, lN: { h: 180, k: 90, f: 90 }, hold: 200 }),
+    P(SUP, { aN: { a: 180, e: 0 }, aF: { a: 262, e: 0 }, lN: { h: 88, k: 0, f: -20 }, lF: { h: 180, k: 90, f: 90 }, t: 1000, hold: 400 })
+  ] },
+  side_plank: { view: "side", frames: [
+    { hip: [50.5, 91], tor: 66, head: -10, aN: { a: -15, e: 110 }, aF: { a: 165, e: 0 }, lN: { h: -90, k: 0, f: 90 }, t: 800, hold: 400 },
+    { hip: [50.5, 85.3], tor: 80, head: -10, aN: { a: -15, e: 110 }, aF: { a: 165, e: 0 }, lN: { h: -80, k: 0, f: 90 }, t: 800, hold: 1400 }
+  ] },
+  plank: { view: "side", frames: [
+    { hip: [44, 84], tor: 80, aN: { a: 0, e: 90 }, lN: { h: -60, k: 30, f: 90 }, t: 700, hold: 500 },
+    { hip: [46, 82], tor: 86, aN: { a: 0, e: 90 }, lN: { h: -86, k: 0, f: 80 }, t: 700, hold: 1600 }
+  ] },
+  bicycle: { view: "side", frames: [
+    P(SUP, { tor: -70, head: 14, aN: { to: [-11, -3], rel: "sh" }, lN: { h: 205, k: 115, f: 90 }, lF: { h: 92, k: 0, f: -10 }, t: 700, hold: 150 }),
+    P(SUP, { tor: -70, head: 14, aN: { to: [-11, -3], rel: "sh" }, lN: { h: 92, k: 0, f: -10 }, lF: { h: 205, k: 115, f: 90 }, t: 700, hold: 150 })
+  ] },
+  pushup: { view: "side", frames: [
+    { hip: [45, 76.6], tor: 69.8, aN: { to: [66.5, 92] }, lN: { h: -69.8, k: 0, f: 40 }, hold: 400 },
+    { hip: [46.9, 85.6], tor: 85.8, aN: { to: [66.5, 92] }, lN: { h: -85.8, k: 0, f: 40 }, hold: 250 }
+  ] },
+  pushup_elev: { view: "side", props: [{ t: "box", x: 2, y: 74, w: 24, h: 19 }, { t: "handle", x: 70.5, y: 93 }], frames: [
+    { hip: [46.8, 68.4], tor: 83.7, aN: { to: [70.5, 89] }, lN: { h: -83.7, k: 0, f: 40 }, hold: 400 },
+    { hip: [46.6, 77.4], tor: 99.4, aN: { to: [70.5, 89] }, lN: { h: -99.4, k: 0, f: 40 }, hold: 250 }
+  ] },
+  floor_press: { view: "side", db: "bar", frames: [
+    P(SUP, { aN: { a: 100, e: 80 }, lN: { h: 150, k: 126, f: 0 } }),
+    P(SUP, { aN: { a: 180, e: 0 }, lN: { h: 150, k: 126, f: 0 } })
+  ] },
+  ohp: { view: "front", db: "bar", frames: [
+    { hip: [50, 60], aN: { a: 70, e: 105 } },
+    { hip: [50, 60], aN: { a: 168, e: 8 } }
+  ] },
+  lateral: { view: "front", db: "plate", frames: [
+    { hip: [50, 60], aN: { a: 12, e: 12 } },
+    { hip: [50, 60], aN: { a: 88, e: 12 }, hold: 400 }
+  ] },
+  triceps: { view: "side", db: "goblet", hands: "near", frames: [
+    P(ST, { aN: { a: 168, e: 125 } }),
+    P(ST, { aN: { a: 175, e: 8 } })
+  ] },
+  neg_pullup: { view: "side", props: [{ t: "bar", x: 50, y: 6 }, { t: "box", x: 62, y: 80, w: 16, h: 13 }], frames: [
+    { hip: [50.3, 32.4], tor: -6, aN: { to: [50, 7] }, lN: { h: -12, k: 70, f: 70 }, t: 700, hold: 500 },
+    { hip: [50, 52], tor: 0, aN: { to: [50, 7] }, lN: { h: -5, k: 35, f: 70 }, t: 3000, hold: 400 }
+  ] },
+  inv_row: { view: "side", props: [{ t: "bar", x: 30, y: 62 }], frames: [
+    { hip: [51.9, 87], tor: -84.7, aN: { to: [30, 63] }, lN: { to: [84, 90], f: -70 } },
+    { hip: [52.4, 77.3], tor: -68, aN: { to: [30, 63] }, lN: { to: [84, 90], f: -70 }, hold: 500 }
+  ] },
+  one_arm_row: { view: "side", db: "bar", hands: "near", props: [{ t: "box", x: 66, y: 75, w: 32, h: 18 }], frames: [
+    { hip: [36, 62], tor: 75, head: -20, aN: { a: 0, e: 0 }, aF: { to: [74, 75] }, lN: { to: [46, 93] }, lF: { to: [28, 93] } },
+    { hip: [36, 62], tor: 75, head: -20, aN: { to: [-3, 8], rel: "sh" }, aF: { to: [74, 75] }, lN: { to: [46, 93] }, lF: { to: [28, 93] }, hold: 500 }
+  ] },
+  rear_fly: { view: "bent", db: "plate", frames: [
+    { hip: [50, 58], aN: { a: 5, e: 15 } },
+    { hip: [50, 58], aN: { a: 85, e: 15 }, hold: 400 }
+  ] },
+  curl: { view: "side", db: "plate", frames: [
+    P(ST, { aN: { a: 6, e: 4 } }),
+    P(ST, { aN: { a: 6, e: 135 }, hold: 400 })
+  ] },
+  hammer: { view: "side", db: "bar", frames: [
+    P(ST, { aN: { a: 6, e: 4 } }),
+    P(ST, { aN: { a: 6, e: 135 }, hold: 400 })
+  ] }
+};
+
+/* ---- build + tween ------------------------------------------------ */
+const FIGS = [];
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const ease = s => s < .5 ? 4 * s * s * s : 1 - Math.pow(-2 * s + 2, 3) / 2;
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs, parent) => {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+};
+const pts = arr => arr.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
+
+function dumbbell(kind, parent) {
+  const g = el("g", { class: "db" }, parent);
+  if (kind === "plate") {
+    el("circle", { r: 3.4 }, g); el("circle", { r: 1.1, class: "bore" }, g);
+  } else {
+    el("line", { x1: -5.2, y1: 0, x2: 5.2, y2: 0 }, g);
+    el("rect", { x: -7.4, y: -3.2, width: 2.6, height: 6.4, rx: 1 }, g);
+    el("rect", { x: 4.8, y: -3.2, width: 2.6, height: 6.4, rx: 1 }, g);
+  }
+  return g;
+}
+
+function buildFigure(host, id) {
+  const spec = ANIM[id];
+  if (!spec) return;
+  const view = spec.view || "side";
+  const svg = el("svg", { viewBox: "0 0 100 100", "aria-hidden": "true" }, host);
+  if (spec.flip) svg.setAttribute("style", "transform:scaleX(-1)");
+  if (spec.floor !== false) el("line", { class: "fl", x1: 2, y1: FLOOR, x2: 98, y2: FLOOR }, svg);
+  (spec.props || []).forEach(p => {
+    if (p.t === "box") el("rect", { class: "prop", x: p.x, y: p.y, width: p.w, height: p.h, rx: 1.5 }, svg);
+    else if (p.t === "wall") el("line", { class: "fl", x1: p.x, y1: 18, x2: p.x, y2: FLOOR }, svg);
+    else if (p.t === "bar") { el("line", { class: "fl", x1: p.x, y1: 0, x2: p.x, y2: p.y }, svg); el("circle", { class: "post", cx: p.x, cy: p.y, r: 2 }, svg); }
+    else if (p.t === "handle") { el("line", { class: "post-l", x1: p.x, y1: p.y, x2: p.x, y2: p.y - 4 }, svg); el("line", { class: "post-l", x1: p.x - 3, y1: p.y - 4, x2: p.x + 3, y2: p.y - 4 }, svg); }
+  });
+  const both = !spec.hands || spec.hands === "both";
+  const e = {
+    lF: el("polyline", { class: "lm far" }, svg),
+    aF: el("polyline", { class: "am far" }, svg),
+    dF: spec.db && spec.db !== "hip" && (both || spec.hands === "far") ? dumbbell(spec.db === "goblet" ? "bar" : spec.db, svg) : null,
+    tor: view === "bent" ? el("ellipse", { class: "back", rx: 11.5, ry: 6 }, svg) : el("line", { class: "tor" }, svg),
+    hd: el("circle", { class: "hd", r: RIG.RH }, svg),
+    lN: el("polyline", { class: "lm" }, svg),
+    aN: el("polyline", { class: "am" }, svg),
+    dN: spec.db && spec.db !== "hip" && (both || spec.hands === "near") ? dumbbell(spec.db === "goblet" ? "bar" : spec.db, svg) : null,
+    dH: spec.db === "hip" ? dumbbell("plate", svg) : null
+  };
+  if (e.dF) e.dF.classList.add("far");
+  /* frames → vectors, with angles unwrapped so tweens take the short way round */
+  const frames = spec.frames.map(f => solvePose(f, view));
+  for (let i = 1; i < frames.length; i++)
+    for (let c = 2; c < 14; c++) {
+      const prev = frames[i - 1][c]; let x = frames[i][c];
+      while (x - prev > 180) x -= 360;
+      while (x - prev < -180) x += 360;
+      frames[i][c] = x;
+    }
+  const seg = spec.frames.map((f, i) => ({ t: f.t || 900, hold: f.hold || 300 }));
+  const total = seg.reduce((s, x) => s + x.t + x.hold, 0);
+  const fig = { spec, view, e, frames, seg, total, visible: true, t0: performance.now() - Math.random() * 400 };
+  FIGS.push(fig);
+  draw(fig, frames[0]);
+  return fig;
+}
+
+function draw(fig, v) {
+  const k = fk(v, fig.view), e = fig.e;
+  e.lF.setAttribute("points", pts(k.lF.pts));
+  e.aF.setAttribute("points", pts(k.aF.pts));
+  if (fig.view === "bent") { e.tor.setAttribute("cx", k.hip[0]); e.tor.setAttribute("cy", k.hip[1] + 3); }
+  else {
+    e.tor.setAttribute("x1", k.hip[0]); e.tor.setAttribute("y1", k.hip[1]);
+    e.tor.setAttribute("x2", k.neck[0]); e.tor.setAttribute("y2", k.neck[1]);
+  }
+  e.hd.setAttribute("cx", k.hc[0]); e.hd.setAttribute("cy", k.hc[1]);
+  e.lN.setAttribute("points", pts(k.lN.pts));
+  e.aN.setAttribute("points", pts(k.aN.pts));
+  const place = (g, arm) => {
+    const w = arm.pts[2], f = arm.fv;
+    const rot = fig.spec.db === "goblet" ? 90 : Math.atan2(f[0], -f[1]) * R2D;
+    g.setAttribute("transform", `translate(${w[0].toFixed(1)} ${w[1].toFixed(1)}) rotate(${rot.toFixed(1)})`);
+  };
+  if (e.dN) place(e.dN, k.aN);
+  if (e.dF) place(e.dF, k.aF);
+  if (e.dH) {
+    /* rests on the front of the hips */
+    const tor = v[2] * D2R, n = [Math.cos(tor), Math.sin(tor)];
+    e.dH.setAttribute("transform", `translate(${(k.hip[0] + n[0] * 6).toFixed(1)} ${(k.hip[1] + n[1] * 6).toFixed(1)})`);
+  }
+}
+
+function poseAt(fig, now) {
+  const { frames, seg, total } = fig;
+  let t = (now - fig.t0) % total, i = 0;
+  const n = frames.length;
+  /* segment i: hold at frame i, then move to frame i+1 */
+  for (; i < n; i++) {
+    const s = seg[i], next = seg[(i + 1) % n];
+    if (t < s.hold) return frames[i];
+    t -= s.hold;
+    if (t < next.t) {
+      if (REDUCED) return t < next.t / 2 ? frames[i] : frames[(i + 1) % n];
+      const u = ease(t / next.t), a = frames[i], b = frames[(i + 1) % n];
+      return a.map((x, c) => x + (b[c] - x) * u);
+    }
+    t -= next.t;
+  }
+  return frames[0];
+}
+
+let animRunning = false;
+function tick(now) {
+  let any = false;
+  for (const f of FIGS) {
+    if (!f.visible || !f.e.tor.isConnected) continue;
+    any = true;
+    draw(f, poseAt(f, now));
+  }
+  if (any) requestAnimationFrame(tick); else animRunning = false;
+}
+function startAnim() {
+  if (!animRunning) { animRunning = true; requestAnimationFrame(tick); }
+}
+const io = "IntersectionObserver" in window ? new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    const f = FIGS.find(x => x.e.tor.ownerSVGElement === en.target);
+    if (f) { f.visible = en.isIntersecting; if (f.visible) startAnim(); }
+  });
+}, { rootMargin: "80px" }) : null;
+
+function initFigures(root) {
+  FIGS.length = 0;
+  root.querySelectorAll(".anim[data-id]").forEach(host => {
+    host.innerHTML = "";
+    const f = buildFigure(host, host.dataset.id);
+    if (f && io) io.observe(host.firstChild);
+  });
+  startAnim();
+}
+
+/* =====================================================================
    HELPERS
    ===================================================================== */
 const $ = s => document.querySelector(s);
@@ -984,13 +1331,17 @@ function exerciseCard(entry, n) {
       <h2 class="name">${esc(ex.name)}</h2>
       <span class="scheme">${esc(scheme)}</span><span class="rir">${esc(ex.rir || "")}</span>
       ${marked ? `<br><span class="pill">↑ Make it harder</span>` : ""}
+      <div class="gear">
+        <span class="gear-l">Equipment</span>
+        ${(ex.gear || ["none"]).map(gearChip).join("")}
+      </div>
     </div>
-    <div class="map">${muscleSVG(ex.muscles)}</div>
-    <div class="gear">
-      <span class="gear-l">Equipment</span>
-      ${(ex.gear || ["none"]).map(gearChip).join("")}
+    <div class="visual">
+      <div class="anim" data-id="${id}"></div>
+      <div class="map">${muscleSVG(ex.muscles)}</div>
     </div>
     <ul class="cues">
+      <li class="map-m map">${muscleSVG(ex.muscles)}</li>
       ${ex.cues.map(c => `<li>${esc(c)}</li>`).join("")}
       ${ex.alt ? `<li class="alt"><b>Scale it down.</b> ${esc(ex.alt)}</li>` : ""}
     </ul>
@@ -1041,6 +1392,7 @@ function renderDay(i) {
       </div>
     </div>
     <div class="list">${d.ex.map((e, k) => exerciseCard(e, k + 1)).join("")}</div>`;
+  initFigures($("#main"));
   window.scrollTo({ top: 0 });
 }
 

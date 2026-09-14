@@ -1,6 +1,6 @@
 /* Service worker: makes the site installable and usable without a connection.
    Bump CACHE whenever the shell file list below changes. */
-const CACHE = "training-v1";
+const CACHE = "training-v2";
 const SHELL = [
   "./",
   "./index.html",
