@@ -103,6 +103,10 @@
   }
   .icon-btn svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
   .icon-btn.on { background: var(--red); border-color: var(--red); color: #fff; }
+  .icon-btn.lang { gap: 2px; padding: 0 9px; }
+  .icon-btn.lang span { color: var(--muted); transition: color .15s; }
+  .icon-btn.lang .sep { font-weight: 400; opacity: .6; }
+  .icon-btn.lang span.cur { color: var(--red); }
   #theme .sun { display: none; }
   [data-theme="dark"] #theme .sun { display: block; }
   [data-theme="dark"] #theme .moon { display: none; }
@@ -320,9 +324,10 @@
 
 <header class="top">
   <div class="wrap">
-    <div class="brand">Training <b>·</b> <span id="brand-day"></span></div>
+    <div class="brand"><span id="brand-name">Training</span> <b>·</b> <span id="brand-day"></span></div>
     <div class="top-btns">
       <button class="icon-btn" id="nutri-btn" aria-label="Nutrition">Food</button>
+      <button class="icon-btn lang" id="lang" aria-label="Cambiar a español"><span data-l="en" class="cur">EN</span><span class="sep">/</span><span data-l="es">ES</span></button>
       <button class="icon-btn" id="theme" aria-label="Toggle light/dark mode">
         <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
         <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -334,7 +339,7 @@
 <div class="wrap">
   <nav class="days" id="days" aria-label="Days"></nav>
   <main id="main"></main>
-  <details class="rules">
+  <details class="rules" data-lang="en">
     <summary>Plan rules &amp; the evidence behind them</summary>
     <ul>
       <li><b>Simple lifts, done hard, beat clever ones done badly.</b> Every exercise here is a basic pattern —
@@ -402,6 +407,80 @@
       [A] Helms, Morgan &amp; Valdez — <i>The Muscle &amp; Strength Pyramid: Training</i>, 2nd ed., 2019.
       [B] r/bodyweightfitness Recommended Routine — push-up, row and pull-up progressions.
       The nutrition page carries its own source list.
+    </div>
+  </details>
+  <details class="rules" data-lang="es" hidden>
+    <summary>Reglas del plan y la evidencia que hay detrás</summary>
+    <ul>
+      <li><b>Lo simple hecho en serio gana a lo sofisticado hecho mal.</b> Todos los ejercicios de aquí son
+          patrones básicos —sentadilla, bisagra de cadera, zancada, empuje, tirón y unos pocos de aislamiento—, los
+          mismos con los que la gente lleva décadas ganando músculo al empezar. Las flexiones y los presses con
+          mancuernas construyen el mismo músculo que sus versiones de gimnasio cuando la serie termina cerca del
+          fallo [3, 4]. Las pistol squats, el curl nórdico, las sissy squats y las archer push-ups han salido del
+          plan: son habilidades con una curva de aprendizaje larga, no ejercicios mejores, y no eran la herramienta
+          adecuada para donde estás ahora.</li>
+      <li><b>Pierna dos veces por semana, pero corta.</b> Diez o más series duras por músculo a la semana hacen
+          crecer más que menos [2]; con ese volumen semanal fijo, repartirlo en dos días en vez de uno apenas
+          cambia nada por sí mismo [1, 7]; lo que compran los dos días es calidad de series, porque las series 9 a
+          12 de una sola sesión de pierna son basura. Así que el tren inferior recibe unas 24 series a la semana en
+          dos sesiones de cuatro ejercicios y 35-40 minutos. Un solo día largo de pierna sería el mismo trabajo con
+          peores series.</li>
+      <li><b>Deja 1-2 repeticiones en la recámara en cada serie efectiva.</b> Las series que paran 1-2
+          repeticiones antes del fallo construyen prácticamente el mismo músculo que las que llegan al fallo, con
+          mucha menos fatiga que arrastrar al día siguiente [5]. La excepción son las negativas, que sí se apuran.</li>
+      <li><b>Llegas al máximo del rango en todas las series → haz el ejercicio más difícil</b>, no añadas
+          repeticiones. Cada tarjeta dice cómo. Las cargas ligeras construyen músculo siempre que la serie acabe
+          cerca del fallo [3], así que con mancuernas de 10 kg la progresión es mecánica: palancas, tempo, recorrido
+          y pausas.</li>
+      <li><b>Descansa más de lo que te parece necesario.</b> 2-3 min en los básicos, 60-90 s en aislamiento.
+          Descansos de tres minutos produjeron más músculo y más fuerza que descansos de uno [6]. Los descansos
+          cortos cuestan repeticiones, y las repeticiones perdidas cuestan crecimiento.</li>
+      <li><b>Todos los ejercicios tienen versión fácil.</b> Donde una tarjeta dice <i>Versión fácil</i>, esa es la
+          correcta hasta que deje de serlo. Hacer bien la variante fácil gana a machacar mal la difícil.</li>
+      <li><b>Tu primera dominada es un proyecto, no una serie.</b> Los remos ponen el volumen; las negativas cargan
+          exactamente esos músculos a intensidades que no puedes alcanzar de otra forma; perder peso corporal hace
+          cada repetición más fácil. Esa escalera de remos y negativas es como los programas de peso corporal más
+          conocidos enseñan la dominada [B]. Cuenta con meses, no semanas.</li>
+      <li><b>El core se entrena como todo lo demás:</b> cerca del fallo, con progresión, tres días a la semana,
+          cubriendo sus tres trabajos reales: resistir la extensión (dead bug, plancha), resistir la inclinación y la
+          rotación (plancha lateral, bicicleta) y flexionar la columna con carga (elevación de rodillas, crunch
+          invertido) [12].</li>
+      <li><b>¿Has dormido mal? No canceles: recorta.</b> Haz los dos primeros ejercicios a tope y para. Esa parte es
+          criterio de entrenador y no resultado de un ensayo, pero la dirección está bien respaldada: dormir poco
+          mientras estás a dieta desplaza lo que pierdes de la grasa hacia el músculo [13], así que proteger el sueño
+          importa más que terminar una sesión.</li>
+      <li><b>Nunca desplaces toda la semana para recuperar.</b> Una sesión perdida está perdida. Retoma la semana en
+          el día que realmente es; correrlo todo hacia delante se come tus días de descanso y empuja el problema a la
+          semana siguiente.</li>
+      <li><b>Fútbol, correr o bici en los días de descanso están bien.</b> El cardio moderado junto con las pesas no
+          frena el crecimiento muscular [11], y ayuda al déficit. Solo que no sustituya a una sesión de pesas.</li>
+      <li><b>Las dos primeras semanas: haz 2 series donde pone 3.</b> Empieza por debajo de tu capacidad para tener
+          margen.</li>
+      <li><b>Cada 6-8 semanas, una semana más ligera:</b> la mitad de series, el mismo esfuerzo por serie. Más
+          consenso de entrenadores que evidencia de ensayos [A], pero la fatiga enmascara la forma, y la gente suele
+          verse más fuerte la semana después de aflojar.</li>
+    </ul>
+    <div class="refs">
+      <b>Evidencia.</b> Donde una regla se apoya en el consenso de entrenadores y no en ensayos, arriba lo dice.<br>
+      [1] Schoenfeld, Grgic y Krieger — frecuencia de entrenamiento con volumen igualado, <i>J Sports Sci</i> 2019.
+      [2] Schoenfeld, Ogborn y Krieger — relación dosis-respuesta del volumen semanal, <i>J Sports Sci</i> 2017.
+      [3] Schoenfeld, Grgic, Ogborn y Krieger — cargas bajas frente a altas, <i>J Strength Cond Res</i> 2017.
+      [4] Kotarsky et al. — flexiones progresivas frente a press de banca, <i>J Strength Cond Res</i> 2018;
+          Kikuchi y Nakazato — flexiones frente a press de banca con carga baja, <i>J Exerc Sci Fit</i> 2017.
+      [5] Refalo et al. — proximidad al fallo e hipertrofia, <i>Sports Med</i> 2023.
+      [6] Schoenfeld et al. — descansos de 1 frente a 3 minutos, <i>J Strength Cond Res</i> 2016.
+      [7] Schoenfeld, Ogborn y Krieger — frecuencia de entrenamiento, <i>Sports Med</i> 2016.
+      [8] Morton et al. — proteína y ganancia muscular, <i>Br J Sports Med</i> 2018.
+      [9] Helms et al. — proteína en déficit, <i>IJSNEM</i> 2014.
+      [10] Barakat et al. — recomposición corporal, <i>Strength Cond J</i> 2020.
+      [11] Schumann et al. — entrenamiento concurrente aeróbico y de fuerza, <i>Sports Med</i> 2022.
+      [12] McGill — entrenamiento del core, <i>Strength Cond J</i> 2010.
+      [13] Nedeltcheva et al. — restricción de sueño durante una dieta, <i>Ann Intern Med</i> 2010.
+      [14] Garthe et al. — ritmo de pérdida de peso y masa magra, <i>IJSNEM</i> 2011.
+      [15] Schoenfeld y Aragon — proteína por comida, <i>JISSN</i> 2018.
+      [A] Helms, Morgan y Valdez — <i>The Muscle &amp; Strength Pyramid: Training</i>, 2.ª ed., 2019.
+      [B] Recommended Routine de r/bodyweightfitness — progresiones de flexión, remo y dominada.
+      La página de comida tiene su propia lista de fuentes.
     </div>
   </details>
 </div>
@@ -842,7 +921,6 @@ const WEEK = [
   { dow: 0, tab: "Su", tag: "Rest", title: "Rest", rest: "",
     focus: "", ex: [] }
 ];
-const DAYNAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 /* =====================================================================
    MUSCLE MAP (schematic SVG, front + back)
@@ -1301,9 +1379,251 @@ const todayDow = new Date().getDay();
 const fmtDate = iso => { const d = new Date(iso); return isNaN(d) ? "" : (d.getMonth() + 1) + "/" + d.getDate(); };
 const mmss = s => Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
 
+/* =====================================================================
+   LANGUAGE
+   The page is written in English; everything below is the Spanish layer.
+   The choice is stored on the device and defaults to English.
+   ===================================================================== */
+const LANG_KEY = "lang";
+let LANG = store.get(LANG_KEY) === "es" ? "es" : "en";
+
+const UI = {
+  en: {
+    brand: "Training", food: "Food", nutrition: "Nutrition", equipment: "Equipment", todayNeed: "Today you need",
+    exercises: "exercises", rest: "rest", scale: "Scale it down.", prog: "Progression.", cap: "Hit the cap",
+    capped: "Capped {d} · tap to clear", harder: "↑ Make it harder", video: "Form video", demo: "Demo only, looping.",
+    yt: "Open on YouTube ↗",
+    rest1: "No lifting today. Walk, or 30-40 minutes of easy running or cycling at a pace where you could still hold a conversation.",
+    rest2: "This is not a day off from the program — it is the day the training you already did turns into muscle. Sleep is the highest-return thing you can do right now.",
+    tomorrow: "Tomorrow:", themeAria: "Toggle light/dark mode", langAria: "Cambiar a español",
+    techFail: "to technical failure", leg: "leg", side: "side"
+  },
+  es: {
+    brand: "Entreno", food: "Comida", nutrition: "Nutrición", equipment: "Material", todayNeed: "Hoy necesitas",
+    exercises: "ejercicios", rest: "descanso", scale: "Versión fácil.", prog: "Progresión.", cap: "Tope alcanzado",
+    capped: "Tope el {d} · toca para borrar", harder: "↑ Hazlo más difícil", video: "Vídeo de técnica", demo: "Solo demo, en bucle.",
+    yt: "Abrir en YouTube ↗",
+    rest1: "Hoy no se levanta peso. Camina, o 30-40 minutos de carrera o bici suave, a un ritmo al que aún podrías mantener una conversación.",
+    rest2: "No es un día libre del programa: es el día en que el entrenamiento que ya hiciste se convierte en músculo. Dormir es lo que más te devuelve ahora mismo.",
+    tomorrow: "Mañana:", themeAria: "Cambiar modo claro/oscuro", langAria: "Switch to English",
+    techFail: "hasta fallo técnico", leg: "pierna", side: "lado"
+  }
+};
+const DAYNAMES = {
+  en: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+  es: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+};
+const GEAR_ES = {
+  dumbbells: { s: "Mancuerna", p: "Mancuernas" }, couch: "Sofá", bed: "Cama o sofá", step: "Escalón", stairs: "Escaleras",
+  bar: "Barra de dominadas", doorframe: "Marco de puerta", handles: "Agarres de flexiones", cushion: "Cojín", wall: "Pared",
+  none: "Solo peso corporal"
+};
+
+/* Spanish text for each exercise; anything not listed falls back to English */
+const EX_ES = {
+  goblet: { name: "Sentadilla goblet",
+    cues: ["Una mancuerna en vertical pegada al pecho, codos apuntando al suelo.",
+      "Pies a la anchura de los hombros, puntas un poco hacia fuera. Siéntate entre los talones con el pecho alto.",
+      "Tan abajo como puedas manteniendo los talones apoyados y la espalda recta; los codos rozan la cara interna de las rodillas.",
+      "3 s de bajada y sube empujando con todo el pie."],
+    alt: "Sentadilla al sofá: siéntate hacia atrás hasta tocarlo y levántate. La misma profundidad en todas las repeticiones.",
+    prog: "Al tope → las dos mancuernas a los hombros, después 2 s de pausa abajo, después repeticiones 1½ (abajo, a la mitad, otra vez abajo, arriba)." },
+  rdl: { name: "Peso muerto rumano con mancuernas",
+    cues: ["Mancuernas delante de los muslos, rodillas ligeramente flexionadas y fijas ahí.",
+      "Lleva la cadera atrás; las mancuernas bajan pegadas a las piernas, espalda recta, mirada al suelo unos metros por delante.",
+      "Para cuando los isquios tiren fuerte, normalmente justo por debajo de la rodilla. Nada de redondear la espalda.",
+      "Levántate empujando la cadera hacia delante y apretando los glúteos."],
+    alt: "Para en la rótula hasta que la espalda se mantenga recta durante toda la serie.",
+    prog: "Al tope → 3 s de bajada, después 2 s de pausa abajo. La versión a una pierna del viernes es el siguiente paso." },
+  bulgarian: { name: "Sentadilla búlgara",
+    cues: ["Pie trasero sobre el sofá, pie delantero una zancada larga por delante.",
+      "Inclina el torso ligeramente hacia delante. Baja hasta que la rodilla trasera casi toque el suelo.",
+      "Empuja con el talón delantero; la rodilla sigue la línea de los dedos.",
+      "Mancuernas colgando a los lados, brazos relajados."],
+    alt: "Zancada estática con el pie trasero apoyado en el suelo, sin sofá.",
+    prog: "Al tope → 2 s de pausa abajo, después 3 s de bajada, después eleva el pie delantero." },
+  lunge: { name: "Zancada atrás",
+    cues: ["Paso largo hacia atrás; la rodilla trasera baja cerca del suelo.",
+      "Tibia delantera vertical, peso en el talón delantero.",
+      "Vuelve empujando con la pierna delantera; la trasera no empuja.",
+      "Torso erguido, mancuernas quietas."],
+    alt: "Solo con el peso corporal, una mano en la pared para el equilibrio.",
+    prog: "Al tope → pie delantero sobre un escalón (zancada en déficit), después 2 s de pausa abajo." },
+  hipthrust: { name: "Hip thrust a una pierna",
+    cues: ["Omóplatos en el borde del sofá, pie apoyado debajo de la rodilla.",
+      "Mancuerna sobre la cadera; la otra pierna flexionada en el aire.",
+      "Sube hasta una línea recta de hombros a rodilla y aprieta el glúteo 1-2 s.",
+      "Barbilla recogida, sin arquear la zona lumbar."],
+    alt: "Los dos pies en el suelo, mancuerna en la cadera: el hip thrust a dos piernas.",
+    prog: "Al tope → 3 s de pausa arriba, después 3 s de bajada." },
+  sl_rdl: { name: "Peso muerto rumano a una pierna",
+    cues: ["Rodilla de apoyo ligeramente flexionada y fija ahí toda la serie.",
+      "Bisagra de cadera: la pierna libre sube recta por detrás, espalda plana.",
+      "Para cuando notes el estiramiento del isquio; ni un centímetro más.",
+      "Mancuerna en la mano contraria a la pierna de apoyo."],
+    alt: "Deja la punta del pie libre apoyada en el suelo por detrás (kickstand) hasta que tengas el equilibrio.",
+    prog: "Al tope → las dos mancuernas, después 2 s de pausa abajo." },
+  calf: { name: "Elevación de talón a una pierna",
+    cues: ["Metatarso en el borde del escalón, talón libre.",
+      "Baja hasta notar el estiramiento; pausa de 1 s abajo.",
+      "Sube todo lo que puedas y aprieta 1 s arriba. Sin rebotar.",
+      "Mano en la pared solo para el equilibrio."],
+    alt: "Con los dos pies a la vez, mismas reglas.",
+    prog: "Al tope → mancuerna en la mano del lado que trabaja." },
+  pushup: { name: "Flexión",
+    cues: ["Manos un poco más abiertas que los hombros, dedos hacia delante, cuerpo en una línea recta.",
+      "Codos a unos 45° del torso, no abiertos a 90°.",
+      "Pecho a un puño del suelo. 2 s de bajada.",
+      "Extiende del todo arriba sin que la cadera caiga ni se levante."],
+    alt: "Manos en el sofá o en una mesa (flexión inclinada). Baja la superficie a medida que te hagas más fuerte.",
+    prog: "Al tope (15) → pies sobre el sofá (la versión del sábado), después una mochila con unos libros." },
+  pushup_elev: { name: "Flexión con pies elevados",
+    cues: ["Pies en la cama o el sofá, manos en los agarres (o en el suelo) a la anchura de los hombros.",
+      "Cuerpo en línea recta, glúteos y abdomen apretados.",
+      "Baja el pecho por debajo de los agarres, codos a unos 45°.",
+      "Extiende del todo arriba. 2 s de bajada."],
+    alt: "Pies en el suelo: la flexión normal.",
+    prog: "Al tope (15) → una mochila con libros, o 2 s de pausa abajo." },
+  ohp: { name: "Press militar con mancuernas",
+    cues: ["De pie, mancuernas a la altura de los hombros, glúteos y abdomen apretados.",
+      "Empuja hasta extender del todo, juntando las mancuernas arriba.",
+      "Baja con control hasta la altura de las orejas.",
+      "Si la zona lumbar se arquea, es fatiga: termina la serie."],
+    alt: "Sentado en el sofá con la espalda apoyada.",
+    prog: "Al tope → 2 s de pausa abajo, después 3 s de bajada." },
+  floor_press: { name: "Press de suelo con mancuernas",
+    cues: ["Tumbado boca arriba, rodillas flexionadas, mancuernas sobre el pecho.",
+      "Baja hasta que los brazos apoyen en el suelo: ese es el tope incorporado.",
+      "Pausa de 1 s muerta en el suelo y empuja. Codos a unos 45°.",
+      "Omóplatos juntos y abajo durante toda la serie."],
+    prog: "Al tope → 3 s de bajada y 2 s de pausa muerta en el suelo, después un brazo cada vez." },
+  lateral: { name: "Elevación lateral",
+    cues: ["Codos ligeramente flexionados; sube hasta la altura de los hombros.",
+      "Guía con los codos, no con las manos. Meñique un poco más alto.",
+      "Sin balanceo, sin encoger los hombros.",
+      "2-3 s de bajada."],
+    prog: "Al tope → 1 s de pausa arriba, después repeticiones parciales para terminar la serie." },
+  triceps: { name: "Extensión de tríceps sobre la cabeza",
+    cues: ["Una mancuerna sujeta por encima de la cabeza con las dos manos.",
+      "Codos apuntando al techo y pegados a la cabeza.",
+      "Baja por detrás de la nuca hasta notar el estiramiento; extiende sin balancear.",
+      "Abdomen apretado, sin arquear la zona lumbar."],
+    prog: "Al tope → 3 s de bajada, después un brazo cada vez." },
+  inv_row: { name: "Remo invertido",
+    cues: ["Barra a la altura de la cadera en el marco de la puerta; cuélgate debajo con los talones en el suelo, cuerpo recto.",
+      "Tira hasta que la barra toque el pecho; junta los omóplatos.",
+      "2 s de bajada hasta brazos rectos, cuerpo rígido como una plancha.",
+      "Cuanto más horizontal estés, más difícil: adelanta los pies para progresar."],
+    alt: "Flexiona las rodillas y apoya los pies planos: quita peso. ¿Sin barra baja? Vale el borde de una mesa robusta.",
+    prog: "Al tope → talones sobre el sofá, después 2 s de pausa arriba." },
+  neg_pullup: { name: "Dominada negativa",
+    cues: ["Primero pon la barbilla por encima de la barra: súbete desde una silla o salta.",
+      "Suelta la silla y baja tan despacio como puedas: apunta a 3-5 s.",
+      "Resiste todo el recorrido hasta brazos rectos. No te dejes caer al final.",
+      "Vuelve a subir. La bajada es todo el ejercicio; nunca tiras."],
+    alt: "¿Aún no controlas 3 s? Deja la punta de un pie en la silla para descargar parte del peso.",
+    prog: "Cuando cada repetición dure 5 s controlados, empieza a intentar tirar desde abajo con un pie en la silla." },
+  one_arm_row: { name: "Remo a una mano con mancuerna",
+    cues: ["Torso casi paralelo al suelo, la mano libre apoyada en el sofá o en la rodilla.",
+      "Tira con el codo hacia la cadera, no hacia el hombro.",
+      "2 s de pausa arriba, apretando el dorsal.",
+      "3 s de bajada hasta el brazo recto."],
+    prog: "Al tope → 3 s de pausa arriba, después 4 s de bajada." },
+  rear_fly: { name: "Pájaro (deltoides posterior)",
+    cues: ["Torso inclinado casi paralelo al suelo, rodillas blandas.",
+      "Brazos casi rectos; ábrelos a los lados hasta la altura de los hombros.",
+      "Meñiques arriba; junta los omóplatos al final.",
+      "Sin impulso. Bajada lenta."],
+    prog: "Al tope → 1 s de pausa arriba." },
+  curl: { name: "Curl de bíceps con mancuernas",
+    cues: ["Codos pegados a los costados; no se adelantan.",
+      "Sube sin balancear; aprieta 1 s arriba.",
+      "3 s de bajada hasta el brazo recto.",
+      "Palmas hacia arriba en todo el recorrido."],
+    prog: "Al tope → 4 s de bajada, o una pausa a mitad de la bajada." },
+  hammer: { name: "Curl martillo",
+    cues: ["Palmas enfrentadas (agarre martillo).",
+      "Codos fijos; sube hasta el hombro.",
+      "3 s de bajada, sin balanceo."],
+    prog: "Al tope → bajada más lenta." },
+  dead_bug: { name: "Dead bug",
+    cues: ["Boca arriba, brazos rectos hacia el techo, rodillas flexionadas sobre la cadera.",
+      "Aplasta la zona lumbar contra el suelo y mantenla ahí: ese es el ejercicio.",
+      "Extiende el brazo y la pierna contrarios, despacio, sin que la espalda se arquee.",
+      "Vuelve y cambia de lado. Suelta el aire al extender."],
+    alt: "¿La espalda se sigue arqueando? Mueve solo las piernas, con los dos brazos arriba.",
+    prog: "Al tope → hazlo más lento, 4 s por repetición, después lleva el talón más cerca del suelo." },
+  side_plank: { name: "Plancha lateral",
+    cues: ["Codo debajo del hombro, cuerpo en línea recta del tobillo a la cabeza.",
+      "Sube la cadera y mantenla arriba: sin hundirse, sin rotar hacia delante.",
+      "Aprieta los glúteos; mira al frente.",
+      "Termina la serie cuando la cadera empiece a caer, no cuando lo diga el cronómetro."],
+    alt: "Rodillas flexionadas, apoyando la rodilla de abajo en vez de los pies.",
+    prog: "Al tope (45 s) → pierna de arriba elevada, o una mancuerna sobre la cadera." },
+  plank: { name: "Plancha frontal",
+    cues: ["Codos debajo de los hombros, antebrazos planos.",
+      "Línea recta de talones a cabeza: aprieta los glúteos, recoge un poco la pelvis.",
+      "Contrae como si fueras a recibir un golpe. Son 30 s duros, no 3 minutos cómodos.",
+      "Termina la serie cuando la zona lumbar empiece a hundirse."],
+    alt: "Rodillas en el suelo, la misma línea recta de rodillas a cabeza.",
+    prog: "Al tope (60 s) → hollow body hold, o levanta un pie unos centímetros." },
+  bicycle: { name: "Crunch bicicleta",
+    cues: ["Manos junto a las orejas; no tires del cuello.",
+      "Lleva el hombro hacia la rodilla contraria, rotando desde las costillas.",
+      "Estira la otra pierna larga y baja, sin arquear la espalda.",
+      "Lento y deliberado. Aquí la velocidad solo es impulso."],
+    prog: "Al tope → pausa de 1 s en cada rotación." },
+  knee_raise: { name: "Elevación de rodillas colgado",
+    cues: ["Cuélgate de la barra, hombros activos (lejos de las orejas).",
+      "Sube las rodillas al menos hasta la altura de la cadera, enrollando la pelvis arriba.",
+      "Baja en 2-3 s y frena el balanceo antes de la siguiente.",
+      "Sin impulso: si empiezas a balancearte, la serie ha terminado."],
+    alt: "¿Falla antes el agarre? Encogimientos de rodillas tumbado en el suelo, 3 × 12-20.",
+    prog: "Al tope → 2 s de pausa arriba, después piernas rectas hasta la horizontal." },
+  reverse_crunch: { name: "Crunch invertido",
+    cues: ["Boca arriba, manos a los lados, rodillas flexionadas sobre la cadera.",
+      "Enrolla la pelvis hacia las costillas: levanta la cadera, no balancees las piernas.",
+      "La zona lumbar presiona contra el suelo todo el tiempo.",
+      "Baja despacio en 2-3 s. Poco recorrido bien hecho vale más que mucho recorrido con impulso."],
+    prog: "Al tope → bajada más lenta, después piernas más rectas." }
+};
+
+/* same order as WEEK */
+const WEEK_ES = [
+  { tab: "Lu", tag: "Pierna", title: "Pierna A", rest: "2-3 min básicos · 90 s gemelos",
+    focus: "Sentadilla, bisagra de cadera, un ejercicio a una pierna y gemelos. Cuatro movimientos, doce series duras: corto a propósito. Ponlo el primero de la semana, cuando estás fresco." },
+  { tab: "Ma", tag: "Empuje", title: "Empuje", rest: "2-3 min presses · 60 s elevaciones · 45 s core",
+    focus: "Flexiones y dos presses con mancuernas para pecho y hombros, y después core antiextensión aprovechando que ya estás en el suelo." },
+  { tab: "Mi", tag: "Tirón", title: "Tirón", rest: "2-3 min remos y barra · 60-90 s aislamiento",
+    focus: "Espalda y bíceps, y el camino hacia tu primera dominada. Los remos ponen el volumen; las negativas son el objetivo del día." },
+  { tab: "Ju", tag: "Descanso", title: "Descanso", rest: "", focus: "" },
+  { tab: "Vi", tag: "Pierna", title: "Pierna B", rest: "2-3 min básicos · 45-60 s core",
+    focus: "A una pierna y dominante de cadera: menos carga en la columna que el lunes, más glúteo e isquio, y después el core que también te da tiempo colgado en la barra." },
+  { tab: "Sá", tag: "Torso", title: "Torso", rest: "90-120 s · 45-60 s core",
+    focus: "Segunda dosis para todo el torso, terminando con core de estabilidad y rotación. La sesión que se recorta si la semana te ha podido." },
+  { tab: "Do", tag: "Descanso", title: "Descanso", rest: "", focus: "" }
+];
+
+/* text of one exercise / one day in the active language */
+function exText(id) {
+  const base = EX[id];
+  if (LANG !== "es") return base;
+  const es = EX_ES[id] || {};
+  return Object.assign({}, base, es, {
+    rir: base.rir === "to technical failure" ? UI.es.techFail : base.rir
+  });
+}
+function dayText(i) {
+  return LANG === "es" ? Object.assign({}, WEEK[i], WEEK_ES[i]) : WEEK[i];
+}
+function schemeText(s) {
+  if (LANG !== "es") return s;
+  return s.replace("/ leg", "/ pierna").replace("/ side", "/ lado");
+}
+
 /* equipment: "key" or "key:quantity" */
 function gearLabel(k, n) {
-  const v = GEAR[k];
+  const v = (LANG === "es" ? GEAR_ES[k] : null) || GEAR[k];
   if (!v) return k;
   return typeof v === "string" ? v : (n === "1" ? v.s : v.p);
 }
@@ -1324,24 +1644,30 @@ function dayGear(list) {
   });
   return out;
 }
+const fmtDateL = iso => {
+  const d = new Date(iso); if (isNaN(d)) return "";
+  return LANG === "es" ? d.getDate() + "/" + (d.getMonth() + 1) : (d.getMonth() + 1) + "/" + d.getDate();
+};
 
 /* =====================================================================
    RENDER — TRAINING
    ===================================================================== */
 function renderDays(active) {
-  $("#days").innerHTML = WEEK.map((d, i) =>
-    `<button class="day${i === active ? " on" : ""}${d.dow === todayDow ? " today" : ""}" data-i="${i}" aria-label="${DAYNAMES[d.dow]}: ${d.title}">
-       <span class="l">${d.tab}</span><span class="s">${d.tag}</span></button>`).join("");
+  $("#days").innerHTML = WEEK.map((d, i) => {
+    const t = dayText(i);
+    return `<button class="day${i === active ? " on" : ""}${d.dow === todayDow ? " today" : ""}" data-i="${i}" aria-label="${DAYNAMES[LANG][d.dow]}: ${esc(t.title)}">
+       <span class="l">${t.tab}</span><span class="s">${t.tag}</span></button>`;
+  }).join("");
 }
 
 function exerciseCard(entry, n) {
   const id = typeof entry === "string" ? entry : entry.id;
-  const ex = EX[id];
-  const scheme = (typeof entry === "object" && entry.scheme) || ex.scheme;
+  const ex = exText(id), T = UI[LANG];
+  const scheme = schemeText((typeof entry === "object" && entry.scheme) || ex.scheme);
   const clip = ex.clip || null;
   const dur = clip ? clip[1] - clip[0] : 0;
   const yt = ex.video ? `https://www.youtube.com/watch?v=${ex.video}${clip ? `&t=${clip[0]}s` : ""}`
-                      : `https://www.youtube.com/results?search_query=${encodeURIComponent(ex.name + " form")}`;
+                      : `https://www.youtube.com/results?search_query=${encodeURIComponent(EX[id].name + " form")}`;
   const marked = REGISTRO ? store.get("cap:" + id) : null;
   return `
   <article class="card" data-id="${id}">
@@ -1349,9 +1675,9 @@ function exerciseCard(entry, n) {
       <div class="num">${String(n).padStart(2, "0")}</div>
       <h2 class="name">${esc(ex.name)}</h2>
       <span class="scheme">${esc(scheme)}</span><span class="rir">${esc(ex.rir || "")}</span>
-      ${marked ? `<br><span class="pill">↑ Make it harder</span>` : ""}
+      ${marked ? `<br><span class="pill">${T.harder}</span>` : ""}
       <div class="gear">
-        <span class="gear-l">Equipment</span>
+        <span class="gear-l">${T.equipment}</span>
         ${(ex.gear || ["none"]).map(gearChip).join("")}
       </div>
     </div>
@@ -1362,51 +1688,51 @@ function exerciseCard(entry, n) {
     <ul class="cues">
       <li class="map-m map">${muscleSVG(ex.muscles)}</li>
       ${ex.cues.map(c => `<li>${esc(c)}</li>`).join("")}
-      ${ex.alt ? `<li class="alt"><b>Scale it down.</b> ${esc(ex.alt)}</li>` : ""}
+      ${ex.alt ? `<li class="alt"><b>${T.scale}</b> ${esc(ex.alt)}</li>` : ""}
     </ul>
-    <div class="prog"><b>Progression.</b> ${esc(ex.prog)}</div>
+    <div class="prog"><b>${T.prog}</b> ${esc(ex.prog)}</div>
     <div class="card-foot">
       ${REGISTRO ? `<button class="tope${marked ? " on" : ""}" data-id="${id}">
           <svg viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></svg>
-          ${marked ? "Capped " + fmtDate(marked) + " · tap to clear" : "Hit the cap"}
+          ${marked ? T.capped.replace("{d}", fmtDateL(marked)) : T.cap}
         </button>` : ""}
       <details class="video">
-        <summary><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Form video${dur ? ` · ${dur} s` : ""}</summary>
+        <summary><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>${T.video}${dur ? ` · ${dur} s` : ""}</summary>
         ${ex.video ? `<div class="frame" data-yt="${ex.video}"${clip ? ` data-a="${clip[0]}" data-b="${clip[1]}"` : ""}></div>` : ""}
-        ${clip ? `<div class="clipinfo">Demo only, looping.</div>` : ""}
-        <a class="yt" href="${yt}" target="_blank" rel="noopener">Open on YouTube ↗</a>
+        ${clip ? `<div class="clipinfo">${T.demo}</div>` : ""}
+        <a class="yt" href="${yt}" target="_blank" rel="noopener">${T.yt}</a>
       </details>
     </div>
   </article>`;
 }
 
 function renderDay(i) {
-  const d = WEEK[i];
+  const d = dayText(i), T = UI[LANG];
   view = "train"; current = i;
   $("#nutri-btn").classList.remove("on");
   renderDays(i);
   /* the header shows the day; the tab title stays fixed so the tab, the
      bookmark and the installed app all read the same name */
-  $("#brand-day").textContent = DAYNAMES[d.dow];
+  $("#brand-day").textContent = DAYNAMES[LANG][d.dow];
   if (!d.ex.length) {
-    const next = WEEK[(i + 1) % WEEK.length];
+    const next = dayText((i + 1) % WEEK.length);
     $("#main").innerHTML = `
-      <div class="session-head"><h1>${d.title}</h1>
-        <div class="meta">${DAYNAMES[d.dow]}</div></div>
+      <div class="session-head"><h1>${esc(d.title)}</h1>
+        <div class="meta">${DAYNAMES[LANG][d.dow]}</div></div>
       <div class="rest">
-        <p>No lifting today. Walk, or 30-40 minutes of easy running or cycling at a pace where you could still hold a conversation.</p>
-        <p class="muted">This is not a day off from the program — it is the day the training you already did turns into muscle. Sleep is the highest-return thing you can do right now.</p>
-        <p class="muted">Tomorrow: <b>${next.title}</b>.</p>
+        <p>${T.rest1}</p>
+        <p class="muted">${T.rest2}</p>
+        <p class="muted">${T.tomorrow} <b>${esc(next.title)}</b>.</p>
       </div>`;
     return;
   }
   $("#main").innerHTML = `
     <div class="session-head">
-      <h1>${d.title}</h1>
-      <div class="meta">${DAYNAMES[d.dow]} · ${d.ex.length} exercises · rest <b>${d.rest}</b></div>
+      <h1>${esc(d.title)}</h1>
+      <div class="meta">${DAYNAMES[LANG][d.dow]} · ${d.ex.length} ${T.exercises} · ${T.rest} <b>${esc(d.rest)}</b></div>
       ${d.focus ? `<div class="focus">${esc(d.focus)}</div>` : ""}
       <div class="day-gear">
-        <span class="gear-l">Today you need</span>
+        <span class="gear-l">${T.todayNeed}</span>
         ${dayGear(d.ex).map(gearChip).join("")}
       </div>
     </div>
@@ -1444,41 +1770,60 @@ function nutCalc(d) {
            perMeal: Math.round(w * 0.4), pctWeek: (Math.abs(rate) / w * 100) };
 }
 
-/* the two notes that depend on the numbers, so they read the same
-   whether they are rendered on load or refreshed after an edit */
-function rateNote(r) {
-  if (!r) return "";
-  const dir = r.rate >= 0 ? "−" : "+";
-  const tail = {
+/* decimals: 0.31 in English, 0,31 in Spanish */
+const num = x => LANG === "es" ? String(x).replace(".", ",") : String(x);
+
+const NUT_T = {
+  en: {
+    rate: "Expected rate:", per: "kg per week", ofBw: "of bodyweight",
     cut: "For dedicated fat loss, 0.5-1% of bodyweight per week is the window that protects muscle. " +
          "Faster than that and you start paying for it in lean mass.",
     recomp: "Slow is the point here. Building muscle and losing fat at once only works from a shallow " +
             "deficit — if the scale barely moves but your lifts keep climbing, it is working.",
     gain: "Around 0.25-0.5% of bodyweight per week is the ceiling worth chasing. Gaining faster than that " +
-          "mostly adds fat you will have to diet off later."
-  }[r.goal];
-  return `<b>Expected rate:</b> about ${dir}${Math.abs(r.rate).toFixed(2)} kg per week `
-       + `(${r.pctWeek.toFixed(2)}% of bodyweight). ${tail}`;
+          "mostly adds fat you will have to diet off later.",
+    split: "Protein split:", splitTail: "g per meal across 3-5 meals, rather than one enormous serving. " +
+           "That is roughly 0.4 g/kg per sitting, which is where the muscle-building response saturates.",
+    split0: "aim for",
+    tdee1: "Maintenance is about", tdee2: "kcal", tdee3: "(Mifflin-St Jeor × activity). These are estimates " +
+           "with roughly ±10% error — the scale over 2-3 weeks is the real measurement."
+  },
+  es: {
+    rate: "Ritmo esperado:", per: "kg por semana", ofBw: "del peso corporal",
+    cut: "Para perder grasa de forma dedicada, el 0,5-1 % del peso corporal a la semana es la ventana que " +
+         "protege el músculo. Más rápido y empiezas a pagarlo en masa magra.",
+    recomp: "Aquí lo lento es la idea. Ganar músculo y perder grasa a la vez solo funciona desde un déficit " +
+            "suave: si la báscula apenas se mueve pero tus marcas siguen subiendo, está funcionando.",
+    gain: "En torno al 0,25-0,5 % del peso corporal a la semana es el techo que merece la pena. Ganar más " +
+          "rápido es sobre todo grasa que luego tendrás que quitarte.",
+    split: "Reparto de la proteína:", splitTail: "g por comida en 3-5 comidas, en vez de una ración enorme. " +
+           "Son unos 0,4 g/kg por toma, que es donde la respuesta de construcción muscular se satura.",
+    split0: "unos",
+    tdee1: "El mantenimiento son unas", tdee2: "kcal", tdee3: "(Mifflin-St Jeor × actividad). Son estimaciones " +
+           "con un error de ±10 %; la báscula durante 2-3 semanas es la medida real."
+  }
+};
+
+/* the notes that depend on the numbers, so they read the same whether
+   they are rendered on load or refreshed after an edit */
+function rateNote(r) {
+  if (!r) return "";
+  const t = NUT_T[LANG], dir = r.rate >= 0 ? "−" : "+";
+  return `<b>${t.rate}</b> ${LANG === "es" ? "unos" : "about"} ${dir}${num(Math.abs(r.rate).toFixed(2))} ${t.per} `
+       + `(${num(r.pctWeek.toFixed(2))}${LANG === "es" ? " %" : "%"} ${t.ofBw}). ${t[r.goal]}`;
 }
 function splitNote(r) {
   if (!r) return "";
-  return `<b>Protein split:</b> aim for ${r.perMeal} g per meal across 3-5 meals, rather than one enormous `
-       + `serving. That is roughly 0.4 g/kg per sitting, which is where the muscle-building response saturates.`;
+  const t = NUT_T[LANG];
+  return `<b>${t.split}</b> ${t.split0} ${r.perMeal} ${t.splitTail}`;
 }
 function tdeeNote(r) {
-  return `Maintenance is about <b>${r ? r.tdee : "—"} kcal</b> (Mifflin-St Jeor × activity). `
-       + `These are estimates with roughly ±10% error — the scale over 2-3 weeks is the real measurement.`;
+  const t = NUT_T[LANG];
+  return `${t.tdee1} <b>${r ? r.tdee : "—"} ${t.tdee2}</b> ${t.tdee3}`;
 }
 
-function renderNutrition() {
-  view = "food";
-  $("#nutri-btn").classList.add("on");
-  document.querySelectorAll(".day").forEach(b => b.classList.remove("on"));
-  $("#brand-day").textContent = "Nutrition";
-  const d = nutData(), r = nutCalc(d);
-  const sel = (v, x) => v === x ? " selected" : "";
-  const tag = (kcal, p) => `<span class="tag">≈ ${kcal} kcal · ${p} g protein</span>`;
-  $("#main").innerHTML = `
+function nutriEN(d, r, sel, tag) {
+  return `
     <div class="session-head">
       <h1>Nutrition</h1>
       <div class="meta">The short version: <b>eat from the list, hit your protein, keep two exceptions a week</b>,
@@ -1753,6 +2098,310 @@ function renderNutrition() {
         [R7] <a href="https://www.reddit.com/r/nutrition/comments/1elrqov/" target="_blank" rel="noopener">r/nutrition — how bad are deli meats?</a></p>
       </div>
     </div>`;
+}
+
+function nutriES(d, r, sel, tag) {
+  return `
+    <div class="session-head">
+      <h1>Nutrición</h1>
+      <div class="meta">La versión corta: <b>come de la lista, llega a tu proteína, guarda dos excepciones a la semana</b>
+        y deja que los números del final dimensionen las raciones. Cada afirmación de esta página apunta a una fuente de la lista del final.</div>
+    </div>
+
+    <div class="panel">
+      <h2>El plan entero en seis líneas</h2>
+      <ul class="food-list">
+        <li><b>Proteína en cada comida.</b> Una ración del tamaño de tu palma: pollo, pescado, huevos, yogur griego,
+          legumbres. Tu objetivo diario está abajo; en déficit es el número que decide si pierdes grasa o músculo [N1, N2].</li>
+        <li><b>Medio plato de verdura o fruta</b>, y el resto patata, arroz, pan, pasta o legumbres. La comida voluminosa y
+          con agua es lo que te mantiene lleno con menos calorías: la gente a la que se le dijo que comiera más de eso
+          perdió más peso y pasó menos hambre que la que solo redujo la grasa [N17].</li>
+        <li><b>La grasa es una ración, no un miedo.</b> Aceite de oliva, frutos secos, huevos, pescado, aguacate: más o
+          menos un pulgar por comida. El patrón mediterráneo con aceite de oliva de verdad y frutos secos redujo los
+          eventos cardiovasculares en torno a un 30 % en un ensayo español [N20].</li>
+        <li><b>De dos a cuatro piezas de fruta al día, enteras.</b> Zumo no. Detalles más abajo [N12, N18].</li>
+        <li><b>No bebas calorías.</b> Agua, café, té, agua con gas. Cerveza, refrescos y zumos son las calorías que
+          menos llenan que existen [N18].</li>
+        <li><b>Dos excepciones a la semana, planificadas y disfrutadas.</b> La pizza, los nachos, las cañas. Es más o
+          menos el 10-20 % de las calorías de la semana, y quienes siguen una dieta flexible pierden la misma grasa que
+          quienes la siguen rígida y salen de la dieta en mejor forma [N7].</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h2>Come esto, semana tras semana</h2>
+      <p class="sub">La lista de la compra. Nada raro; todo está en cualquier supermercado.</p>
+      <div class="shop">
+        <div><h3>Proteína</h3><p>Pollo (contramuslos y pechuga), pavo, lomo fresco de cerdo, carne picada de ternera
+          al 5 %, huevos, atún, sardinas y caballa en lata, pescado blanco congelado, salmón, yogur griego 0-2 % o skyr,
+          queso fresco batido 0 %, queso fresco o cottage, lentejas, garbanzos y alubias (de bote valen), tofu. La
+          proteína en polvo (whey) es opcional: es proteína de la leche, y los 24 g más baratos que vas a encontrar.</p></div>
+        <div><h3>Carbohidratos</h3><p>Patata, arroz, avena, pan integral, pasta, legumbres otra vez, tortillas de maíz,
+          cuscús. La patata cocida es el alimento más saciante que se ha medido nunca [N11].</p></div>
+        <div><h3>Grasas</h3><p>Aceite de oliva (mídelo: una cucharada son 90 kcal), frutos secos (un puñado, 30 g, son
+          180 kcal), aguacate, crema de cacahuete, aceitunas, un poco de queso.</p></div>
+        <div><h3>Verduras</h3><p>Lo que esté barato esa semana: mezclas congeladas, tomate, pimiento, cebolla,
+          espinacas, lechuga, calabacín, brócoli, zanahoria, champiñones, pepino. El gazpacho cuenta.</p></div>
+        <div><h3>Fruta</h3><p>Plátano, manzana, naranja, pera, uvas, melón, sandía, kiwi, frutos rojos congelados.</p></div>
+        <div><h3>Ayudas de despensa</h3><p>Tomate frito, sofrito de bote, salsa, tomate triturado, pastillas de caldo,
+          ajo, limón, vinagre, mostaza, salsa picante, pimentón, comino, curry. Casi cero calorías, todo el sabor.</p></div>
+      </div>
+      <p class="note"><b>Raciones sin báscula:</b> proteína = tu palma, carbohidratos = una mano ahuecada, verdura = dos
+        puños, grasa = un pulgar. Por comida. Dos palmas de proteína en las dos comidas principales si eres alto o pesas
+        mucho [A].</p>
+    </div>
+
+    <div class="panel">
+      <h2>Desayuno: elige uno, apunta a unos 30 g de proteína</h2>
+      <p class="sub">El desayuno en sí es opcional: en los ensayos, desayunar o saltárselo no cambió el peso [N14]. Lo
+        que importa es que, cuando lo tomes, mande la proteína: un desayuno alto en proteína redujo el picoteo de la
+        noche y las hormonas del hambre donde uno de cereales no lo hizo [N15]. Así que: nada de mañanas de cereales
+        con leche ni de bollería.</p>
+      <ul class="menu">
+        <li><b>Bol de yogur griego</b> 250 g de yogur griego 0-2 % o skyr, 40 g de avena, un plátano o un puñado de
+          frutos rojos, 10 g de frutos secos. Cinco minutos, sin cocinar. ${tag(450, 33)}</li>
+        <li><b>Huevos con tostada</b> 3 huevos revueltos o fritos con una cucharadita de aceite, 2 rebanadas de pan
+          integral, tomate. Huevos a diario no hay problema: uno al día no mostró relación con la enfermedad
+          cardiovascular en 1,7 millones de personas [N16]. ${tag(430, 25)}</li>
+        <li><b>Avena de la noche anterior con whey</b> 50 g de avena, 200 ml de leche semidesnatada, un cazo (30 g) de
+          whey, fruta por encima. Se mezcla por la noche y se come de la nevera. ${tag(460, 38)}</li>
+        <li><b>Tostada con tomate, mejorada</b> La tostada de siempre con tomate y aceite, más 2 huevos cocidos (cuece
+          seis el domingo, aguantan toda la semana) y un café con leche. Añade 150 g de skyr para llegar a 35 g. ${tag(460, 23)}</li>
+        <li><b>Plato de queso fresco</b> 200 g de queso fresco 0 % o cottage, tomate en dados, aceite de oliva, pimienta
+          negra, una rebanada de pan. El cambio salado que más se repite en r/loseit [R1]. ${tag(380, 25)}</li>
+        <li><b>Tostada de atún</b> 2 rebanadas de pan integral, una lata de atún de 100 g escurrida, tomate, una
+          cucharadita de mayonesa o aceite. Sin cocinar, 30 g de proteína. ${tag(380, 31)}</li>
+        <li><b>Bocadillo de tortilla</b> Tortilla francesa de 2 huevos en un panecillo integral de 60 g con tomate. Añade
+          un vaso de leche o 30 g de queso para acercarte a 30 g. ${tag(350, 18)}</li>
+        <li><b>Batido</b> 300 ml de leche, un plátano, 30 g de avena, un cazo de whey, hielo. Para las mañanas en que
+          sales de casa en diez minutos. ${tag(460, 39)}</li>
+        <li><b>La cena de ayer</b> Pollo con arroz, lentejas, lo que haya en la nevera. La respuesta más votada del hilo
+          de desayunos de r/loseit: el desayuno no tiene por qué ser comida de desayuno [R1].</li>
+      </ul>
+      <p class="note">Los números están redondeados de tablas de composición estándar; un ±15 % es normal y no importa.</p>
+    </div>
+
+    <div class="panel">
+      <h2>Media mañana y merienda (almuerzo)</h2>
+      <p class="sub">Si comes entre horas, que sea proteína o fruta, no bollería. Cada opción son 150-300 kcal.</p>
+      <ul class="food-list">
+        <li><b>Una pieza de fruta y 20-30 g de frutos secos.</b> La opción por defecto.</li>
+        <li><b>Un skyr o yogur griego 0 %</b> (150-200 g, 15-20 g de proteína) con fruta.</li>
+        <li><b>Bocadillo de atún:</b> panecillo pequeño, una lata de atún, tomate. ≈ 300 kcal · 22 g de proteína.</li>
+        <li><b>2 huevos cocidos y una pieza de fruta.</b></li>
+        <li><b>100 g de queso fresco</b> con tomates cherry.</li>
+        <li><b>300 ml de leche con cacao</b>, sin azúcar. ≈ 160 kcal · 10 g de proteína.</li>
+        <li><b>Zanahoria o pepino con hummus.</b></li>
+        <li><b>Palomitas sin aceite</b>, 30 g ≈ 110 kcal: el clásico del volumen.</li>
+        <li><b>Plan B en el campus:</b> un bocadillo de la cafetería está bien. Elige atún, tortilla o lomo antes que
+          embutidos, y pasa de las patatas de bolsa y del refresco.</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h2>Comida y cena: diez platos que puedes cocinar de verdad</h2>
+      <p class="sub">Todos son proteína + carbohidrato + verdura + una cucharada medida de aceite de oliva. Cocina el
+        doble y cómelo dos veces. Por plato:</p>
+      <ul class="menu">
+        <li><b>1. Pollo, arroz y verdura congelada</b> La base de la semana. Una bandeja de horno con 1 kg de
+          contramuslos (sal, pimentón, ajo, limón) a 200 °C durante 35 min, una olla de arroz, una bolsa de mezcla de
+          verduras congeladas. Cuatro comidas. ${tag(560, 43)}</li>
+        <li><b>2. Lentejas de bote</b> Un bote de lentejas cocidas, enjuagadas, a la sartén con un bote de sofrito, un
+          puñado de espinacas y pimentón. Diez minutos. Añade un huevo cocido, o 100 g de pollo en dados para 50 g de
+          proteína. ${tag(400, 26)}</li>
+        <li><b>3. Ensalada de garbanzos y atún</b> Un bote de garbanzos, una lata de atún, tomate, pepino, cebolla, dos
+          cucharaditas de aceite de oliva, vinagre, sal. Sin cocinar. ${tag(580, 43)}</li>
+        <li><b>4. Tortilla de patatas ligera</b> 300 g de patata en dados al microondas 6 min (o en freidora de aire),
+          una cebolla, 6 huevos, una cucharada de aceite en sartén antiadherente. La mitad ahora con ensalada, la otra
+          mitad mañana. ${tag(400, 22)}</li>
+        <li><b>5. Pasta con atún y tomate</b> 80 g de pasta en seco, una lata de atún, medio bote de tomate frito,
+          espinacas o calabacín por encima. ${tag(550, 37)}</li>
+        <li><b>6. Bandeja de salmón o pollo</b> Pescado o pollo, patata y pimiento en la misma bandeja, aceite de oliva,
+          200 °C, 30-35 min. Cero fregado. ${tag(600, 38)}</li>
+        <li><b>7. Pollo con salsa</b> Pechuga de pollo, un bote de salsa y una lata de frijoles negros a fuego lento 25
+          min, y se desmenuza. El plato vago de una olla más votado de r/EatCheapAndHealthy [R4]. Con arroz, en wraps
+          o sobre ensalada. ${tag(500, 55)}</li>
+        <li><b>8. Bol de ternera con verdura</b> 150 g de carne picada al 5 % dorada con cebolla, champiñones y
+          calabacín, comino y pimentón, sobre arroz. ${tag(500, 36)}</li>
+        <li><b>9. Revuelto con patatas</b> Patata cocida o en freidora de aire, 3 huevos, pimiento, y un poco de jamón si
+          es uno de tus días de embutido. ${tag(450, 23)}</li>
+        <li><b>10. Gazpacho y algo</b> Un brik de gazpacho (sin pan, 40 kcal por 100 ml) con un bocadillo de atún, un
+          trozo de tortilla o pollo a la plancha. El plato por defecto en verano. La ensalada campera —patata, atún,
+          huevo, tomate, cebolla, aceitunas— es el otro.</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h2>Excepciones: qué se puede, cada cuánto y por qué</h2>
+      <p class="sub">El plan asume que el 10-20 % de las calorías de la semana no saldrá de la lista. La versión
+        práctica son dos excepciones planificadas a la semana: elígelas, toma la mejor versión de cada una y no
+        picotees versiones mediocres. Lo que rompe las dietas son las reglas rígidas, no la pizza [N7].</p>
+      <div class="qa"><b>Embutidos: jamón, lomo, chorizo, fuet, salchichón, fiambre de pavo</b>
+        <span class="verdict">Sí, pero no a diario.</span> Todos son carne procesada, que la OMS clasifica como
+        carcinógeno del grupo 1: cada 50 g comidos a diario se asocian a un 18 % más de riesgo relativo de cáncer
+        colorrectal [N8]. Los números absolutos son pequeños —una revisión de 2019 estimó que quitar tres raciones a la
+        semana evitaría unas 9 muertes por cada 1.000 personas en 11 años, y calificó la evidencia de baja certeza
+        [N9]—, pero pequeño no es cero, y la sal es el otro coste: 30 g de jamón son casi un tercio de la sal del día.
+        Regla: dos o tres veces por semana, 30-50 g, y elige los magros. El jamón serrano o ibérico y el lomo embuchado
+        tienen en torno a un 30 % de proteína; el chorizo, el salchichón y el fuet son un tercio grasa. El fiambre de
+        pavo también es carne procesada, solo que más magra. Para el bocadillo de cada día: atún, el pollo de ayer,
+        tortilla, queso fresco o hummus.</div>
+      <div class="qa"><b>¿Patatas fritas?</b>
+        <span class="verdict">Como una de las dos excepciones semanales.</span> Dos cosas juegan en su contra como
+        costumbre. Una cohorte de 4.400 personas encontró que las patatas fritas dos o más veces por semana se asociaban
+        a más o menos el doble de mortalidad, mientras que las cocidas o al horno no; es observacional, así que es una
+        señal de alerta y no un veredicto [N10]. Y la energía: 150 g de patatas fritas son unas 450 kcal; el mismo peso
+        cocido son 130 kcal y es el alimento más saciante que se ha medido [N11]. En casa, gajos de patata al horno o en
+        freidora de aire con una cucharada de aceite: 200 g ≈ 250 kcal. Esa versión no es una excepción, es una cena.</div>
+      <div class="qa"><b>¿Nachos con salsas?</b>
+        <span class="verdict">Una excepción, y de las grandes.</span> Una bolsa de 150 g de nachos son unas 750 kcal
+        antes de la salsa de queso y el guacamole: las calorías de una comida entera casi sin proteína. Tómalos una
+        noche planificada y disfrútalos. La versión de diario que sí es una comida: 40 g de nachos, salsa de tomate
+        (30 kcal la ración), una lata de frijoles negros, pollo desmenuzado, yogur griego en vez de crema agria; unas
+        500 kcal con 35 g de proteína.</div>
+      <div class="qa"><b>¿Cerveza, vino, copas?</b>
+        <span class="verdict">Una excepción, y cuesta músculo.</span> El alcohol después de entrenar redujo la síntesis
+        de proteína muscular en una cuarta parte incluso tomando proteína con él, y en más de un tercio sin ella [N19].
+        Una caña son unas 85 kcal, una pinta 215, una copa de vino 120. Dos o tres bebidas en una salida, mejor no la
+        tarde de un día de pesas si puedes evitarlo, y cuenta como una de las dos excepciones.</div>
+      <div class="qa"><b>¿Dulces, chocolate, helado?</b>
+        <span class="verdict">Dentro del presupuesto, sin problema.</span> 20 g de chocolate negro son 110 kcal; una
+        bola de helado, 130. La gente de r/loseit que ha perdido 30 kg dice lo mismo: ningún alimento está prohibido,
+        pero sé exigente y gasta las calorías solo en la versión que de verdad te gusta [R3, R5].</div>
+      <div class="qa"><b>¿Refrescos y zumos?</b>
+        <span class="verdict">Lo único que merece la pena cortar de raíz.</span> El azúcar líquido no se registra como
+        comida: personas a las que se les dieron 450 kcal diarias en refresco durante un mes ganaron peso, mientras que
+        las mismas calorías en gominolas no, porque comían menos en el resto del día [N18]. Esto incluye el «zumo natural».</div>
+    </div>
+
+    <div class="panel">
+      <h2>Fruta: ¿cuánta?</h2>
+      <p class="note" style="margin-top:0"><b>De dos a cuatro piezas al día, enteras.</b> Los ensayos que añaden fruta a
+        la dieta encuentran el peso estable o ligeramente a la baja, no al alza [N12]. En las cohortes el beneficio sigue
+        subiendo hasta unos 800 g de fruta y verdura al día [N13]. Un estudio en unidad metabólica dio a diez personas
+        unas veinte raciones de fruta al día durante dos semanas: el colesterol LDL bajó un tercio y el peso no se
+        movió [N21]. El azúcar de la fruta no es el problema; el zumo sí [N18]: un vaso son tres naranjas tirando la
+        fibra. Un plátano son 90-100 kcal, una manzana 80, una naranja 60, una raja grande de sandía 90: la fruta es
+        una de las formas más baratas de sentirse lleno [N11, N17].</p>
+    </div>
+
+    <div class="panel">
+      <h2>Tus números</h2>
+      <p class="sub">Todo lo de abajo se calcula a partir de esto. Se guarda solo en este dispositivo.</p>
+      <div class="grid2">
+        <div class="field"><label for="n-sex">Sexo</label>
+          <select id="n-sex"><option value="m"${sel(d.sex,"m")}>Hombre</option><option value="f"${sel(d.sex,"f")}>Mujer</option></select></div>
+        <div class="field"><label for="n-age">Edad</label>
+          <input id="n-age" type="number" inputmode="numeric" min="14" max="90" value="${esc(d.age)}"></div>
+        <div class="field"><label for="n-height">Altura (cm)</label>
+          <input id="n-height" type="number" inputmode="numeric" min="130" max="220" value="${esc(d.height)}"></div>
+        <div class="field"><label for="n-weight">Peso (kg)</label>
+          <input id="n-weight" type="number" inputmode="decimal" min="35" max="200" step="0.1" value="${esc(d.weight)}"></div>
+      </div>
+      <div class="grid2" style="margin-top:10px">
+        <div class="field" style="grid-column:span 2"><label for="n-act">Actividad diaria fuera del entrenamiento</label>
+          <select id="n-act">
+            <option value="1.2"${sel(d.act,"1.2")}>Sedentaria — trabajo de oficina, poco andar</option>
+            <option value="1.375"${sel(d.act,"1.375")}>Ligera — algo de paseo casi todos los días</option>
+            <option value="1.55"${sel(d.act,"1.55")}>Moderada — bastante tiempo de pie</option>
+            <option value="1.725"${sel(d.act,"1.725")}>Alta — trabajo físico o muchos pasos</option>
+          </select></div>
+        <div class="field" style="grid-column:span 2"><label for="n-goal">Prioridad</label>
+          <select id="n-goal">
+            <option value="recomp"${sel(d.goal,"recomp")}>Recomposición — déficit suave (por defecto)</option>
+            <option value="cut"${sel(d.goal,"cut")}>Perder grasa primero — déficit moderado</option>
+            <option value="gain"${sel(d.goal,"gain")}>Músculo primero — superávit pequeño</option>
+          </select></div>
+      </div>
+      <p class="sub" id="tdee-note" style="margin-top:14px">${tdeeNote(r)}</p>
+      <div class="macros">
+        <div class="macro cal"><div class="k">Calorías</div><div class="v">${r ? r.kcal : "—"}<small> kcal</small></div></div>
+        <div class="macro"><div class="k">Proteína</div><div class="v">${r ? r.protein : "—"}<small> g</small></div></div>
+        <div class="macro"><div class="k">Grasa</div><div class="v">${r ? r.fat : "—"}<small> g</small></div></div>
+        <div class="macro"><div class="k">Carbohidratos</div><div class="v">${r ? r.carbs : "—"}<small> g</small></div></div>
+      </div>
+      <p class="note" id="rate-note">${rateNote(r)}</p>
+      <p class="note" id="split-note">${splitNote(r)}</p>
+      <p class="note">Proteína: 1,6 g/kg al día es donde la ganancia muscular deja de mejorar en gente que come
+        suficiente [N1]; en déficit, los levantadores delgados conservaron más músculo con ingestas más altas, de ahí
+        los 2 g/kg de aquí [N2]. Ritmo de pérdida: el 0,5-1 % del peso corporal a la semana conservó la masa magra que
+        una pérdida más rápida no conservó [N5]. La recomposición —músculo arriba y grasa abajo a la vez— está
+        documentada en principiantes y en gente que vuelve a entrenar cuando la proteína es alta y el sueño decente [N4].</p>
+    </div>
+
+    <div class="panel">
+      <h2>Cómo llevarlo a la práctica</h2>
+      <ul class="food-list">
+        <li><b>Pésate a diario, juzga por semanas.</b> A la misma hora, después del baño, antes de comer. Compara la
+          media de 7 días con la de la semana anterior: las oscilaciones de un día a otro son agua y contenido
+          intestinal, no grasa.</li>
+        <li><b>Si la media semanal no se ha movido en 2-3 semanas</b>, quita 150-200 kcal de carbohidratos o grasa. No
+          toques la proteína. No quites 500 de golpe.</li>
+        <li><b>Llega a la proteína antes de preocuparte por nada más</b> de esta página. Repártela: unos ${r ? r.perMeal : "30-40"} g
+          por comida en 3-5 comidas, que es donde la respuesta de construcción muscular por comida se satura [N3].</li>
+        <li><b>Come la mayor parte de los carbohidratos alrededor del entrenamiento.</b> No es magia: las sesiones
+          duras sientan mejor, y las sesiones mejores son el verdadero motor.</li>
+        <li><b>Duerme 7-9 horas.</b> En un ensayo de dieta, quienes dormían 5,5 horas en vez de 8,5 perdieron el mismo
+          peso, pero un 55 % menos en grasa y un 60 % más en masa magra [N6]. Dormir poco deshace justo lo que entrenas.</li>
+        <li><b>Que sea aburrido.</b> Los mismos cuatro desayunos y seis cenas en rotación no son falta de imaginación;
+          es lo que describe cada historia de éxito a largo plazo de r/loseit [R3].</li>
+      </ul>
+      <div class="warn">
+        Esto son pautas generales de entrenamiento y nutrición, no consejo médico. Si tienes alguna enfermedad, tomas
+        medicación o los números de aquí te dejarían por debajo de unas 1.500 kcal al día, habla con un médico o un
+        dietista-nutricionista antes de seguirlas.
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Fuentes</h2>
+      <div class="srcs">
+        <p><b>Estudios.</b>
+        [N1] Morton et al. — proteína y ganancia muscular, metaanálisis de 49 ensayos, <i>Br J Sports Med</i> 2018.
+        [N2] Helms et al. — proteína durante la restricción calórica en atletas delgados, <i>IJSNEM</i> 2014.
+        [N3] Schoenfeld y Aragon — proteína por comida, <i>JISSN</i> 2018.
+        [N4] Barakat et al. — recomposición corporal, <i>Strength Cond J</i> 2020.
+        [N5] Garthe et al. — pérdida de peso lenta frente a rápida en atletas, <i>IJSNEM</i> 2011.
+        [N6] Nedeltcheva et al. — restricción de sueño durante una dieta, <i>Ann Intern Med</i> 2010.
+        [N7] Conlin et al. — dieta flexible frente a rígida, ensayo aleatorizado, <i>JISSN</i> 2021.
+        [N8] Bouvard et al., IARC Monographs vol. 114 — carcinogenicidad de la carne procesada, <i>Lancet Oncol</i> 2015.
+        [N9] Johnston et al. (NutriRECS) — guía sobre carne roja y procesada, <i>Ann Intern Med</i> 2019.
+        [N10] Veronese et al. — consumo de patatas fritas y mortalidad, cohorte de 8 años, <i>Am J Clin Nutr</i> 2017.
+        [N11] Holt et al. — índice de saciedad de alimentos comunes, <i>Eur J Clin Nutr</i> 1995.
+        [N12] Guyenet — fruta fresca entera, ingesta energética y adiposidad, revisión sistemática, <i>Front Nutr</i> 2019.
+        [N13] Aune et al. — ingesta de fruta y verdura y mortalidad, metaanálisis dosis-respuesta, <i>Int J Epidemiol</i> 2017.
+        [N14] Sievert et al. — efecto del desayuno sobre el peso, metaanálisis de ensayos, <i>BMJ</i> 2019.
+        [N15] Leidy et al. — desayuno alto en proteína, apetito y picoteo nocturno, <i>Am J Clin Nutr</i> 2013.
+        [N16] Drouin-Chartier et al. — consumo de huevos y enfermedad cardiovascular, <i>BMJ</i> 2020.
+        [N17] Ello-Martin et al. — densidad energética de la dieta, ensayo de pérdida de peso de un año, <i>Am J Clin Nutr</i> 2007.
+        [N18] DiMeglio y Mattes — carbohidrato líquido frente a sólido y peso corporal, <i>Int J Obes</i> 2000.
+        [N19] Parr et al. — alcohol y síntesis de proteína muscular tras el ejercicio, <i>PLoS ONE</i> 2014.
+        [N20] Estruch et al. (PREDIMED) — dieta mediterránea con aceite de oliva o frutos secos, <i>N Engl J Med</i> 2018.
+        [N21] Jenkins et al. — dieta muy alta en fibra de fruta, verdura y frutos secos, <i>Metabolism</i> 2001.
+        [A] Método de raciones con la mano de Precision Nutrition; Helms, Morgan y Valdez — <i>The Muscle &amp; Strength Pyramid: Nutrition</i>, 2019.</p>
+        <p><b>Lo que dice la gente (Reddit, leído en septiembre de 2026).</b>
+        [R1] <a href="https://www.reddit.com/r/loseit/comments/1hxjhnj/" target="_blank" rel="noopener">r/loseit — desayunos salados rápidos y baratos que no sean huevos</a>.
+        [R2] <a href="https://www.reddit.com/r/loseit/comments/1ny79vc/" target="_blank" rel="noopener">r/loseit — desayuno alto en proteína</a>.
+        [R3] <a href="https://www.reddit.com/r/loseit/comments/1thvuj3/" target="_blank" rel="noopener">r/loseit — hábitos que tengo ahora frente a cuando pesaba 30 kilos más</a>.
+        [R4] <a href="https://www.reddit.com/r/EatCheapAndHealthy/comments/1uj0hds/" target="_blank" rel="noopener">r/EatCheapAndHealthy — comidas de una olla con proteína, extremadamente simples y vagas</a>.
+        [R5] <a href="https://www.reddit.com/r/loseit/comments/uyqj23/" target="_blank" rel="noopener">r/loseit — harto de fingir que la comida basura no está buena</a>.
+        [R6] <a href="https://www.reddit.com/r/nutrition/comments/1atlp2f/" target="_blank" rel="noopener">r/nutrition — ¿hay una cantidad recomendada de azúcar de la fruta al día?</a>
+        [R7] <a href="https://www.reddit.com/r/nutrition/comments/1elrqov/" target="_blank" rel="noopener">r/nutrition — ¿cómo de malos son los embutidos?</a></p>
+      </div>
+    </div>`;
+}
+
+function renderNutrition() {
+  view = "food";
+  $("#nutri-btn").classList.add("on");
+  document.querySelectorAll(".day").forEach(b => b.classList.remove("on"));
+  $("#brand-day").textContent = UI[LANG].nutrition;
+  const d = nutData(), r = nutCalc(d);
+  const sel = (v, x) => v === x ? " selected" : "";
+  const tag = LANG === "es"
+    ? (kcal, p) => `<span class="tag">≈ ${kcal} kcal · ${p} g de proteína</span>`
+    : (kcal, p) => `<span class="tag">≈ ${kcal} kcal · ${p} g protein</span>`;
+  $("#main").innerHTML = (LANG === "es" ? nutriES : nutriEN)(d, r, sel, tag);
   ["n-sex", "n-age", "n-height", "n-weight", "n-act", "n-goal"].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener(el.tagName === "SELECT" ? "change" : "input", saveNutrition);
@@ -1776,6 +2425,19 @@ function saveNutrition() {
   $("#rate-note").innerHTML = rateNote(r);
   $("#split-note").innerHTML = splitNote(r);
   $("#tdee-note").innerHTML = tdeeNote(r);
+}
+
+/* everything outside the main view that carries words */
+function applyLang() {
+  const T = UI[LANG];
+  document.documentElement.lang = LANG;
+  $("#brand-name").textContent = T.brand;
+  $("#nutri-btn").textContent = T.food;
+  $("#nutri-btn").setAttribute("aria-label", T.nutrition);
+  $("#theme").setAttribute("aria-label", T.themeAria);
+  $("#lang").setAttribute("aria-label", T.langAria);
+  document.querySelectorAll("#lang [data-l]").forEach(s => s.classList.toggle("cur", s.dataset.l === LANG));
+  document.querySelectorAll(".rules[data-lang]").forEach(el => { el.hidden = el.dataset.lang !== LANG; });
 }
 
 /* =====================================================================
@@ -1812,6 +2474,12 @@ $("#main").addEventListener("click", e => {
 const root = document.documentElement;
 const savedTheme = store.get("theme");
 if (savedTheme) root.dataset.theme = savedTheme;
+$("#lang").addEventListener("click", () => {
+  LANG = LANG === "en" ? "es" : "en";
+  store.set(LANG_KEY, LANG);
+  applyLang();
+  if (view === "food") renderNutrition(); else renderDay(current);
+});
 $("#theme").addEventListener("click", () => {
   const sysDark = matchMedia("(prefers-color-scheme: dark)").matches;
   const isDark = root.dataset.theme ? root.dataset.theme === "dark" : sysDark;
@@ -1842,6 +2510,7 @@ if ("serviceWorker" in navigator) {
 let view = "train";
 let current = WEEK.findIndex(d => d.dow === todayDow);
 if (current < 0) current = 0;
+applyLang();
 renderDay(current);
 </script>
 </body>
